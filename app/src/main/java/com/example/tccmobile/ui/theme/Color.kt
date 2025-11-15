@@ -38,6 +38,18 @@ val AzulNoite = Color(0xFF1B5C9D)
 
 val CinzaAzul = Color(0xFFD7EDFF)
 
+val Black = Color(0xFF1A1A1A)
+
+val AmareloEstrela = Color(0xFFF0B100)
+
+val Rosinha = Color(0xFFFFC0C2)
+
+val VerdeEscuro = Color(0xFF016630)
+
+val Vermelho = Color(0xFFF54900)
+
+val LaranjaMedalha = Color(0xFFD08700)
+
 val Purple40 = Color(0xFF6650a4)
 val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
