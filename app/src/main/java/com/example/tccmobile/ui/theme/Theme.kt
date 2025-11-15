@@ -12,9 +12,31 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = CianoAzul,
+    secondary = AzulSuperClaro,
+    tertiary = Branco,
+    quartenary = BlueEscuro,
+    quinary = AzulLetra,
+    senary = AzulClaro,
+    sextiary = Cinza,
+    septiary = VermelhoTelha,
+    octiary = AmareloClaro1,
+    nonary = AmareloClaro2,
+    denary = Laranja,
+    undary = Azul2,
+    doenary = Cinza2,
+    treenary = Cinza3,
+    fourtenary = AzulNoite,
+    fiftenary = CinzaAzul,
+    sixenary = Black,
+    sevenenary = AmareloEstrela,
+    eightenary = Rosinha,
+    nineenary = VerdeEscuro,
+    tenenary = Vermelho,
+    elevenenary = LaranjaMedalha,
+    twelveenary = Purple40,
+    thirteenenary = PurpleGrey40,
+    fourteenenary = Pink40,
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -42,7 +64,7 @@ private val LightColorScheme = lightColorScheme(
     elevenenary = LaranjaMedalha,
     twelveenary = Purple40,
     thirteenenary = PurpleGrey40,
-    fourteenenary = Pink40,
+    fourteenenary = Pink40
 
 
     /* Other default colors to override
