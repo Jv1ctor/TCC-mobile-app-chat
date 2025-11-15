@@ -18,9 +18,32 @@ private val DarkColorScheme = darkColorScheme(
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+    primary = BlueEscuro,
+    secondary = AzulClaro,
+    tertiary = Branco,
+    quartenary = CianoAzul,
+    quinary = AzulLetra,
+    senary = AzulSuperClaro,
+    sextiary = Cinza,
+    septiary = VermelhoTelha,
+    octiary = AmareloClaro1,
+    nonary = AmareloClaro2,
+    denary = Laranja,
+    undary = Azul2,
+    doenary = Cinza2,
+    treenary = Cinza3,
+    fourtenary = AzulNoite,
+    fiftenary = CinzaAzul,
+    sixenary = Black,
+    sevenenary = AmareloEstrela,
+    eightenary = Rosinha,
+    nineenary = VerdeEscuro,
+    tenenary = Vermelho,
+    elevenenary = LaranjaMedalha,
+    twelveenary = Purple40,
+    thirteenenary = PurpleGrey40,
+    fourteenenary = Pink40,
+
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
