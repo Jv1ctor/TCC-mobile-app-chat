@@ -13,8 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.ui.graphics.Color
+
 
 @Composable
 fun Teste(){
@@ -32,21 +31,10 @@ fun Teste(){
             OutlinedTextField(
                 value = name,
                 onValueChange = { name = it },
-                label = { Text("Name", color = colors.primary) },
+                label = { Text("Name", color = colors.primary) })
 
-                // aplica borda e texto com cores do seu tema
-                colors = TextFieldDefaults.colors(
-                    focusedIndicatorColor = MaterialTheme.colorScheme.primary,
-                    unfocusedIndicatorColor = Color(0xFF0282EA)
-                (
-                    focusedBorderColor = colors.primary,
-                    unfocusedBorderColor = colors.secondary,
-                    focusedLabelColor = colors.primary,
-                    unfocusedLabelColor = colors.secondary,
-                    cursorColor = colors.primary,
-                )
-            ))
         }
+
 
     }
 }
