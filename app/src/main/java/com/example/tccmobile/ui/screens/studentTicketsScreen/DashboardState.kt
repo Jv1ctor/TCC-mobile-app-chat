@@ -1,4 +1,4 @@
-package com.example.tccmobile.ui.screens.dashboardTicketsScreen
+package com.example.tccmobile.ui.screens.studentTicketsScreen
 
 import androidx.compose.ui.graphics.Color
 

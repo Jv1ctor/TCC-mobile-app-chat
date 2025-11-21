@@ -1,10 +1,9 @@
-package com.example.tccmobile.ui.screens.dashboardTicketsScreen
+package com.example.tccmobile.ui.screens.studentTicketsScreen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
@@ -54,7 +53,6 @@ fun DashboardTicketsScreen(
         ) {
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Título da Lista e Botão "Novo"
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -78,7 +76,7 @@ fun DashboardTicketsScreen(
                     text = "Novo",
                     backgroundColor = HeaderBlue,
                     contentColor = Color.White,
-                    cornerRadius = 8,
+                    cornerRadius = 16,
                     icon = {
                         Icon(
                             imageVector = Icons.Default.Add,
@@ -99,7 +97,6 @@ fun DashboardTicketsScreen(
                 contentPadding = PaddingValues(bottom = 16.dp)
             ) {
                 items(uiState.tickets) { ticket ->
-                    // Uso do Componente Compartilhado
                     // showStudentInfo = false, pois aqui é o painel do próprio aluno
                     TicketCard(
                         ticket = ticket,

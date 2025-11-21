@@ -1,4 +1,4 @@
-package com.example.tccmobile.ui.screens.dashboardTicketsScreen
+package com.example.tccmobile.ui.screens.studentTicketsScreen
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,8 +13,6 @@ import com.example.tccmobile.ui.theme.* class DashboardViewModel : ViewModel() {
     }
 
     private fun carregarTicketsMock() {
-        // --- Criação das Tags com as Cores do Colors.kt ---
-
         val tagAnalisado = TicketTagStatus(
             label = "Analisado",
             containerColor = StatusAnalisadoBg,
