@@ -16,4 +16,7 @@ data class UserDto(
 
     @SerialName("registry")
     val registry: String,
+
+    @SerialName("created_at")
+    val createAt: String?
 )
