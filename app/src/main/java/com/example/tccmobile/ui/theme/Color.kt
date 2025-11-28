@@ -1,18 +1,45 @@
 package com.example.tccmobile.ui.theme
 
 import androidx.compose.ui.graphics.Color
+//Azuis "Primários"
+val LightBlue = Color(0xFFBEDBFF)
 
-val DarkBlueBackground = Color(0xFF062452) // Fundo do BoxForm
-val PrimaryBlue = Color(0xFF0282EA)       // Botão "Entrar"
-val DarkBlueButton = Color(0xFF062452)    // Botão de toggle ativo
-val TextPrimary = Color.White
-val TextSecondary = Color(0xFFB0B0B0)      // Placeholder/Helper
-val BackgroundStart = Color(0xFF2287FF)    // Início do Gradiente
-val BackgroundEnd = Color(0xFF034384)      // Fim do Gradiente
+val DarkBlue = Color(0xFF062452)
+
+val Blue = Color(0xFF0282EA)
+
+val White = Color(0xFFFFFFFF)
+
+//Azuis "Secundários"
+//val AzulSuperClaro = Color(0xFFC0E0FF)
+//val AzulNoite = Color(0xFF1B5C9D)
+//val AzulClaro = Color(0xFF2287FF)
+//val AzulLetra = Color(0xFF003366)
+
+//Laranjas e Vermelhos
+val Red = Color(0xFFF54900)
+
+val Terracotta = Color(0xFF973C00)
+
+val SuperLightOrange = Color(0xFFFFD6A7)
+
+val Orange = Color(0xFFD08700)
+
+// Amarelos
+val GoldenYellow = Color(0xFFF0B100)
+
+val SuperLightYellow = Color(0xFFFEF3C6)
+
+val LightYellow = Color(0xFFFEE685)
+
+//Outras Cores
+val Gray = Color(0xFF64748B)
+
+val DarkGreen = Color(0xFF016630)
 
 val Purple80 = Color(0xFFD0BCFF)
+
 val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFF062452)
 
 val BlueEscuro = Color(0xFF062452)
 
@@ -58,8 +85,8 @@ val Vermelho = Color(0xFFF54900)
 
 val LaranjaMedalha = Color(0xFFD08700)
 
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
+val Pink80 = Color(0xFFEFB8C8)
+
 val Pink40 = Color(0xFF7D5260)
 
 
@@ -70,4 +97,18 @@ val TextPrimary = Color.White
 val TextSecondary = Color(0xFFB0B0B0)      // Placeholder/Helper
 val BackgroundStart = Color(0xFF2287FF)    // Início do Gradiente
 val BackgroundEnd = Color(0xFF034384)      // Fim do Gradiente
+
+
+
+
+
+//val DarkBlueBackground = Color(0xFF062452) // Fundo do BoxForm
+//val PrimaryBlue = Color(0xFF0282EA)       // Botão "Entrar"
+//val DarkBlueButton = Color(0xFF062452)    // Botão de toggle ativo
+//val TextPrimary = Color.White
+//val TextSecondary = Color(0xFFB0B0B0)      // Placeholder/Helper
+//val BackgroundStart = Color(0xFF2287FF)    // Início do Gradiente
+//val BackgroundEnd = Color(0xFF034384)      // Fim do Gradiente
+//val SelectedBackground = Color(0xFFD0E4FF)
+
 

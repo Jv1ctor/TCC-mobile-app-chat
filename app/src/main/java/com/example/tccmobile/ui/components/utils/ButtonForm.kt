@@ -15,13 +15,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.tccmobile.ui.theme.Blue
 
 @Composable
 fun ButtonForm(
     modifier: Modifier = Modifier,
     text: String,
     icon: (@Composable (() -> Unit))? = null,
-    backgroundColor: Color = Color(0xFF006CFF),
+    backgroundColor: Color = Blue,
     contentColor: Color = Color.White,
     cornerRadius: Int = 12,
     onClick: () -> Unit
@@ -48,21 +49,21 @@ fun ButtonForm(
     }
 }
 
-@Preview
-@Composable
-fun ButtonFormPreview() {
-    ButtonForm(
-        modifier = Modifier.fillMaxWidth(),
-        text = "Entrar",
-        backgroundColor = Color(0xFF007BFF),
-        cornerRadius = 16,
-        icon = {
-            Icon(
-                imageVector = Icons.Outlined.Person,
-                contentDescription = null,
-                tint = Color.White
-            )
-        },
-        onClick = {}
-    )
-}
+//@Preview
+//@Composable
+//fun ButtonFormPreview() {
+//    ButtonForm(
+//        modifier = Modifier.fillMaxWidth(),
+//        text = "Entrar",
+//        backgroundColor = Color(0xFF007BFF),
+//        cornerRadius = 16,
+//        icon = {
+//            Icon(
+//                imageVector = Icons.Outlined.Person,
+//                contentDescription = null,
+//                tint = Color.White
+//            )
+//        },
+//        onClick = {}
+//    )
+//}

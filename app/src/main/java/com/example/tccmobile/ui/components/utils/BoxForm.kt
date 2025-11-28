@@ -16,8 +16,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.tccmobile.ui.theme.DarkBlueBackground
-import com.example.tccmobile.ui.theme.TCCMobileTheme
+import com.example.tccmobile.ui.theme.DarkBlue
+
 
 @Composable
 fun BoxForm(
@@ -28,7 +28,7 @@ fun BoxForm(
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(16.dp))
-            .background(DarkBlueBackground)
+            .background(DarkBlue)
             .padding(vertical = 24.dp, horizontal = 20.dp),
         content = content
     )

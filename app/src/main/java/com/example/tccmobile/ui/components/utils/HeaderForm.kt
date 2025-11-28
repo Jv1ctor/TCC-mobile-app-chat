@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.tccmobile.ui.theme.Blue
 
 @Composable
 fun HeaderForm(
@@ -57,7 +58,7 @@ fun HeaderForm(
 fun HeaderFormPreview() {
     Box(
         modifier = Modifier
-            .background(Color(0xFF0883FF))
+            .background(Blue)
             .fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
