@@ -6,6 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.tccmobile.ui.screens.loginScreen.LoginScreen
 import com.example.tccmobile.ui.screens.registerScreen.RegisterScreen
+import com.example.tccmobile.ui.screens.newTicketScreen.NewTicketScreen
 
 @Composable
 fun AppNavigation() {
@@ -34,6 +35,17 @@ fun AppNavigation() {
                 }
             )
         }
-        // composable(Routes.HOME) { /* ...Sua tela principal... */ }
+
+        //Precisa ser implementado sua rota correta quando o dashboard for criado
+        composable(Routes.NEW_TICKET){
+            NewTicketScreen(
+                onBackClick = {
+                    navController.popBackStack()
+                },
+                onTicketCreated = {
+                    navController.popBackStack()
+                }
+            )
+        }
     }
 }

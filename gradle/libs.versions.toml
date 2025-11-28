@@ -13,6 +13,7 @@ supabaseVersion = "3.2.6"
 ktorVersion = "3.3.2"
 serializationVersion = "1.9.0"
 lifecycleViewmodelVersion = "2.9.3"
+
 navigationCompose = "2.7.7"
 materialIconsExtended = "1.6.7"
 
