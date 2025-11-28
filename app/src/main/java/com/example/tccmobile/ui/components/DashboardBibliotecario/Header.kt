@@ -1,4 +1,4 @@
-package com.example.tccmobile.ui.componentstwo
+package com.example.tccmobile.ui.components.DashboardBibliotecario
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable // Importação adicionada para o clique
@@ -17,9 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.tccmobile.ui.theme.BackgroundEnd
 
-import com.example.tccmobile.ui.theme.HeaderBackground
 import com.example.tccmobile.ui.theme.containerBlue
 
 

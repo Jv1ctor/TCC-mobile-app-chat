@@ -9,9 +9,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.example.tccmobile.ui.componentstwo.DashboardHeader // Importa o componente Header
-import com.example.tccmobile.ui.theme.DarkBlueBackground // Importa a cor de fundo da tela
-import com.example.tccmobile.ui.screens.DashboardScreen
+import com.example.tccmobile.ui.components.DashboardBibliotecario.DashboardHeader // Importa o componente Header
+import com.example.tccmobile.ui.components.DashboardBibliotecario.DashboardScreen
 import com.example.tccmobile.ui.theme.white
 
 /**
