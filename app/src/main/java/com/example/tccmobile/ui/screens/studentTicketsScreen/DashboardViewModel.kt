@@ -1,5 +1,8 @@
 package com.example.tccmobile.ui.screens.studentTicketsScreen
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Description
+import androidx.compose.material.icons.outlined.Schedule
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,28 +20,28 @@ import com.example.tccmobile.ui.theme.* class DashboardViewModel : ViewModel() {
             label = "Analisado",
             containerColor = StatusAnalisadoBg,
             contentColor = StatusAnalisadoText,
-            hasIcon = true
+            icon = Icons.Outlined.Description
         )
 
         val tagAvaliado = TicketTagStatus(
             label = "Avaliado",
             containerColor = StatusAvaliadoBg,
             contentColor = StatusAvaliadoText,
-            hasIcon = false
+            icon = null
         )
 
         val tagAberto = TicketTagStatus(
             label = "Aberto",
             containerColor = StatusAbertoBg,
             contentColor = StatusAbertoText,
-            hasIcon = true
+            icon = Icons.Outlined.Schedule
         )
 
         val tagPendente = TicketTagStatus(
             label = "Pendente",
             containerColor = StatusPendenteBg,
             contentColor = StatusPendenteText,
-            hasIcon = false
+            icon = null,
         )
 
         // --- Dados Fictícios (Mock) ---
@@ -61,7 +64,17 @@ import com.example.tccmobile.ui.theme.* class DashboardViewModel : ViewModel() {
                 dataAtualizacao = "05/11/2024",
                 notificacoes = 0,
                 tags = listOf(tagAberto, tagPendente)
+            ),
+            Ticket(
+                id = "3",
+                titulo = "Aplicação Mobile para Monitoramento de Saúde",
+                categoria = "Sistemas de Informação",
+                dataAbertura = "01/11/2024",
+                dataAtualizacao = "05/11/2024",
+                notificacoes = 1,
+                tags = listOf(tagAberto, tagPendente)
             )
+
         )
 
         _uiState.value = DashboardState(tickets = listaTickets)
