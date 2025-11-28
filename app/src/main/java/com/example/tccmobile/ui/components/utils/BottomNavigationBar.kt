@@ -7,6 +7,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.outlined.Analytics
 import androidx.compose.material.icons.outlined.Description
 import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,17 +27,15 @@ import com.example.tccmobile.ui.theme.LightBlue
 data class BottomNavItem(// ela guarda só os dados: nome, ícone e pra onde o botão leva.
     val label: String,
     val icon: ImageVector,
-    val route: String
+    val route: String,
+    val onClick: (String) -> Unit
 )
 
 @Composable
 fun BottomNavigationBar(
     items: List<BottomNavItem>,   // lista de botões
     currentRoute: String,         // recebe qual tela está aberta agora
-    onItemClick: (String) -> Unit // essa função avisa pra quem chamou: "clicaram em mim" (tentativa de entender)
 ) {
-
-
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -56,38 +55,39 @@ fun BottomNavigationBar(
                 modifier = Modifier
                     .clip(RoundedCornerShape(16.dp))
                     .background(if (isSelected) LightBlue else Color.Transparent)
-                    .clickable { onItemClick(item.route) }
+                    .clickable { item.onClick(item.route) }
                     .padding(vertical = 8.dp, horizontal = 20.dp)
             ) {
-                Icon(
-                    imageVector = item.icon,
-                    contentDescription = item.label,
-                    tint = if (isSelected) DarkBlue else Color.White, // lógica de cor do ícone: azul escuro se selecionado, branco se não
-                    modifier = Modifier.size(24.dp)
-                )
+                        Icon(
+                            imageVector = item.icon,
+                            contentDescription = item.label,
+                            tint = if (isSelected) DarkBlue else Color.White, // lógica de cor do ícone: azul escuro se selecionado, branco se não
+                            modifier = Modifier.size(24.dp)
+                        )
 
-                Spacer(modifier = Modifier.height(4.dp)) // espacinho entre o ícone e o texto
+                        Spacer(modifier = Modifier.height(4.dp)) // espacinho entre o ícone e o texto
 
-                Text(
-                    text = item.label,
-                    fontSize = 12.sp,
-                    fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,// lógica do texto: negrito se selecionado, normal se não
-                    color = if (isSelected) DarkBlue else Color.White // lógica da cor do texto: igual a do ícone
-                )
-            }
+                        Text(
+                            text = item.label,
+                            fontSize = 12.sp,
+                            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,// lógica do texto: negrito se selecionado, normal se não
+                            color = if (isSelected) DarkBlue else Color.White // lógica da cor do texto: igual a do ícone
+                        )
+                }
         }
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun BottomNavigationPreview() {
-    BottomNavigationBar(
-        items = listOf(
-            BottomNavItem("Meus Envios", androidx.compose.material.icons.Icons.Outlined.Description, "home"),
-            BottomNavItem("Perfil", androidx.compose.material.icons.Icons.Outlined.Person, "profile")
-        ),
-        currentRoute = "home", // fingindo que que ta na "home"
-        onItemClick = {}
-    )
-}
+
+//@Preview(showBackground = true)
+//@Composable
+//fun BottomNavigationPreview() {
+//    BottomNavigationBar(
+//        items = listOf(
+//            BottomNavItem("Meus Envios", androidx.compose.material.icons.Icons.Outlined.Description, "home"),
+//            BottomNavItem("Perfil", androidx.compose.material.icons.Icons.Outlined.Person, "profile")
+//        ),
+//        currentRoute = "home", // fingindo que que ta na "home"
+//        onItemClick = {}
+//    )
+//}

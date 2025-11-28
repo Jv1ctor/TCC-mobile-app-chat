@@ -33,7 +33,8 @@ import com.example.tccmobile.ui.components.utils.TicketCard
 @Composable
 fun DashboardTicketsScreen(
     viewModel: DashboardViewModel = viewModel(),
-    onNavigate: (String) -> Unit = {},
+    navigateBarItems: List<BottomNavItem>,
+    currentRoute: String,
     onTicketClick: (String) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -117,12 +118,8 @@ fun DashboardTicketsScreen(
 //            onNavigate = onNavigate
 //        )
         BottomNavigationBar(
-            items = listOf(
-                BottomNavItem("Meus Envios", Icons.Outlined.Description, "home"),
-                BottomNavItem("Perfil", Icons.Outlined.Person, "profile")
-            ),
-            currentRoute = "home",
-            onItemClick = {}
+            items = navigateBarItems,
+            currentRoute = currentRoute,
         )
     }
 }

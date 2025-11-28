@@ -1,9 +1,14 @@
 package com.example.tccmobile.navigation
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Description
+import androidx.compose.material.icons.outlined.Person
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.tccmobile.ui.components.utils.BottomNavItem
+import com.example.tccmobile.ui.components.utils.BottomNavigationBar
 import com.example.tccmobile.ui.screens.loginScreen.LoginScreen
 import com.example.tccmobile.ui.screens.registerScreen.RegisterScreen
 import com.example.tccmobile.ui.screens.studentTicketsScreen.DashboardTicketsScreen
@@ -73,11 +78,25 @@ fun AppNavigation() {
 
         composable(Routes.HOME) {
             DashboardTicketsScreen (
-                onNavigate = { route ->
-                    if (route != Routes.HOME) {
-                        navController.navigate(route)
-                    }
-                },
+                navigateBarItems = listOf(
+                    BottomNavItem(
+                        label= "Meus Envios",
+                        icon= Icons.Outlined.Description,
+                        route= Routes.HOME,
+                        onClick= { route ->
+                            navController.navigate(route)
+                        }
+                    ),
+                    BottomNavItem(
+                        label= "Perfil",
+                        icon= Icons.Outlined.Person,
+                        route= Routes.PROFILE,
+                        onClick= { route ->
+                            navController.navigate(route)
+                        }
+                    )
+                ),
+                currentRoute = Routes.HOME,
                 onTicketClick = { ticketId ->
                     println("Cliquei no ticket: $ticketId")
                 }
