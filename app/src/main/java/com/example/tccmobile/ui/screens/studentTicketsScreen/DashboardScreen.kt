@@ -6,6 +6,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.outlined.Description
+import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -23,6 +25,8 @@ import com.example.tccmobile.ui.theme.HeaderBlue
 import com.example.tccmobile.ui.theme.TextGray
 import com.example.tccmobile.ui.components.utils.AppHeader
 import com.example.tccmobile.ui.components.utils.AppBottomBar
+import com.example.tccmobile.ui.components.utils.BottomNavItem
+import com.example.tccmobile.ui.components.utils.BottomNavigationBar
 import com.example.tccmobile.ui.components.utils.ButtonForm
 import com.example.tccmobile.ui.components.utils.TicketCard
 
@@ -107,10 +111,18 @@ fun DashboardTicketsScreen(
             }
         }
 
-        // 3. Bottom Bar Compartilhada
-        AppBottomBar(
-            currentRoute = Routes.HOME, // Indica que estamos na Home
-            onNavigate = onNavigate
+//        3. Bottom Bar Compartilhada
+//        AppBottomBar(
+//            currentRoute = Routes.HOME, // Indica que estamos na Home
+//            onNavigate = onNavigate
+//        )
+        BottomNavigationBar(
+            items = listOf(
+                BottomNavItem("Meus Envios", Icons.Outlined.Description, "home"),
+                BottomNavItem("Perfil", Icons.Outlined.Person, "profile")
+            ),
+            currentRoute = "home",
+            onItemClick = {}
         )
     }
 }
