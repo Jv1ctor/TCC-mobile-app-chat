@@ -1,6 +1,7 @@
 package com.example.tccmobile.ui.screens.studentTicketsScreen
 
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 
 data class Ticket(
     val id: String,
@@ -18,7 +19,7 @@ data class TicketTagStatus(
     val label: String,
     val containerColor: Color,
     val contentColor: Color,
-    val hasIcon: Boolean = false
+    val icon: ImageVector?
 )
 
 data class DashboardState(
