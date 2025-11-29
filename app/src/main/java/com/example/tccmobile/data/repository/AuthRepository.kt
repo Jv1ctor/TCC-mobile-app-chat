@@ -9,6 +9,8 @@ import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.providers.builtin.Email
 import io.github.jan.supabase.postgrest.postgrest
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
 
 class AuthRepository {
 
@@ -37,9 +39,9 @@ class AuthRepository {
             }
 
             client.auth.updateUser {
-                data = mapOf(
-                    "isStudent" to (isStudent != null),
-                ) as JsonObject?
+                data = buildJsonObject {
+                    put("isStudent", isStudent != null)
+                }
             }
 
             Log.d("SUPABASE_DEBUG", "Auth retornou: $auth")
