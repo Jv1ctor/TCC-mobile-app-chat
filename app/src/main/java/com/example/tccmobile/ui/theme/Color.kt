@@ -30,3 +30,15 @@ val black = Color(0xFF000000)
 val yellow = Color(0xFFF6E7B4)
 
 val green = Color(0xFFA9DA8A)
+
+val VermelhoTelha = Color(0xFF973C00)
+
+val AmareloClaro1 = Color(0xFFFEE685)
+
+val AmareloClaro2 = Color(0xFFFEF3C6)
+
+val IconBackgroundGreen = Color(0xFFE1FFC2)
+
+val IconBackgroundYellow = Color(0xFFFFF5D0)
+
+val IconBackgroundRed = Color(0xFFF8D7DA)
