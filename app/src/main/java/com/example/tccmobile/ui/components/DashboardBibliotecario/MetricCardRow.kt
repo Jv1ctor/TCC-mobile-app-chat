@@ -24,6 +24,7 @@ import androidx.compose.material.icons.filled.Assignment
 import androidx.compose.material.icons.filled.CheckCircleOutline
 import com.example.tccmobile.R // Mantido
 import com.example.tccmobile.ui.theme.AmareloClaro1
+import com.example.tccmobile.ui.theme.ClaroBlueBackground
 import com.example.tccmobile.ui.theme.IconBackgroundGreen
 import com.example.tccmobile.ui.theme.IconBackgroundRed
 import com.example.tccmobile.ui.theme.IconBackgroundYellow
@@ -40,9 +41,9 @@ fun MetricCardRow(cardMetrics: List<CompletionCardData>) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 10.dp, vertical = 40.dp),
+            .padding(horizontal = 10.dp, vertical = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(19.dp) // Espaçamento entre os cards
+        verticalArrangement = Arrangement.spacedBy(16.dp) // Espaçamento entre os cards
     ) {
         // Itera sobre a lista de dados e chama o CompletionCard para cada um
         cardMetrics.forEach { data ->
@@ -58,28 +59,34 @@ fun MetricCardRowPreview() {
     val previewMetrics = listOf(
         CompletionCardData(
             mainTitle = "TCCs Corrigidos",
-            detailText = "15 aprovados com sucesso",
+            quantidade = 45,
+            detailText = "",
+            incrementoMes = 12,
             // USANDO Material Icons (CheckCircle)
             iconVector = Icons.Default.Assignment,
-            iconTint = green,
-            iconBackgroundColor = IconBackgroundGreen
+            iconTint = DarkBlueBackground,
+            iconBackgroundColor = ClaroBlueBackground
         ),
         CompletionCardData(
             mainTitle = "Pendentes",
+            quantidade = 8,
             detailText = "Em Análise",
+            incrementoMes = null,
             // USANDO Material Icons (PendingActions)
             iconVector = Icons.Default.AccessTime,
-            iconTint = AmareloClaro1,
-            iconBackgroundColor = IconBackgroundYellow // NOVO: Fundo
+            iconTint = VermelhoTelha,
+            iconBackgroundColor = IconBackgroundRed // NOVO: Fundo
 
         ),
         CompletionCardData(
             mainTitle = "Concluídos",
+            quantidade = 37,
             detailText = "aprovados com sucesso",
+            incrementoMes = null,
             // USANDO Material Icons (Assignment)
             iconVector = Icons.Default.CheckCircleOutline,
-            iconTint = VermelhoTelha,
-            iconBackgroundColor = IconBackgroundRed // NOVO: Fundo
+            iconTint = green,
+            iconBackgroundColor = IconBackgroundGreen // NOVO: Fundo
 
         )
     )
