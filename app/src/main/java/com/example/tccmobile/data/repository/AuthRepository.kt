@@ -11,6 +11,7 @@ import io.github.jan.supabase.postgrest.postgrest
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
+import kotlin.time.ExperimentalTime
 
 class AuthRepository {
 
@@ -52,7 +53,8 @@ class AuthRepository {
         }
     }
 
-    suspend fun signUpStudent(student: Student,  password: String): Boolean{
+    @OptIn(ExperimentalTime::class)
+    suspend fun signUpStudent(student: Student, password: String): Boolean{
         return try {
             val auth = client.auth.signUpWith(Email){
                 this.email = student.email
@@ -65,7 +67,7 @@ class AuthRepository {
                 name = student.name,
                 email = student.email,
                 registry = student.registry,
-                createAt = null
+                createdAt = null
             )
 
            client.postgrest.from("users")
