@@ -1,3 +1,27 @@
 package com.example.tccmobile.data.dto
 
-data class MessageDto()
+import kotlinx.serialization.Contextual
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
+
+
+@Serializable
+data class MessageDto @OptIn(ExperimentalTime::class) constructor(
+    @SerialName("id")
+    val id: Int,
+
+    @SerialName("content")
+    val content: String,
+
+    @SerialName("sender_id")
+    val senderId: String,
+
+    @SerialName("ticket_id")
+    val ticketId: Int,
+
+    @Contextual
+    @SerialName("created_at")
+    val createdAt: Instant,
+)
