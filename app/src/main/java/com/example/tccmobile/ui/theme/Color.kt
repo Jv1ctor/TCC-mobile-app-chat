@@ -22,7 +22,7 @@ val PurpleGrey80 = Color(0xFFCCC2DC)
 val Pink80 = Color(0xFFEFB8C8)
 
 val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
+val BackgroundIconTime = Color(0xFFD3CDCD)
 val Pink40 = Color(0xFFFF004F)
 
 val white = Color(0xFFFFFFFF)
@@ -31,16 +31,20 @@ val black = Color(0xFF000000)
 
 val yellow = Color(0xFFF6E7B4)
 
-val green = Color(0xFFA9DA8A)
+val green = Color(0xFF00A63E)
 
 val VermelhoTelha = Color(0xFF973C00)
 
-val AmareloClaro1 = Color(0xFFFEE685)
 
-val AmareloClaro2 = Color(0xFFFEF3C6)
+
+val AmareloClaro2 = Color(0xFFFFF4C2)
 
 val IconBackgroundGreen = Color(0xFFD2F3B0)
 
 val IconBackgroundYellow = Color(0xFFFFF5D0)
 
 val IconBackgroundRed = Color(0xFFF8D7DA)
+
+val yellow2 = Color(0xFFFFC107)
+
+val incrementosgreen = Color(0xFF2ECC71)
