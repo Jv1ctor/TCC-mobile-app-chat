@@ -13,16 +13,20 @@ import androidx.compose.ui.graphics.vector.ImageVector
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowOutward
+import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.ui.Alignment
 
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.tccmobile.ui.theme.incrementosgreen
 
 // MODELO DE DADOS CENTRALIZADO: Esta é a única definição para evitar conflitos.
 data class CompletionCardData(
     val mainTitle: String,
-    val quantidade: Int,// Título principal (ex: "15")
+    val quantidade: Int,// (ex: "15")
     val detailText: String, // Texto de detalhe (ex: "TCCs Corrigidos")
     val iconVector: ImageVector,
     val iconTint: Color,
@@ -69,7 +73,7 @@ fun CompletionCard(
                     imageVector = data.iconVector, // Usando o ImageVector
                     contentDescription = "Ícone de ${data.mainTitle}",
                     tint = data.iconTint,
-                    modifier = Modifier.padding(18.dp,18.dp) //fundo do icone
+                    modifier = Modifier.padding(18.dp, 18.dp) //fundo do icone
 
                 )
             }
@@ -106,19 +110,31 @@ fun CompletionCard(
                         modifier = Modifier.padding(vertical = 8.dp) //altura da quantidade
                     )
 
-                    Spacer(Modifier
-                        .height(15.dp) //altura entre quantidade e +12
-                        .width(15.dp) //largura entre quantidade e +12
+                    Spacer(
+                        Modifier
+                            .height(45.dp) //altura entre quantidade e +12
+                            .width(13.dp) //largura entre quantidade e +12
 
+                    )
+
+                    // Texto de Detalhe (Ex: "Em análise")
+                    Text(
+                        text = data.detailText,
+                        color = Color.Black.copy(alpha = 0.6f),
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Normal,
+                        maxLines = 1
                     )
 
                     // INDICADOR DE MÊS (verde)
                     if (data.incrementoMes != null) {
-                        Spacer(Modifier
-                            .height(10.dp)
-                            .width(8.dp)
+                        Spacer(
+                            Modifier
+                                .height(10.dp)
+                                .width(8.dp)
 
                         )
+                        //incremento mÊs
                         Text(
                             text = "+${data.incrementoMes} este mês",
                             fontSize = 14.sp,
@@ -128,21 +144,32 @@ fun CompletionCard(
 
 
                         )
+                        // 2. Row para agrupar Ícone e Texto de Incremento
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically // Alinha verticalmente
+                        ) {
+
+                            Spacer(Modifier.width(20.dp)) // Espaço entre o ícone e o texto
+
+                            // Ícone (Seta para cima)
+                            Icon(
+                                imageVector = Icons.Default.ArrowOutward,
+                                contentDescription = "Aumento no mês",
+                                tint = incrementosgreen, // Verde
+                                modifier = Modifier
+                                    .size(20.dp)
+                                    // Ajuste leve para cima para alinhar melhor com o texto
+                                    .offset(y = (-2).dp)
+                            )
+                        }
+
+                        Spacer(
+                            Modifier
+                                .height(15.dp)
+                                .width(15.dp)
+                        )
+
                     }
-
-                    Spacer(Modifier
-                        .height(45.dp)
-                        .width(13.dp)
-                    )
-
-                    // Texto de Detalhe (Ex: "TCCs Corrigidos")
-                    Text(
-                        text = data.detailText,
-                        color = Color.Black.copy(alpha = 0.6f),
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Normal,
-                        maxLines = 1
-                    )
                 }
             }
         }
