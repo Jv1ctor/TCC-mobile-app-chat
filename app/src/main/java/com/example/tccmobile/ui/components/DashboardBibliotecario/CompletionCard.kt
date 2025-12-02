@@ -41,8 +41,8 @@ fun CompletionCard(
 ) {
     Card(
         modifier = modifier
-                .height(120.dp)
-                .width(500.dp), //largura dos cards/icones grandões
+            .height(120.dp)
+            .width(500.dp), //largura dos cards/icones grandões
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(defaultElevation = 3.dp)
@@ -148,4 +148,3 @@ fun CompletionCard(
         }
     }
 }
-
