@@ -26,6 +26,10 @@ import com.example.tccmobile.ui.components.DashboardBibliotecario.CompletionCard
 import com.example.tccmobile.ui.components.DashboardBibliotecario.DashboardHeader
 import com.example.tccmobile.ui.components.DashboardBibliotecario.MetricCardRow
 import com.example.tccmobile.ui.components.DashboardBibliotecario.QualityServiceCard
+import com.example.tccmobile.ui.components.DashboardBibliotecario.RecentReviewData
+import com.example.tccmobile.ui.components.DashboardBibliotecario.RecentReviewsCard
+import com.example.tccmobile.ui.components.DashboardBibliotecario.TeamMemberData
+import com.example.tccmobile.ui.components.DashboardBibliotecario.TeamPerformanceCard
 import com.example.tccmobile.ui.theme.AmareloClaro2
 import com.example.tccmobile.ui.theme.ClaroBlueBackground
 import com.example.tccmobile.ui.theme.DarkBlueBackground
@@ -71,7 +75,7 @@ fun DashboardScreen() {
         CompletionCardData(
             mainTitle = "Concluídos",
             quantidade = 37,
-            detailText = "aprovados com sucesso",
+            detailText = "aprovados com \n sucesso",
             incrementoMes = null,
             // USANDO Material Icons (Assignment)
             iconVector = Icons.Default.CheckCircleOutline,
@@ -86,7 +90,7 @@ fun DashboardScreen() {
             // Nota: Se a 'quantidade' for String ("4.8"), você deve usar String aqui.
             // Como corrigimos para Int no seu código, usamos Int, mas o ideal seria String.
             quantidade = 4,
-            detailText = "de 5.0 estrelas",
+            detailText = "\nde 5.0 estrelas",
             hasStars = true,
             iconVector = Icons.Default.Star,
             iconTint = yellow2, // Amarelo
@@ -97,11 +101,62 @@ fun DashboardScreen() {
             // Aqui, como é "2 dias", o Ideal é que o dado original no Data Class fosse String.
             // Para testar, estou usando 2 como Int.
             quantidade = 2,
-            detailText = "Submissão - 1º feedback",
+            detailText = "Submissão - 1º\n feedback",
             incrementoMes = 15, // Por exemplo, 15% de melhoria
             iconVector = Icons.Default.AccessTime,
             iconTint = DarkBlueBackground,
             iconBackgroundColor = BackgroundIconTime
+        )
+    )
+
+    // 3. DADOS DE TESTE (MOCK) - AVALIAÇÕES RECENTES
+    val recentReviewMetrics = listOf( // <-- CORREÇÃO: Variável renomeada para 'recentReviewMetrics' (minúsculo)
+        RecentReviewData(
+            studentName = "João Silva",
+            rating = 5.0f,
+            comment = "Excelente atendimento e feedback detalhado!"
+        ),
+        RecentReviewData(
+            studentName = "Maria Santos",
+            rating = 5.0f,
+            comment = "Muito atenciosa e prestativa."
+        ),
+        RecentReviewData(
+            studentName = "Pedro Oliveira",
+            rating = 4.0f,
+            comment = "Bom atendimento, mas demorou um pouco."
+        )
+    )
+
+    // 4. NOVO: DADOS MOCKADOS - DESEMPENHO DA EQUIPE
+    val teamPerformanceMetrics = listOf(
+        TeamMemberData(
+            name = "Ana Costa",
+            correctedCount = 45,
+            pendingCount = 8,
+            rating = 4.8f,
+            position = 1 // Ouro
+        ),
+        TeamMemberData(
+            name = "Maria Santos",
+            correctedCount = 38,
+            pendingCount = 5,
+            rating = 4.9f,
+            position = 2 // Prata
+        ),
+        TeamMemberData(
+            name = "Paula Ferreira",
+            correctedCount = 42,
+            pendingCount = 6,
+            rating = 4.7f,
+            position = 3 // Bronze
+        ),
+        TeamMemberData(
+            name = "Carla Lima",
+            correctedCount = 35,
+            pendingCount = 4,
+            rating = 4.6f,
+            position = 4
         )
     )
 
@@ -151,9 +206,56 @@ fun DashboardScreen() {
                 QualityServiceCard(data = data)
             }
         }
-    }
 
+        // TÍTULO: Avaliações Recentes
+        Text(
+            text = "Avaliações Recentes",
+            color = BackgroundEnd,
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(start = 24.dp, top = 32.dp, bottom = 4.dp)
+        )
+
+        // COMPONENTES: Cards de Avaliações Recentes
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 12.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            recentReviewMetrics.forEach { data ->
+                RecentReviewsCard(data = data)
+            }
+        }
+
+        // NOVO TÍTULO: Desempenho da Equipe
+        Text(
+            text = "Desempenho da Equipe",
+            color = BackgroundEnd,
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(start = 24.dp, top = 32.dp, bottom = 4.dp)
+        )
+
+        // NOVO COMPONENTE: Cards de Desempenho da Equipe
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 12.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp), // Espaçamento um pouco menor para esta seção
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            teamPerformanceMetrics.forEach { data ->
+                TeamPerformanceCard(data = data)
+            }
+        }
+
+        // Espaço final para o scroll
+        Spacer(Modifier.height(52.dp))
     }
+}
+
 
 
 @Preview(showBackground = true)
