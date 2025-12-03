@@ -10,7 +10,7 @@ val TextPrimary = Color.White
 val ClaroBlueBackground = Color(0xFFB8D1FF)
 val TextSecondary = Color(0xFFB0B0B0) // Placeholder/Helper
 
-val HeaderBackground = Color(0xFF003366)
+val HeaderBackground = Color(0xFF204879)
 val BackgroundStart = Color(0xFF2287FF)    // Início do Gradiente
 val BackgroundEnd = Color(0xFF034384)      // Fim do Gradiente
 
@@ -48,3 +48,11 @@ val IconBackgroundRed = Color(0xFFF8D7DA)
 val yellow2 = Color(0xFFFFC107)
 
 val incrementosgreen = Color(0xFF2ECC71)
+
+val BadgePositionColor = Color(0xFFAAAAAA)
+
+val BadgePositionColor2 = Color(0xFFCD7F32)
+
+val BadgePositionColor3 = Color(0xFF607D8B)
+
+
