@@ -54,7 +54,7 @@ fun NewTicketForm(
             Spacer(modifier = Modifier.height(6.dp))
             Text(
                 text = "Informe o título ou o tema do seu trabalho",
-                style = MaterialTheme.typography.bodyMedium.copy(color = Branco),
+                style = MaterialTheme.typography.bodyMedium.copy(color = Branco), //Fonte ariamo - figma
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Start
             )
@@ -71,7 +71,7 @@ fun NewTicketForm(
             Spacer(modifier = Modifier.height(6.dp))
             Text(
                 text = "Informe o seu curso de graduação",
-                style = MaterialTheme.typography.bodyMedium.copy(color = Branco),
+                style = MaterialTheme.typography.bodyMedium.copy(color = Branco), //Fonte ariamo - figma
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Start
             )

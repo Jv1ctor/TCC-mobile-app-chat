@@ -20,7 +20,9 @@ val CianoAzul = Color(0xFF0282EA)
 
 val Branco = Color(0xFFFFFFFF)
 
-val AzulClaro = Color(0xFF2287FF)
+val AzulClaro = Color(0xFF0883FF)
+
+val AzulbackgroundButtonForm = Color(0xFF006CFF)
 
 val AzulLetra = Color(0xFF003366)
 
@@ -63,11 +65,11 @@ val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
 
 
-val DarkBlueBackground = Color(0xFF062452) // Fundo do BoxForm
-val PrimaryBlue = Color(0xFF0282EA)       // Botão "Entrar"
-val DarkBlueButton = Color(0xFF062452)    // Botão de toggle ativo
-val TextPrimary = Color.White
-val TextSecondary = Color(0xFFB0B0B0)      // Placeholder/Helper
-val BackgroundStart = Color(0xFF2287FF)    // Início do Gradiente
-val BackgroundEnd = Color(0xFF034384)      // Fim do Gradiente
+//val DarkBlueBackground = Color(0xFF062452) // Fundo do BoxForm
+//val PrimaryBlue = Color(0xFF0282EA)       // Botão "Entrar"
+//val DarkBlueButton = Color(0xFF062452)    // Botão de toggle ativo
+//val TextPrimary = Color.White
+//val TextSecondary = Color(0xFFB0B0B0)      // Placeholder/Helper
+//val BackgroundStart = Color(0xFF2287FF)    // Início do Gradiente
+//val BackgroundEnd = Color(0xFF034384)      // Fim do Gradiente
 

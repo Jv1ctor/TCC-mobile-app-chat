@@ -87,7 +87,7 @@ fun InputForm(
                 unfocusedContainerColor = Color.White,
                 disabledContainerColor = Color.White,
                 errorContainerColor = Color.White,
-                cursorColor = Color(0xFF1A3E6C),
+                cursorColor = Color(0xFF1A3E6C), //importar cor do Color theme
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent,
