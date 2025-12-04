@@ -12,6 +12,9 @@ import androidx.compose.ui.Modifier
 import com.example.tccmobile.ui.components.DashboardBibliotecario.DashboardHeader // Importa o componente Header
 import com.example.tccmobile.ui.screens.bibliodashscreen.DashboardScreen
 import com.example.tccmobile.ui.theme.white
+import androidx.compose.ui.tooling.preview.Preview
+import com.example.tccmobile.navigation.AppNavigation
+import com.example.tccmobile.ui.theme.TCCMobileTheme
 
 /**
  * Ponto de entrada principal da aplicação.
@@ -52,5 +55,10 @@ fun SimpleHeaderDisplay() {
         })
 
         // Espaço em branco abaixo do header. Futuramente, aqui será o Dashboard.
+    }
+            TCCMobileTheme {
+                AppNavigation()
+            }
+        }
     }
 }
