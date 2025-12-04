@@ -120,7 +120,7 @@ fun TeamPositionBadge(position: Int) {
             Text(
                 text = "🏆", // Ícone unicode de troféu
                 fontSize = 20.sp,
-                modifier = Modifier.offset(y = (-2).dp)
+                modifier = Modifier.offset(y = (-1).dp)
             )
         } else {
             // Posição numérica para 4º lugar em diante

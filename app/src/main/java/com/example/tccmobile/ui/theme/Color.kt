@@ -51,8 +51,8 @@ val incrementosgreen = Color(0xFF2ECC71)
 
 val BadgePositionColor = Color(0xFFAAAAAA)
 
-val BadgePositionColor2 = Color(0xFFCD7F32)
+val BadgePositionColor2 = Color(0xFFCE8034)
 
-val BadgePositionColor3 = Color(0xFF607D8B)
+val BadgePositionColor3 = Color(0xFF566F7C)
 
 
