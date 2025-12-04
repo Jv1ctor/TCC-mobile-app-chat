@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class TicketSearchDto(
+data class MessageSearchByTicketDto (
     @SerialName("ticketid")
     val ticketId: Int
 )

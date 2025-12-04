@@ -7,7 +7,7 @@ import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 
 @Serializable
-data class MessageWithUserStudentDto @OptIn(ExperimentalTime::class) constructor(
+data class MessageWithUserInfoDto @OptIn(ExperimentalTime::class) constructor(
     @SerialName("id")
     val id: Int,
 
@@ -25,7 +25,7 @@ data class MessageWithUserStudentDto @OptIn(ExperimentalTime::class) constructor
     val createdAt: Instant,
 
     @SerialName("name")
-    val user: String,
+    val name: String,
 
     @SerialName("email")
     val email: String,
