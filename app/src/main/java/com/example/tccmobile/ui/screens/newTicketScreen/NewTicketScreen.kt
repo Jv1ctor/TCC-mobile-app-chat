@@ -37,11 +37,9 @@ fun NewTicketScreen(
         contract = ActivityResultContracts.OpenDocument(),
         onResult = { uri: Uri? ->
             if (uri != null) {
-                HandlerFiles.onFileSelected(
+                viewModel.onFileSelected(
                     fileUri = uri,
                     context= context,
-                    callbackError = { viewModel.setError(it) },
-                    callbackSuccess = { viewModel.setFileNameAndUri(name = it, fileUri = uri) }
                 )
             }
         }

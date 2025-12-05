@@ -10,7 +10,11 @@ import kotlinx.coroutines.delay
 import android.content.Context
 import android.net.Uri
 import android.util.Log
-class NewTicketViewModel : ViewModel() {
+import com.example.tccmobile.helpers.HandlerFiles
+
+class NewTicketViewModel(
+    val handlerFile: HandlerFiles = HandlerFiles()
+): ViewModel() {
 
     private val _uiState = MutableStateFlow(NewTicketState())
     val uiState = _uiState.asStateFlow()
@@ -26,7 +30,7 @@ class NewTicketViewModel : ViewModel() {
         _uiState.update { it.copy(observacoes = v) }
     }
 
-    fun setError(msg: String){
+    private fun setError(msg: String){
         _uiState.update {
             it.copy(
                 anexoNomeArquivo = "",
@@ -36,7 +40,7 @@ class NewTicketViewModel : ViewModel() {
         }
     }
 
-    fun setFileNameAndUri(name: String, fileUri: Uri){
+    private fun setFileNameAndUri(name: String, fileUri: Uri){
         _uiState.update {
             it.copy(
                 anexoNomeArquivo = name,
@@ -44,6 +48,15 @@ class NewTicketViewModel : ViewModel() {
                 ticketError = null
             )
         }
+    }
+
+    fun onFileSelected(fileUri: Uri, context: Context){
+        handlerFile.onFileSelected(
+            fileUri = fileUri,
+            context = context,
+            callbackError = { setError(it) },
+            callbackSuccess = { setFileNameAndUri(name = it, fileUri = fileUri) }
+        )
     }
 
     fun mapExceptionToUserMessage(e: Exception): String {

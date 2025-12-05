@@ -12,6 +12,7 @@ data class ChatStudentState(
     val inputMessage: String = "",
     val fileName: String = "",
     val fileUri: Uri? = null,
+    val isAttachLoading: Boolean = false,
 
     val messages: List<Message> = listOf(),
 
