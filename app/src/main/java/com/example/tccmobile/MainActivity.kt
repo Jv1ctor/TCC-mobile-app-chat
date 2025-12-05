@@ -59,4 +59,4 @@ fun SimpleHeaderDisplay() {
             TCCMobileTheme {
                 AppNavigation()
             }
-        }
+        } //muitas modificações nas classes internas
