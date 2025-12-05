@@ -9,12 +9,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.delay
 import android.content.Context
 import android.net.Uri
-import android.provider.OpenableColumns
 import android.util.Log
-
-// Constante para o tamanho máximo permitido (25 MB)
-private const val Max_File_Size = 25 * 1024 * 1024L
-
 class NewTicketViewModel : ViewModel() {
 
     private val _uiState = MutableStateFlow(NewTicketState())
@@ -31,74 +26,24 @@ class NewTicketViewModel : ViewModel() {
         _uiState.update { it.copy(observacoes = v) }
     }
 
-    //Trata o arquivo selecionado, o tamanho máximo foi 25mb
-    fun onFileSelected(fileUri: Uri, context: Context) {
-        val nomeArquivo = getFileName(fileUri, context) ?: "Arquivo Anexado"
-        val tamanhoMaxMB = 25
-        val tamanhoMaxBytes = tamanhoMaxMB * 1024 * 1024
-
-        val tamanhoArquivo = getFileSize(context, fileUri)
-
-        if (tamanhoArquivo != null && tamanhoArquivo > tamanhoMaxBytes) {
-            _uiState.update {
-                it.copy(
-                    anexoNomeArquivo = "",
-                    anexoUri = null,
-                    ticketError = "Arquivo muito grande. O limite é $tamanhoMaxMB MB."
-                )
-            }
-            return
-        }
-
-        if (nomeArquivo.endsWith(".doc", ignoreCase = true) ||
-            nomeArquivo.endsWith(".docx", ignoreCase = true)
-        ) {
-            _uiState.update {
-                it.copy(
-                    anexoNomeArquivo = nomeArquivo,
-                    anexoUri = fileUri,
-                    ticketError = null
-                )
-            }
-        } else {
-            _uiState.update {
-                it.copy(
-                    anexoNomeArquivo = "",
-                    anexoUri = null,
-                    ticketError = "Formato inválido. Anexe um arquivo .doc ou .docx."
-                )
-            }
+    fun setError(msg: String){
+        _uiState.update {
+            it.copy(
+                anexoNomeArquivo = "",
+                anexoUri = null,
+                ticketError = msg
+            )
         }
     }
 
-    // Obtém o tamanho do arquivo a partir de um Uri usando o ContentResolver.
-    fun getFileSize(context: Context, uri: Uri): Long? {
-        return try {
-            context.contentResolver.query(uri, null, null, null, null)?.use { cursor ->
-                val sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE)
-                if (sizeIndex != -1) {
-                    cursor.moveToFirst()
-                    cursor.getLong(sizeIndex)
-                } else null
-            }
-        } catch (e: Exception) {
-            null
+    fun setFileNameAndUri(name: String, fileUri: Uri){
+        _uiState.update {
+            it.copy(
+                anexoNomeArquivo = name,
+                anexoUri = fileUri,
+                ticketError = null
+            )
         }
-    }
-
-
-
-    fun getFileName(uri: Uri, context: Context): String? {
-        var fileName: String? = null
-        context.contentResolver.query(uri, null, null, null, null)?.use { cursor ->
-            if (cursor.moveToFirst()) {
-                val nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-                if (nameIndex != -1) {
-                    fileName = cursor.getString(nameIndex)
-                }
-            }
-        }
-        return fileName
     }
 
     fun mapExceptionToUserMessage(e: Exception): String {

@@ -18,6 +18,8 @@ import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
+import com.example.tccmobile.helpers.HandlerFiles
 import com.example.tccmobile.ui.theme.Branco
 
 
@@ -35,7 +37,12 @@ fun NewTicketScreen(
         contract = ActivityResultContracts.OpenDocument(),
         onResult = { uri: Uri? ->
             if (uri != null) {
-                viewModel.onFileSelected(uri, context)
+                HandlerFiles.onFileSelected(
+                    fileUri = uri,
+                    context= context,
+                    callbackError = { viewModel.setError(it) },
+                    callbackSuccess = { viewModel.setFileNameAndUri(name = it, fileUri = uri) }
+                )
             }
         }
     )
@@ -59,7 +66,14 @@ fun NewTicketScreen(
                 onObservationsChange = viewModel::onObservacoesChange,
 
                 onAttachTccClick = {
-                    tccFileLauncher.launch(arrayOf("application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"))
+                    tccFileLauncher.launch(
+                        input= arrayOf(
+                            "application/msword",
+                            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                            "application/vnd.oasis.opendocument.text",
+                            "application/octet-stream"
+                        )
+                    )
                 },
 
                 onOpenTicketClick = {
@@ -69,4 +83,13 @@ fun NewTicketScreen(
             Spacer(modifier = Modifier.height(32.dp))
         }
     }
+}
+
+
+@Preview
+@Composable
+fun NewTicketScreenPreview(){
+    NewTicketScreen(
+        onBackClick = {}
+    ) { }
 }
