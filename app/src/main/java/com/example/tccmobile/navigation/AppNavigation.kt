@@ -7,20 +7,22 @@ import androidx.navigation.compose.rememberNavController
 import com.example.tccmobile.ui.screens.loginScreen.LoginScreen
 import com.example.tccmobile.ui.screens.registerScreen.RegisterScreen
 import com.example.tccmobile.ui.screens.newTicketScreen.NewTicketScreen
+import com.example.tccmobile.ui.screens.bibliodashscreen.DashboardScreenPreview
+import com.example.tccmobile.ui.screens.bibliodashscreen.DashboardScreen
 
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = Routes.LOGIN) {
-        composable(Routes.LOGIN) {
+    NavHost(navController = navController, startDestination = Routes.HOME) {
+        composable(Routes.HOME) {
             LoginScreen(
                 onNavigateToRegister = {
-                    navController.navigate(Routes.REGISTER)
+                    navController.navigate(Routes.HOME)
                 },
                 onLoginSuccess = {
                     navController.navigate(Routes.HOME) {
-                        popUpTo(Routes.LOGIN) { inclusive = true }
+                        popUpTo(Routes.HOME) { inclusive = true }
                     }
                 }
             )
@@ -36,6 +38,9 @@ fun AppNavigation() {
             )
         }
 
+        composable(Routes.HOME){
+            DashboardScreenPreview()
+        }
         //Precisa ser implementado sua rota correta quando o dashboard for criado
         composable(Routes.NEW_TICKET){
             NewTicketScreen(
