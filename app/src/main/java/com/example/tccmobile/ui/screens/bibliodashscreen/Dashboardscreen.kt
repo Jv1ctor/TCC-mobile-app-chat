@@ -1,91 +1,158 @@
 package com.example.tccmobile.ui.screens.bibliodashscreen
 
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccessTime
-import androidx.compose.material.icons.filled.Assignment
-import androidx.compose.material.icons.filled.CheckCircleOutline
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-
-// IMPORTS NECESSÁRIOS: Garante que os componentes e dados de outros arquivos sejam encontrados
-import com.example.tccmobile.ui.components.DashboardBibliotecario.CompletionCardData
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.tccmobile.ui.components.DashboardBibliotecario.DashboardHeader
 import com.example.tccmobile.ui.components.DashboardBibliotecario.MetricCardRow
-import com.example.tccmobile.ui.theme.ClaroBlueBackground
-import com.example.tccmobile.ui.theme.DarkBlueBackground
-import com.example.tccmobile.ui.theme.IconBackgroundGreen
-import com.example.tccmobile.ui.theme.IconBackgroundRed
-import com.example.tccmobile.ui.theme.VermelhoTelha
-// Importando as cores necessárias
+import com.example.tccmobile.ui.components.DashboardBibliotecario.QualityServiceCard
+import com.example.tccmobile.ui.components.DashboardBibliotecario.RecentReviewsCard
+import com.example.tccmobile.ui.components.DashboardBibliotecario.TeamPerformanceCard
+import com.example.tccmobile.ui.theme.BackgroundEnd
 import com.example.tccmobile.ui.theme.white
-import com.example.tccmobile.ui.theme.green
+
 
 
 @Composable
-fun Dashboardscreen() {
+fun DashboardScreen(
+    // Injeção de dependência do ViewModel
+    viewModel: DashboardViewModel = viewModel()
+) {
+    // Observa e coleta o estado mais recente do ViewModel
+    val state by viewModel.state.collectAsState()
 
-    // DADOS DE TESTE (MOCK) - Lista de objetos CompletionCardData para preencher a tela.
-    val sampleMetrics = listOf(
-        CompletionCardData(
-            mainTitle = "TCCs Corrigidos",
-            quantidade = 45,
-            detailText = "",
-            incrementoMes = 12,
-            // USANDO Material Icons (CheckCircle)
-            iconVector = Icons.Default.Assignment,
-            iconTint = DarkBlueBackground,
-            iconBackgroundColor = ClaroBlueBackground
-        ),
-        CompletionCardData(
-            mainTitle = "Pendentes",
-            quantidade = 8,
-            detailText = "Em Análise",
-            incrementoMes = null,
-            // USANDO Material Icons (PendingActions)
-            iconVector = Icons.Default.AccessTime,
-            iconTint = VermelhoTelha,
-            iconBackgroundColor = IconBackgroundRed // NOVO: Fundo
-
-        ),
-        CompletionCardData(
-            mainTitle = "Concluídos",
-            quantidade = 37,
-            detailText = "aprovados com sucesso",
-            incrementoMes = null,
-            // USANDO Material Icons (Assignment)
-            iconVector = Icons.Default.CheckCircleOutline,
-            iconTint = green,
-            iconBackgroundColor = IconBackgroundGreen // NOVO: Fundo
-
-        )
-    )
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(white) // Fundo da tela
-            .verticalScroll(rememberScrollState()) // Permite rolagem
+            .background(white)
+            .verticalScroll(rememberScrollState())
     ) {
-        // 1. HEADER (Componente de cabeçalho)
+        // 1. HEADER (Lida com o evento de clique, passando-o para o ViewModel)
         DashboardHeader(onBackClicked = {
-            println("Navegar de volta...")
+            viewModel.onBackClicked()
         })
 
-        // 2. MEUS INDICADORES / LINHA DE CARDS
-        // Chamada do componente MetricCardRow com os dados mockados
-        MetricCardRow(cardMetrics = sampleMetrics)
+        // 2. Lógica de Estado (Carregamento / Erro)
+        if (state.isLoading) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(100.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
+        } else if (state.error != null) {
+            Text(
+                text = "Erro: ${state.error}",
+                color = BackgroundEnd,
+                modifier = Modifier.padding(24.dp)
+            )
+        } else {
+            // --- UI Principal (Usa os dados de 'state') ---
+
+            // TÍTULO: Meus Indicadores
+            Text(
+                text = "Meus Indicadores",
+                color = BackgroundEnd,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(start = 24.dp, top = 20.dp, bottom = 4.dp)
+            )
+
+            // COMPONENTES: Cards de Métrica
+            MetricCardRow(cardMetrics = state.metrics)
 
 
+            // TÍTULO: Qualidade do Atendimento
+            Text(
+                text = "Qualidade do Atendimento",
+                color = BackgroundEnd,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(start = 24.dp, top = 32.dp, bottom = 4.dp)
+            )
+
+            // COMPONENTES: Cards de Qualidade do Atendimento
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 12.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                state.qualityServiceMetrics.forEach { data ->
+                    QualityServiceCard(data = data)
+                }
+            }
+
+            // TÍTULO: Avaliações Recentes
+            Text(
+                text = "Avaliações Recentes",
+                color = BackgroundEnd,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(start = 24.dp, top = 32.dp, bottom = 4.dp)
+            )
+
+            // COMPONENTES: Cards de Avaliações Recentes
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 12.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                state.recentReviewMetrics.forEach { data ->
+                    RecentReviewsCard(data = data)
+                }
+            }
+
+            // NOVO TÍTULO: Desempenho da Equipe
+            Text(
+                text = "Desempenho da Equipe",
+                color = BackgroundEnd,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(start = 24.dp, top = 32.dp, bottom = 4.dp)
+            )
+
+            // NOVO COMPONENTE: Cards de Desempenho da Equipe
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 12.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                state.teamPerformanceMetrics.forEach { data ->
+                    TeamPerformanceCard(data = data)
+                }
+            }
+
+            // Espaço final para o scroll
+            Spacer(Modifier.height(52.dp))
+        }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun DashboardscreenPreview() {
-    Dashboardscreen()
+fun DashboardScreenPreview() {
+    // A função preview pode ser chamada diretamente, e o Compose irá fornecer
+    // automaticamente uma instância do ViewModel para simulação.
+    DashboardScreen()
 }
