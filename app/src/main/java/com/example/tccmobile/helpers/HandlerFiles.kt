@@ -5,11 +5,23 @@ import android.net.Uri
 import android.provider.OpenableColumns
 import kotlinx.coroutines.flow.update
 
-object HandlerFiles {
+class HandlerFiles {
     // Constante para o tamanho máximo permitido (25 MB)
     private val maxFileMB = 25
     private val maxFileBytes = maxFileMB * 1024 * 1024L
 
+    fun normalizeFileName(name: String): String {
+        val temp = java.text.Normalizer.normalize(name, java.text.Normalizer.Form.NFD)
+        val noAccents = temp.replace("\\p{InCombiningDiacriticalMarks}+".toRegex(), "")
+        return noAccents
+            .replace("[^a-zA-Z0-9._-]".toRegex(), "_") // troca caracteres inválidos
+            .lowercase()
+    }
+
+
+    fun generatePath(userId: String, messageId: Int, ticketId: Int, filename: String): String {
+        return "$ticketId/$userId-$messageId-${normalizeFileName(filename)}"
+    }
 
     //Trata o arquivo selecionado, o tamanho máximo foi 25mb
     fun onFileSelected(fileUri: Uri, context: Context, callbackError: (error: String) -> Unit, callbackSuccess: (name: String) -> Unit) {
@@ -48,7 +60,6 @@ object HandlerFiles {
     }
 
 
-
     fun getFileName(uri: Uri, context: Context): String? {
         var fileName: String? = null
         context.contentResolver.query(uri, null, null, null, null)?.use { cursor ->
@@ -60,5 +71,13 @@ object HandlerFiles {
             }
         }
         return fileName
+    }
+
+    fun getFileType(uri: Uri, context: Context): String?{
+        return context.contentResolver.getType(uri)
+    }
+
+    fun getByteArray(uri: Uri, context: Context): ByteArray?{
+        return context.contentResolver.openInputStream(uri)?.readBytes()
     }
 }
