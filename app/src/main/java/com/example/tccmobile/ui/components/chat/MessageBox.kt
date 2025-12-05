@@ -3,21 +3,14 @@ package com.example.tccmobile.ui.components.chat
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Description
-import androidx.compose.material.icons.outlined.Download
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -34,12 +27,12 @@ import kotlin.time.Instant
 fun MessageBox(
     message: String,
     date: Instant,
+    isAttachLoading: Boolean,
     isStudent: Boolean, //true = aluno, false = bibliotecária
     nameSubmitter: String? = null, //nome de quem mandou
     attachmentName: String? = null, //nome do arquivo anexo
     onAttachmentClick: (() -> Unit)? = null
 ) {
-
 
     val backgroundColor = if (isStudent) DarkBlue else Color.White // se for aluno, fundo azul escuro. se for bibliotecária, fundo branco.
     val textColor = if (isStudent) Color.White else Color.Black // se for aluno, letra branca pra ler no escuro. se não, letra preta.
@@ -94,6 +87,7 @@ fun MessageBox(
                         fileName = attachmentName,
                         backgroundColor = attachBg,
                         contentColor = attachContent,
+                        isLoading = isAttachLoading,
                         onClick = onAttachmentClick ?: {}
                     )
                 }
@@ -111,34 +105,38 @@ fun MessageBox(
 
 
 
-//@Preview(showBackground = true)
-//@Composable
-//fun MessageDialogPreview() {
-//    Column(
-//        modifier = Modifier.padding(16.dp),
-//        verticalArrangement = Arrangement.spacedBy(16.dp) // espaço entre as mensagens
-//    ) {
-//
-//        MessageBox(//aluno
-//            message = "Olá, segue meu TCC para análise.",
-//            date = "15/10/2024 às 14:35",
-//            isStudent = true, // define que sou eu (azul escuro, direita)
-//            attachmentName = "TCC_Joao_v1.pdf"
-//        )
-//
-//        MessageBox(// biblio
-//            message = "Olá João! Recebido. Vou analisar e te dou retorno em breve.",
-//            date = "15/10/2024 às 14:40",
-//            isStudent = false, // define que é ela (branco, esquerda)
-//            nameSubmitter = "Bibliotecária"
-//        )
-//
-//        MessageBox(//biblio
-//            message = "Fiz algumas anotações, veja o anexo.",
-//            date = "20/10/2024 às 10:00",
-//            isStudent = false,
-//            nameSubmitter = "Bibliotecária",
-//            attachmentName = "Correcoes_v1.pdf"
-//        )
-//    }
-//}
+@OptIn(ExperimentalTime::class)
+@Preview(showBackground = true)
+@Composable
+fun MessageDialogPreview() {
+    Column(
+        modifier = Modifier.padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp) // espaço entre as mensagens
+    ) {
+
+        MessageBox(//aluno
+            message = "Olá, segue meu TCC para análise.",
+            date = Instant.fromEpochMilliseconds(1697385300000), // 15/10/2024 às 14:35
+            isAttachLoading = true,
+            isStudent = true, // define que sou eu (azul escuro, direita)
+            attachmentName = "TCC_Joao_v1.pdf"
+        )
+
+        MessageBox(// biblio
+            message = "Olá João! Recebido. Vou analisar e te dou retorno em breve.",
+            date = Instant.fromEpochMilliseconds(1697385600000), // 15/10/2024 às 14:40
+            isAttachLoading = false,
+            isStudent = false, // define que é ela (branco, esquerda)
+            nameSubmitter = "Bibliotecária"
+        )
+
+        MessageBox(//biblio
+            message = "Fiz algumas anotações, veja o anexo.",
+            date = Instant.fromEpochMilliseconds(1697799600000), // 20/10/2024 às 10:00
+            isAttachLoading = false,
+            isStudent = false,
+            nameSubmitter = "Bibliotecária",
+            attachmentName = "Correcoes_v1.pdf"
+        )
+    }
+}

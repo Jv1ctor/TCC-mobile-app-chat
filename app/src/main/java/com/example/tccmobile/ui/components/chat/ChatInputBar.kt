@@ -184,6 +184,5 @@ fun ChatInputPreview() {
         fileName = "teste.doc",
         onAttachClick = {},
         onRemoveFile = {}
-
     )
 }

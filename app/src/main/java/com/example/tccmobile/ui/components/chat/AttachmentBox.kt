@@ -13,6 +13,7 @@ import androidx.compose.material.icons.outlined.Description
 import androidx.compose.material.icons.outlined.Download
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,11 +23,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.tccmobile.ui.theme.Blue
+import com.example.tccmobile.ui.theme.DarkBlue
+import com.example.tccmobile.ui.theme.LightBlue
 
 @Composable
 fun AttachmentBox(//caixinha com ícone e nome do arquivo
     fileName: String,
     backgroundColor: Color,
+    isLoading: Boolean,
     contentColor: Color,
     onClick: () -> Unit
 ) {
@@ -59,11 +64,20 @@ fun AttachmentBox(//caixinha com ícone e nome do arquivo
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.weight(1f)
             )
-            Icon(
-                imageVector = Icons.Outlined.Download, // ícone de download na ponta
-                contentDescription = null,
-                modifier = Modifier.size(20.dp)
-            )
+
+            if(isLoading){
+                CircularProgressIndicator(
+                    modifier = Modifier.size(23.dp),
+                    color = Blue,
+                    trackColor = LightBlue,
+                )
+            }else{
+                Icon(
+                    imageVector = Icons.Outlined.Download, // ícone de download na ponta
+                    contentDescription = null,
+                    modifier = Modifier.size(20.dp)
+                )
+            }
         }
     }
 }
