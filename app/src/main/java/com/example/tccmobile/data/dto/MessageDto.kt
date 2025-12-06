@@ -6,21 +6,22 @@ import kotlinx.serialization.Serializable
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 
+
 @Serializable
-data class UserDto @OptIn(ExperimentalTime::class) constructor(
+data class MessageDto @OptIn(ExperimentalTime::class) constructor(
     @SerialName("id")
-    val id: String,
+    val id: Int,
 
-    @SerialName("email")
-    val email: String,
+    @SerialName("content")
+    val content: String,
 
-    @SerialName("name")
-    val name: String,
+    @SerialName("sender_id")
+    val senderId: String,
 
-    @SerialName("registry")
-    val registry: String,
+    @SerialName("ticket_id")
+    val ticketId: Int,
 
     @Contextual
     @SerialName("created_at")
-    val createdAt: Instant?,
+    val createdAt: Instant,
 )

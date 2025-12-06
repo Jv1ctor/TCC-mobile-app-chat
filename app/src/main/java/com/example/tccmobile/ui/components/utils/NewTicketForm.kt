@@ -19,6 +19,7 @@ import com.example.tccmobile.ui.theme.CinzaAzul
 import com.example.tccmobile.ui.theme.Branco
 import com.example.tccmobile.ui.theme.CianoAzul
 import com.example.tccmobile.ui.theme.Cinza
+import com.example.tccmobile.ui.theme.AzulLetra
 
 @Composable
 fun NewTicketForm(
@@ -33,7 +34,7 @@ fun NewTicketForm(
         state.temaTcc.isNotBlank() && state.curso.isNotBlank() && state.anexoUri != null
 
     Card(
-        colors = CardDefaults.cardColors(containerColor = BlueEscuro),
+        colors = CardDefaults.cardColors(containerColor = AzulLetra),
         shape = RoundedCornerShape(20.dp),
         modifier = Modifier
             .fillMaxWidth()
