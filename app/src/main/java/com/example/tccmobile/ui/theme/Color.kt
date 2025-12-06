@@ -11,7 +11,7 @@ val Blue = Color(0xFF0282EA)
 val White = Color(0xFFFFFFFF)
 
 //Azuis "Secundários"
-//val AzulSuperClaro = Color(0xFFC0E0FF)
+val AzulSuperClaro = Color(0xFFC0E0FF)
 //val AzulNoite = Color(0xFF1B5C9D)
 //val AzulClaro = Color(0xFF2287FF)
 //val AzulLetra = Color(0xFF003366)
@@ -35,6 +35,8 @@ val LightYellow = Color(0xFFFEE685)
 //Outras Cores
 val Gray = Color(0xFF64748B)
 
+val BorderFilterGray = Color(0xFFE2E8F0)
+
 val DarkGreen = Color(0xFF016630)
 
 // --- Novas Cores do Sistema de Tickets/Chat ---
@@ -56,6 +58,7 @@ val StatusAbertoText = Color(0xFF193CB8)
 
 val StatusPendenteBg = Color(0xFFF3F4F6)
 val StatusPendenteText = Color(0xFF1E2939)
+
 
 // --- Notificações e Chat ---
 val NotificationRed = Color(0xFFFF3B30)
