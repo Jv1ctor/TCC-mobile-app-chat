@@ -28,7 +28,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.tccmobile.ui.theme.TextSecondary
+import com.example.tccmobile.ui.theme.DarkBlue
 
 @Composable
 fun InputForm(
@@ -76,7 +76,7 @@ fun InputForm(
             placeholder = {
                 Text(
                     text = placeholder,
-                    color = TextSecondary,
+                    color = Color.Gray,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Normal
                 )
@@ -87,7 +87,7 @@ fun InputForm(
                 unfocusedContainerColor = Color.White,
                 disabledContainerColor = Color.White,
                 errorContainerColor = Color.White,
-                cursorColor = Color(0xFF1A3E6C),
+                cursorColor = DarkBlue,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent,
