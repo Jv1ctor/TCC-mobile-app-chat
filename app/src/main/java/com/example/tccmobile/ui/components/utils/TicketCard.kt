@@ -5,15 +5,15 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Description
-import androidx.compose.material.icons.outlined.Schedule
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tccmobile.ui.theme.HeaderBlue
@@ -21,8 +21,7 @@ import com.example.tccmobile.ui.theme.TextGray
 import com.example.tccmobile.ui.theme.NotificationRed
 import com.example.tccmobile.ui.screens.studentTicketsScreen.Ticket
 import com.example.tccmobile.ui.screens.studentTicketsScreen.TicketTagStatus
-import com.example.tccmobile.ui.theme.Orange
-import com.example.tccmobile.ui.theme.SuperLightOrange
+import com.example.tccmobile.ui.theme.Gray
 
 @Composable
 fun TicketCard(
@@ -122,10 +121,23 @@ private fun TicketBodyInfo(categoria: String, nomeAluno: String?, dataAbertura: 
         if (nomeAluno != null) {
             Spacer(modifier = Modifier.height(12.dp))
             Text(
-                text = "Aluno: $nomeAluno • Submetido em $dataAbertura",
-                color = Color(0xFF475569),
+                text = buildAnnotatedString {
+                    withStyle(style = SpanStyle(fontWeight = FontWeight.Light)) {
+                        append("Aluno: ")
+                    }
+                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                        append(nomeAluno)
+                    }
+                    withStyle(style = SpanStyle(fontWeight = FontWeight.Light)) {
+                        append(" \nSubmetido em: ")
+                    }
+                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                        append(dataAbertura)
+                    }
+                },
+                color = Gray,
                 fontSize = 13.sp,
-                fontWeight = FontWeight.Medium
+                fontWeight = FontWeight.Light
             )
         }
     }
@@ -163,7 +175,15 @@ private fun TicketFooter(
         // Visão da Bibliotecária: Atribuição
         Box(modifier = Modifier.fillMaxWidth()) {
             Text(
-                text = "Atribuído: $atribuidoPara",
+                text = buildAnnotatedString {
+                    withStyle(style = SpanStyle(fontWeight = FontWeight.Light)) {
+                        append("Atribuído: ")
+                    }
+                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                        append(atribuidoPara)
+                    }
+
+                },
                 color = TextGray,
                 fontSize = 12.sp,
                 modifier = Modifier.align(Alignment.CenterEnd)
