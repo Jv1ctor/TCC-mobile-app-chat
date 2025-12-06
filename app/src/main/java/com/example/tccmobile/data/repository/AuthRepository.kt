@@ -10,8 +10,6 @@ import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.providers.builtin.Email
 import io.github.jan.supabase.auth.user.UserInfo
 import io.github.jan.supabase.postgrest.postgrest
-import io.ktor.util.valuesOf
-import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import kotlin.time.ExperimentalTime
@@ -95,6 +93,10 @@ class AuthRepository {
             Log.e("SUPABASE_DEBUG", "ERRO NO SIGNUP", e)
             false
         }
+    }
+
+    suspend fun signOut(){
+        client.auth.signOut()
     }
 
     fun getIsStudent(): Boolean{
