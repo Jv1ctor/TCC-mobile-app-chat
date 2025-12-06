@@ -6,8 +6,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.outlined.Description
-import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -19,12 +17,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.tccmobile.navigation.Routes
 import com.example.tccmobile.ui.theme.BackgroundPage
 import com.example.tccmobile.ui.theme.HeaderBlue
 import com.example.tccmobile.ui.theme.TextGray
 import com.example.tccmobile.ui.components.utils.AppHeader
-import com.example.tccmobile.ui.components.utils.AppBottomBar
 import com.example.tccmobile.ui.components.utils.BottomNavItem
 import com.example.tccmobile.ui.components.utils.BottomNavigationBar
 import com.example.tccmobile.ui.components.utils.ButtonForm
@@ -111,12 +107,6 @@ fun DashboardTicketsScreen(
                 }
             }
         }
-
-//        3. Bottom Bar Compartilhada
-//        AppBottomBar(
-//            currentRoute = Routes.HOME, // Indica que estamos na Home
-//            onNavigate = onNavigate
-//        )
         BottomNavigationBar(
             items = navigateBarItems,
             currentRoute = currentRoute,
