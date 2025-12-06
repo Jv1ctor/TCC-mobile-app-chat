@@ -1,16 +1,31 @@
 package com.example.tccmobile.navigation
 
+import android.util.Log
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Description
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.tccmobile.ui.components.utils.BottomNavItem
-import com.example.tccmobile.ui.components.utils.BottomNavigationBar
+import androidx.navigation.navArgument
+import com.example.tccmobile.ui.screens.chatStudent.ChatStudentScreen
 import com.example.tccmobile.ui.screens.loginScreen.LoginScreen
 import com.example.tccmobile.ui.screens.registerScreen.RegisterScreen
+import com.example.tccmobile.ui.screens.newTicketScreen.NewTicketScreen
+import com.example.tccmobile.data.supabase.SupabaseClient.client
+import io.github.jan.supabase.auth.auth
+import kotlinx.serialization.json.boolean
+import kotlinx.serialization.json.jsonPrimitive
+import kotlin.text.get
+import com.example.tccmobile.ui.components.utils.BottomNavItem
+import com.example.tccmobile.ui.components.utils.BottomNavigationBar
 import com.example.tccmobile.ui.screens.studentTicketsScreen.DashboardTicketsScreen
 
 //@Composable
@@ -58,7 +73,7 @@ fun AppNavigation() {
                     navController.navigate(Routes.REGISTER)
                 },
                 onLoginSuccess = {
-                    navController.navigate(Routes.HOME) {
+                    navController.navigate(Routes.ticket("123")) {
                         popUpTo(Routes.LOGIN) { inclusive = true }
                     }
                 }
@@ -75,6 +90,49 @@ fun AppNavigation() {
                 }
             )
         }
+        
+        
+        //Precisa ser implementado sua rota correta quando o dashboard for criado
+        composable(Routes.NEW_TICKET){
+            NewTicketScreen(
+                onBackClick = {
+
+                    navController.popBackStack()
+                },
+                onTicketCreated = {
+                    navController.popBackStack()
+                }
+            )
+        }
+        
+        
+        composable(
+            route = Routes.TICKET,
+            arguments = listOf(
+                navArgument("id"){ type = NavType.StringType }
+            ))
+        { entry ->
+            val id = entry.arguments?.getString("id")
+            var isStudent by remember { mutableStateOf<Boolean?>(null) }
+
+            LaunchedEffect(Unit) {
+                val session = client.auth.currentSessionOrNull()
+                isStudent = session?.user?.userMetadata?.get("isStudent")?.jsonPrimitive?.boolean
+                Log.d("AUTH_LOG", "isStudent atualizado: $isStudent")
+            }
+
+            if(!id.isNullOrEmpty() && isStudent != null){
+                ChatStudentScreen(
+                    ticketId = id,
+                    isStudent = isStudent!!,
+                    onBackClick = {
+                        navController.navigate(Routes.LOGIN)
+                    }
+                )
+            }
+        }
+
+
 
         composable(Routes.HOME) {
             DashboardTicketsScreen (
@@ -102,5 +160,4 @@ fun AppNavigation() {
                 }
             )
         }
-    }
 }
