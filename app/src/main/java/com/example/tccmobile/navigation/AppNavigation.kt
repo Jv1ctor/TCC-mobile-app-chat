@@ -2,8 +2,10 @@ package com.example.tccmobile.navigation
 
 import android.util.Log
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Dashboard
 import androidx.compose.material.icons.outlined.Description
 import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -23,49 +25,14 @@ import com.example.tccmobile.data.supabase.SupabaseClient.client
 import io.github.jan.supabase.auth.auth
 import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.jsonPrimitive
-import kotlin.text.get
 import com.example.tccmobile.ui.components.utils.BottomNavItem
-import com.example.tccmobile.ui.components.utils.BottomNavigationBar
-import com.example.tccmobile.ui.screens.studentTicketsScreen.DashboardTicketsScreen
-
-//@Composable
-//fun AppNavigation() {
-//    val navController = rememberNavController()
-//
-//    NavHost(navController = navController, startDestination = Routes.LOGIN) {
-//        composable(Routes.LOGIN) {
-//            LoginScreen(
-//                onNavigateToRegister = {
-//                    navController.navigate(Routes.REGISTER)
-//                },
-//                onLoginSuccess = {
-//                    navController.navigate(Routes.HOME) {
-//                        popUpTo(Routes.LOGIN) { inclusive = true }
-//                    }
-//                }
-//            )
-//        }
-//        composable(Routes.REGISTER) {
-//            RegisterScreen(
-//                onNavigateToLogin = {
-//                    navController.popBackStack()
-//                },
-//                onRegisterSuccess = {
-//                    navController.popBackStack()
-//                }
-//            )
-//        }
-//        // composable(Routes.HOME) { /* ...Sua tela principal... */ }
-//    }
-//}
-
-
-// IR DIRETO PARA A TELA DOS TICKETS (SÓ DESCOMENTAR O QUE ESTÁ EMBAIXO E COMENTAR ACIMA) PARA TESTAR
+import com.example.tccmobile.ui.screens.bibliotecarioTicketsScreen.BiblioTicketsScreen
+import com.example.tccmobile.ui.screens.studentTicketsScreen.StudentsTicketsScreen
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = Routes.HOME) {
+    NavHost(navController = navController, startDestination = Routes.LOGIN) {
 
         composable(Routes.LOGIN) {
             LoginScreen(
@@ -73,8 +40,8 @@ fun AppNavigation() {
                     navController.navigate(Routes.REGISTER)
                 },
                 onLoginSuccess = {
-                    navController.navigate(Routes.ticket("123")) {
-                        popUpTo(Routes.LOGIN) { inclusive = true }
+                    navController.navigate(Routes.HOME) {
+                        popUpTo(Routes.HOME) { inclusive = true }
                     }
                 }
             )
@@ -90,10 +57,10 @@ fun AppNavigation() {
                 }
             )
         }
-        
-        
+
+
         //Precisa ser implementado sua rota correta quando o dashboard for criado
-        composable(Routes.NEW_TICKET){
+        composable(Routes.NEW_TICKET) {
             NewTicketScreen(
                 onBackClick = {
 
@@ -104,12 +71,12 @@ fun AppNavigation() {
                 }
             )
         }
-        
-        
+
+
         composable(
             route = Routes.TICKET,
             arguments = listOf(
-                navArgument("id"){ type = NavType.StringType }
+                navArgument("id") { type = NavType.StringType }
             ))
         { entry ->
             val id = entry.arguments?.getString("id")
@@ -121,7 +88,7 @@ fun AppNavigation() {
                 Log.d("AUTH_LOG", "isStudent atualizado: $isStudent")
             }
 
-            if(!id.isNullOrEmpty() && isStudent != null){
+            if (!id.isNullOrEmpty() && isStudent != null) {
                 ChatStudentScreen(
                     ticketId = id,
                     isStudent = isStudent!!,
@@ -135,29 +102,76 @@ fun AppNavigation() {
 
 
         composable(Routes.HOME) {
-            DashboardTicketsScreen (
+            StudentsTicketsScreen(
                 navigateBarItems = listOf(
                     BottomNavItem(
-                        label= "Meus Envios",
-                        icon= Icons.Outlined.Description,
-                        route= Routes.HOME,
-                        onClick= { route ->
+                        label = "Meus Envios",
+                        icon = Icons.Outlined.Description,
+                        route = Routes.HOME,
+                        onClick = { route ->
                             navController.navigate(route)
                         }
                     ),
                     BottomNavItem(
-                        label= "Perfil",
-                        icon= Icons.Outlined.Person,
-                        route= Routes.PROFILE,
-                        onClick= { route ->
+                        label = "Perfil",
+                        icon = Icons.Outlined.Person,
+                        route = Routes.PROFILE,
+                        onClick = { route ->
                             navController.navigate(route)
                         }
                     )
                 ),
                 currentRoute = Routes.HOME,
+                onClickNew = {
+                    navController.navigate(Routes.NEW_TICKET)
+                },
                 onTicketClick = { ticketId ->
                     println("Cliquei no ticket: $ticketId")
                 }
             )
         }
+
+        composable(Routes.BIBLIO_TICKETS) {
+            BiblioTicketsScreen(
+                navigateBarItems = listOf(
+                    BottomNavItem(
+                        label = "Tickets",
+                        icon = Icons.Outlined.Description,
+                        route = Routes.BIBLIO_TICKETS,
+                        onClick = { route ->
+                            navController.navigate(route)
+                        }
+                    ),
+                    BottomNavItem(
+                        label = "Dashboard",
+                        icon = Icons.Outlined.Dashboard,
+                        route = Routes.BIBLIO_DASHBOARD, // Defina a rota correta para o dashboard
+                        onClick = { route ->
+                            navController.navigate(route)
+                        }
+                    ),
+                    BottomNavItem(
+                        label = "Perfil",
+                        icon = Icons.Outlined.Person,
+                        route = Routes.PROFILE,
+                        onClick = { route ->
+                            navController.navigate(route)
+                        }
+                    )
+                ),
+                currentRoute = Routes.BIBLIO_TICKETS,
+                onTicketClick = { ticketId ->
+                    println("Cliquei no ticket: $ticketId")
+                },
+                onDashboardClick = {
+                    navController.navigate(Routes.BIBLIO_DASHBOARD)
+                }
+            )
+        }
+
+        composable(Routes.BIBLIO_DASHBOARD) {
+            Text(text = "Dashboard Screen")
+        }
+
+    }
 }
