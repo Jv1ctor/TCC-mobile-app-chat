@@ -6,7 +6,9 @@ import androidx.compose.material.icons.outlined.Schedule
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import com.example.tccmobile.ui.theme.* class DashboardViewModel : ViewModel() {
+import com.example.tccmobile.ui.theme.*
+
+class DashboardViewModel : ViewModel() {
 
     private val _uiState = MutableStateFlow(DashboardState())
     val uiState = _uiState.asStateFlow()
@@ -53,7 +55,7 @@ import com.example.tccmobile.ui.theme.* class DashboardViewModel : ViewModel() {
                 dataAbertura = "15/10/2024",
                 dataAtualizacao = "20/10/2024",
                 notificacoes = 1,
-                tags = listOf(tagAnalisado, tagAvaliado)
+                tags = listOf(tagAnalisado, tagAvaliado),
                 // nomeAluno e atribuidoPara são nulos pois é a visão do próprio aluno
             ),
             Ticket(
