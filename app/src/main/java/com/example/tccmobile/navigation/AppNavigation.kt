@@ -13,7 +13,7 @@ import com.example.tccmobile.ui.components.utils.BottomNavItem
 import com.example.tccmobile.ui.screens.bibliotecarioTicketsScreen.BiblioTicketsScreen
 import com.example.tccmobile.ui.screens.loginScreen.LoginScreen
 import com.example.tccmobile.ui.screens.registerScreen.RegisterScreen
-import com.example.tccmobile.ui.screens.studentTicketsScreen.DashboardTicketsScreen
+import com.example.tccmobile.ui.screens.studentTicketsScreen.StudentsTicketsScreen
 
 //@Composable
 //fun AppNavigation() {
@@ -79,7 +79,7 @@ fun AppNavigation() {
         }
 
         composable(Routes.HOME) {
-            DashboardTicketsScreen (
+            StudentsTicketsScreen (
                 navigateBarItems = listOf(
                     BottomNavItem(
                         label= "Meus Envios",
