@@ -34,8 +34,8 @@ import com.example.tccmobile.ui.components.chat.MessageBox
 import com.example.tccmobile.ui.components.utils.StatusBadgeModel
 import com.example.tccmobile.ui.theme.DarkBlue
 import com.example.tccmobile.ui.theme.LightBlue
-import com.example.tccmobile.ui.theme.Orange
-import com.example.tccmobile.ui.theme.SuperLightOrange
+import com.example.tccmobile.ui.theme.StatusContainerPendente
+import com.example.tccmobile.ui.theme.StatusTextPendente
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 
@@ -99,8 +99,8 @@ fun ChatStudentScreen(
                     badges = listOf(
                         StatusBadgeModel(
                             text = uiState.status,
-                            backgroundColor = SuperLightOrange,
-                            textColor = Orange
+                            backgroundColor = StatusContainerPendente,
+                            textColor = StatusTextPendente
                         )
                     ),
                     onBackClick = {
@@ -119,8 +119,8 @@ fun ChatStudentScreen(
                     badges = listOf(
                         StatusBadgeModel(
                             text = uiState.status,
-                            backgroundColor = SuperLightOrange,
-                            textColor = Orange
+                            backgroundColor = StatusContainerPendente,
+                            textColor = StatusTextPendente
                         )
                     ),
                     onBackClick = {
