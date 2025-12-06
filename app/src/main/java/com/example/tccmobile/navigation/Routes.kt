@@ -6,4 +6,6 @@ object Routes {
     const val HOME = "home"
     const val TICKET_DETAIL = "ticket_detail"
     const val PROFILE = "profile"
+    const val BIBLIO_TICKETS = "biblio_tickets"
+    const val BIBLIO_DASHBOARD = "biblio_dashboard"
 }
