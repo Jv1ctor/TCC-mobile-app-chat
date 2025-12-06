@@ -22,7 +22,7 @@ data class TicketTagStatus(
     val icon: ImageVector?
 )
 
-data class DashboardState(
+data class StudentsTicketsState(
     val tickets: List<Ticket> = emptyList(),
     val isLoading: Boolean = false,
     val error: String? = null

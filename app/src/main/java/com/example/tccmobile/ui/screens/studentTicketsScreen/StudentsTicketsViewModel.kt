@@ -8,9 +8,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import com.example.tccmobile.ui.theme.*
 
-class DashboardViewModel : ViewModel() {
+class StudentsTicketsViewModel : ViewModel() {
 
-    private val _uiState = MutableStateFlow(DashboardState())
+    private val _uiState = MutableStateFlow(StudentsTicketsState())
     val uiState = _uiState.asStateFlow()
 
     init {
@@ -79,6 +79,6 @@ class DashboardViewModel : ViewModel() {
 
         )
 
-        _uiState.value = DashboardState(tickets = listaTickets)
+        _uiState.value = StudentsTicketsState(tickets = listaTickets)
     }
 }

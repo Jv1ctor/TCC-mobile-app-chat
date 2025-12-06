@@ -27,8 +27,8 @@ import com.example.tccmobile.ui.components.utils.ButtonForm
 import com.example.tccmobile.ui.components.utils.TicketCard
 
 @Composable
-fun DashboardTicketsScreen(
-    viewModel: DashboardViewModel = viewModel(),
+fun StudentsTicketsScreen(
+    viewModel: StudentsTicketsViewModel = viewModel(),
     navigateBarItems: List<BottomNavItem>,
     currentRoute: String,
     onTicketClick: (String) -> Unit
