@@ -5,9 +5,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Description
-import androidx.compose.material.icons.outlined.Schedule
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -16,13 +13,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.tccmobile.ui.theme.HeaderBlue
-import com.example.tccmobile.ui.theme.TextGray
+import com.example.tccmobile.ui.theme.AzulLetra
+import com.example.tccmobile.ui.theme.Cinza
 import com.example.tccmobile.ui.theme.NotificationRed
 import com.example.tccmobile.ui.screens.studentTicketsScreen.Ticket
 import com.example.tccmobile.ui.screens.studentTicketsScreen.TicketTagStatus
-import com.example.tccmobile.ui.theme.Orange
-import com.example.tccmobile.ui.theme.SuperLightOrange
 
 @Composable
 fun TicketCard(
@@ -79,7 +74,7 @@ private fun TicketHeader(titulo: String, notificacoes: Int) {
     ) {
         Text(
             text = titulo,
-            color = HeaderBlue,
+            color = AzulLetra,
             fontWeight = FontWeight.Bold,
             fontSize = 16.sp,
             modifier = Modifier.weight(1f).padding(end = 8.dp),
@@ -114,7 +109,7 @@ private fun TicketBodyInfo(categoria: String, nomeAluno: String?, dataAbertura: 
     Column {
         Text(
             text = categoria,
-            color = TextGray,
+            color = Cinza,
             fontSize = 14.sp
         )
 
@@ -155,16 +150,16 @@ private fun TicketFooter(
     if (!showStudentInfo) {
         // Visão do Aluno: Datas
         Column {
-            Text("Aberto em $dataAbertura", color = TextGray, fontSize = 12.sp)
+            Text("Aberto em $dataAbertura", color = Cinza, fontSize = 12.sp)
             Spacer(modifier = Modifier.height(2.dp))
-            Text("Atualizado em $dataAtualizacao", color = TextGray, fontSize = 12.sp)
+            Text("Atualizado em $dataAtualizacao", color = Cinza, fontSize = 12.sp)
         }
     } else if (atribuidoPara != null) {
         // Visão da Bibliotecária: Atribuição
         Box(modifier = Modifier.fillMaxWidth()) {
             Text(
                 text = "Atribuído: $atribuidoPara",
-                color = TextGray,
+                color = Cinza,
                 fontSize = 12.sp,
                 modifier = Modifier.align(Alignment.CenterEnd)
             )
