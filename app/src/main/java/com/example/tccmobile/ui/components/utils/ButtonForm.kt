@@ -1,5 +1,6 @@
 package com.example.tccmobile.ui.components.utils
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
@@ -24,6 +25,7 @@ fun ButtonForm(
     icon: (@Composable (() -> Unit))? = null,
     backgroundColor: Color = Blue,
     contentColor: Color = Color.White,
+    border: BorderStroke? = null,
     cornerRadius: Int = 12,
     onClick: () -> Unit
 ) {
@@ -31,6 +33,7 @@ fun ButtonForm(
         onClick = onClick,
         modifier = modifier,
         shape = RoundedCornerShape(cornerRadius),
+        border = border,
         colors = ButtonDefaults.buttonColors(
             containerColor = backgroundColor,
             contentColor = contentColor
