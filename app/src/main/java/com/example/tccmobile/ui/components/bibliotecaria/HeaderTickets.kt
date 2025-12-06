@@ -1,25 +1,11 @@
 package com.example.tccmobile.ui.components.bibliotecaria
 
-import android.widget.Space
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Warning
-import androidx.compose.material.icons.filled.WarningAmber
 import androidx.compose.material.icons.outlined.BarChart
 import androidx.compose.material.icons.outlined.Description
-import androidx.compose.material.icons.outlined.InsertChart
 import androidx.compose.material.icons.outlined.Schedule
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -34,12 +20,12 @@ import androidx.compose.ui.unit.sp
 import com.example.tccmobile.ui.components.utils.ButtonForm
 import com.example.tccmobile.ui.theme.AzulSuperClaro
 import com.example.tccmobile.ui.theme.HeaderBlue
-import com.example.tccmobile.ui.theme.White
 
 @Composable
 fun HeaderTickets(
     countTotal: Int,
     countOpen: Int,
+    onDashboardClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -73,7 +59,7 @@ fun HeaderTickets(
                 text = "Dashboard",
                 modifier = Modifier.height(36.dp),
                 backgroundColor = Color.White.copy(alpha = 0.1F),
-                border = BorderStroke(width = 1.dp, color = Color.White.copy(alpha = 0.2F)), // Adiciona a borda branca e fina
+                border = BorderStroke(width = 1.dp, color = Color.White.copy(alpha = 0.2F)),
                 cornerRadius = 35,
                 icon = {
                     Icon(
@@ -83,7 +69,7 @@ fun HeaderTickets(
                         tint = Color.White
                     )
                 },
-                onClick = { /* Ação futura de navegação */ }
+                onClick = onDashboardClick
             )
         }
 
@@ -96,13 +82,13 @@ fun HeaderTickets(
             CardInfosTickets(
                 modifier = Modifier.weight(1f),
                 label = "Total",
-                count = "4",
+                count = countTotal.toString(),
                 icon = Icons.Outlined.Description
             )
             CardInfosTickets(
                 modifier = Modifier.weight(1f),
                 label = "Abertos",
-                count = "2",
+                count = countOpen.toString(),
                 icon = Icons.Outlined.Schedule
             )
         }
@@ -112,5 +98,5 @@ fun HeaderTickets(
 @Preview
 @Composable
 fun HeaderTicketsPreview() {
-    HeaderTickets(countOpen = 1, countTotal = 2)
+    HeaderTickets(countOpen = 1, countTotal = 2, onDashboardClick = {})
 }

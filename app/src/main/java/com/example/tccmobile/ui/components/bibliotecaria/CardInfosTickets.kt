@@ -38,9 +38,8 @@ fun CardInfosTickets(
                 color = Color.White.copy(alpha = 0.1F), // Fundo translúcido
                 shape = RoundedCornerShape(12.dp)
             )
-            .padding(12.dp) // Padding interno do card
+            .padding(12.dp)
     ) {
-        // Linha do Ícone e Label
         Row (verticalAlignment = Alignment.CenterVertically) {
             Icon(
                 imageVector = icon,
@@ -58,7 +57,6 @@ fun CardInfosTickets(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // Número (Contador)
         Text(
             text = count,
             color = AzulSuperClaro,
@@ -68,13 +66,12 @@ fun CardInfosTickets(
     }
 }
 
-@Preview(showBackground = true, backgroundColor = 0xFF003366) // Define um fundo azul escuro para o Preview
+@Preview(showBackground = true, backgroundColor = 0xFF003366)
 @Composable
 fun CardInfosTicketsPreview() {
-    // Um Box apenas para dar um padding e simular o card isolado
     Box(modifier = Modifier.padding(16.dp)) {
         CardInfosTickets(
-            modifier = Modifier.width(110.dp), // Simulando uma largura fixa para visualização
+            modifier = Modifier.width(110.dp),
             label = "Total",
             count = "4",
             icon = Icons.Outlined.Description
