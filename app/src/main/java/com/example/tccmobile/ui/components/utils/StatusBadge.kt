@@ -8,12 +8,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tccmobile.ui.theme.Orange
-import com.example.tccmobile.ui.theme.SuperLightOrange
+import com.example.tccmobile.ui.theme.StatusContainerConcluido
+import com.example.tccmobile.ui.theme.StatusContainerPendente
+import com.example.tccmobile.ui.theme.StatusTextConcluido
+import com.example.tccmobile.ui.theme.StatusTextPendente
 
 
 //basicamente esse componente vai mostrar o status do ticket
@@ -26,8 +30,9 @@ data class StatusBadgeModel(
 @Composable
 fun StatusBadge(
     text: String,
-    backgroundColor: Color = SuperLightOrange,
-    textColor: Color = Orange
+    backgroundColor: Color = StatusContainerConcluido,
+    textColor: Color = StatusTextConcluido,
+    icon: ImageVector? = null
 ) {
     Box(
         modifier = Modifier
@@ -50,8 +55,8 @@ fun StatusBadge(
 @Composable
 fun StatusBadgePreview() {
     StatusBadge(
-        text = "pendente",
-        backgroundColor = SuperLightOrange,
-        textColor = Orange
+        text = "Pendente",
+        backgroundColor = StatusContainerPendente,
+        textColor = StatusTextPendente
     )
 }
