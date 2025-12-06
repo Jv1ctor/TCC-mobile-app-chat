@@ -28,19 +28,19 @@ fun MessageBox(
     message: String,
     date: Instant,
     isAttachLoading: Boolean,
-    isStudent: Boolean, //true = aluno, false = bibliotecária
+    isSent: Boolean, //true = aluno, false = bibliotecária
     nameSubmitter: String? = null, //nome de quem mandou
     attachmentName: String? = null, //nome do arquivo anexo
     onAttachmentClick: (() -> Unit)? = null
 ) {
 
-    val backgroundColor = if (isStudent) DarkBlue else Color.White // se for aluno, fundo azul escuro. se for bibliotecária, fundo branco.
-    val textColor = if (isStudent) Color.White else Color.Black // se for aluno, letra branca pra ler no escuro. se não, letra preta.
-    val alignment = if (isStudent) Alignment.End else Alignment.Start// se for aluno, joga pra direita. se não, joga pra esquerda.
+    val backgroundColor = if (isSent) DarkBlue else Color.White // se for aluno, fundo azul escuro. se for bibliotecária, fundo branco.
+    val textColor = if (isSent) Color.White else Color.Black // se for aluno, letra branca pra ler no escuro. se não, letra preta.
+    val alignment = if (isSent) Alignment.End else Alignment.Start// se for aluno, joga pra direita. se não, joga pra esquerda.
 
-    val borderStroke = if (!isStudent) BorderStroke(1.dp, Color(0xFFE0E0E0)) else null // só coloca borda se for o balão branco (da bibliotecária)
+    val borderStroke = if (!isSent) BorderStroke(1.dp, Color(0xFFE0E0E0)) else null // só coloca borda se for o balão branco (da bibliotecária)
 
-    val shape = if (isStudent) {// se for aluno, canto superior direito fica pontudo
+    val shape = if (isSent) {// se for aluno, canto superior direito fica pontudo
         RoundedCornerShape(topStart = 12.dp, topEnd = 2.dp, bottomStart = 12.dp, bottomEnd = 12.dp)
     } else {
         RoundedCornerShape(topStart = 2.dp, topEnd = 12.dp, bottomStart = 12.dp, bottomEnd = 12.dp)
@@ -60,7 +60,7 @@ fun MessageBox(
         ) {
 
             Column(modifier = Modifier.padding(12.dp)) {// conteúdo de dentro do balão
-                if (!isStudent && nameSubmitter != null) {// só mostra o nome se NÃO for aluno e se tiver passado um nome.
+                if (!isSent && nameSubmitter != null) {// só mostra o nome se NÃO for aluno e se tiver passado um nome.
                     Text(
                         text = nameSubmitter,
                         color = DarkBlue,
@@ -80,8 +80,8 @@ fun MessageBox(
 
                 if (attachmentName != null) {// área do anexo (só desenha se tiver arquivo)
                     Spacer(modifier = Modifier.height(8.dp))
-                    val attachBg = if (isStudent) Blue else LightBlue
-                    val attachContent = if (isStudent) Color.White else DarkBlue
+                    val attachBg = if (isSent) Blue else LightBlue
+                    val attachContent = if (isSent) Color.White else DarkBlue
 
                     AttachmentBox(
                         fileName = attachmentName,
@@ -118,7 +118,7 @@ fun MessageDialogPreview() {
             message = "Olá, segue meu TCC para análise.",
             date = Instant.fromEpochMilliseconds(1697385300000), // 15/10/2024 às 14:35
             isAttachLoading = true,
-            isStudent = true, // define que sou eu (azul escuro, direita)
+            isSent = true, // define que sou eu (azul escuro, direita)
             attachmentName = "TCC_Joao_v1.pdf"
         )
 
@@ -126,7 +126,7 @@ fun MessageDialogPreview() {
             message = "Olá João! Recebido. Vou analisar e te dou retorno em breve.",
             date = Instant.fromEpochMilliseconds(1697385600000), // 15/10/2024 às 14:40
             isAttachLoading = false,
-            isStudent = false, // define que é ela (branco, esquerda)
+            isSent = false, // define que é ela (branco, esquerda)
             nameSubmitter = "Bibliotecária"
         )
 
@@ -134,7 +134,7 @@ fun MessageDialogPreview() {
             message = "Fiz algumas anotações, veja o anexo.",
             date = Instant.fromEpochMilliseconds(1697799600000), // 20/10/2024 às 10:00
             isAttachLoading = false,
-            isStudent = false,
+            isSent = false,
             nameSubmitter = "Bibliotecária",
             attachmentName = "Correcoes_v1.pdf"
         )
