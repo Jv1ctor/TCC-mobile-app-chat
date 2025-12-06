@@ -33,6 +33,16 @@ data class MessageWithUserInfoDto @OptIn(ExperimentalTime::class) constructor(
     @SerialName("registry")
     val registry: String,
 
-    @SerialName("is_student")
-    val isStudent: Boolean
+    @SerialName("file_url")
+    val fileUrl: String?,
+
+    @SerialName("file_name")
+    val fileName: String?,
+
+    @SerialName("file_size")
+    val fileSize: Long?,
+
+    @SerialName("file_type")
+    val fileType: String?,
+
 )

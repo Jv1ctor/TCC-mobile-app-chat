@@ -9,7 +9,7 @@ data class Message @OptIn(ExperimentalTime::class) constructor(
     val senderName: String,
     val ticketId: String,
     val createdAt: Instant,
-    val isStudent: Boolean,
+    val isSent: Boolean,
 
     var fileUrl: String? = null,
     var fileName: String? = null,

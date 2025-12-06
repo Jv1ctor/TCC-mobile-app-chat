@@ -29,7 +29,7 @@ class MessageRepository {
     private var activeChannelId: Int? = null
 
 
-    suspend fun startListening(channelId: Int, callback: (ticketId: Int) -> Unit){
+    suspend fun startListening(channelId: Int, callback: (id: Int) -> Unit){
         activeChannelId = channelId
         val channel = client.realtime.channel("chat-$channelId")
 
@@ -69,7 +69,7 @@ class MessageRepository {
 
 
     @OptIn(ExperimentalTime::class)
-    suspend fun getNewMessage(id: Int): Message?{
+    suspend fun getNewMessage(id: Int, userId: String): Message?{
         return try {
             val message = client.postgrest
                 .rpc("get_message_more_info_by_id", MessageSearchByIdDto(id = id))
@@ -82,7 +82,11 @@ class MessageRepository {
                 senderName = message.name,
                 ticketId = message.ticketId.toString(),
                 createdAt = message.createdAt,
-                isStudent = message.isStudent,
+                isSent = message.senderId == userId,
+                fileSize = message.fileSize,
+                fileName = message.fileName,
+                fileUrl = message.fileUrl,
+                fileType = message.fileType
             )
         }catch (e: Exception){
             Log.e("SUPABASE_DEBUG", "ERRO AO BUSCAR MENSAGEM", e)
@@ -112,12 +116,11 @@ class MessageRepository {
     }
 
     @OptIn(ExperimentalTime::class)
-    suspend fun listMessages(ticketId: Int): List<Message>{
+    suspend fun listMessages(ticketId: Int, userId: String): List<Message>{
         return try {
             val messagesList = client.postgrest
                 .rpc("get_message_more_info", MessageSearchByTicketDto(ticketId = ticketId))
                 .decodeList<MessageWithUserInfoDto>()
-
 
            val messagesMapList =  messagesList.map {
                Message(
@@ -126,7 +129,11 @@ class MessageRepository {
                    senderName = it.name,
                    ticketId = it.ticketId.toString(),
                    createdAt = it.createdAt,
-                   isStudent = it.isStudent
+                   isSent = it.senderId == userId,
+                   fileUrl = it.fileUrl,
+                   fileName = it.fileName,
+                   fileSize = it.fileSize,
+                   fileType = it.fileType,
                )
            }
 
