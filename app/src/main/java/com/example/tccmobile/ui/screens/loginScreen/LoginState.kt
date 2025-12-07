@@ -4,5 +4,7 @@ data class LoginState(
     val matricula: String = "",
     val senha: String = "",
     val isLoading: Boolean = false,
-    val loginError: String? = null
+    val loginError: String? = null,
+
+    val isStudent: Boolean = true
 )

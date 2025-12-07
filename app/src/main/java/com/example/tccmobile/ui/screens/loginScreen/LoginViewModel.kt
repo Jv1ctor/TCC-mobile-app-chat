@@ -23,7 +23,11 @@ class LoginViewModel(
         _uiState.update { it.copy(senha = newValue) }
     }
 
-    fun onLoginClick(onLoginSuccess: () -> Unit) { // Adicionando callback
+    fun setIsStudent(v: Boolean){
+        _uiState.update { it.copy(isStudent = v) }
+    }
+
+    fun onLoginClick(onLoginSuccess: (value: Boolean) -> Unit) { // Adicionando callback
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
 
@@ -39,9 +43,11 @@ class LoginViewModel(
                 password = _uiState.value.senha
             )
 
+            val isStudent = authRepository.getIsStudent()
+            setIsStudent(isStudent)
             if (isAuth) {
                 _uiState.update { it.copy(isLoading = false, loginError = null) }
-                onLoginSuccess() // Chama o callback de sucesso
+                onLoginSuccess(_uiState.value.isStudent) // Chama o callback de sucesso
             } else {
                 _uiState.update { it.copy(isLoading = false, loginError = "Matrícula ou senha inválida.") }
             }
