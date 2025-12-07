@@ -23,6 +23,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.selects.select
@@ -38,9 +39,12 @@ class TicketRepository {
 
     var currentChannel: RealtimeChannel? = null
 
-    suspend fun startListening(callback: (id: Int) -> Unit){
-        currentChannel = client.realtime.channel("ticket-update")
+    var changeFlow: Flow<PostgresAction.Insert>? = null
 
+    suspend fun startListening(callback: (id: Int) -> Unit){
+        if(currentChannel != null) return
+
+        currentChannel = client.realtime.channel("ticket-update")
         val changeFlow = currentChannel!!.postgresChangeFlow<PostgresAction.Insert>(schema = "public"){
             table = "tickets"
         }

@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -36,6 +38,12 @@ fun BiblioTicketsScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
+    DisposableEffect (Unit) {
+        onDispose {
+            viewModel.exit()
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -47,7 +55,6 @@ fun BiblioTicketsScreen(
             countOpen = uiState.countPending,
             onDashboardClick = {
                 onDashboardClick()
-                viewModel.exit()
             }
         )
 
@@ -92,10 +99,7 @@ fun BiblioTicketsScreen(
                         createAt = ticket.createdAt,
                         updatedAt = ticket.updatedAt,
                         showStudentInfo = true,
-                        onClick = {
-                            onTicketClick(ticket.id)
-                            viewModel.exit()
-                        }
+                        onClick = { onTicketClick(ticket.id) }
                     )
                 }
             }
