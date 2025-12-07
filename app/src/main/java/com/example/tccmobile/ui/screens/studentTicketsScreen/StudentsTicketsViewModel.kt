@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.asStateFlow
 
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlin.time.ExperimentalTime
 
 class StudentTicketsViewModel(
     val ticketRepository: TicketRepository = TicketRepository(),
@@ -22,11 +23,44 @@ class StudentTicketsViewModel(
         viewModelScope.launch {
             carregarTickets()
         }
+
+        viewModelScope.launch {
+            ticketRepository.updateListening { ticketId ->
+                updatedTicket(ticketId)
+            }
+        }
+    }
+
+    fun exit(){
+        viewModelScope.launch {
+            ticketRepository.clear()
+        }
     }
 
     private fun setTicketList(tickets: List<Ticket>){
         _uiState.update {
             it.copy( tickets = it.tickets + tickets)
+        }
+    }
+
+    @OptIn(ExperimentalTime::class)
+    private fun updatedTicket(ticketId: Int){
+        viewModelScope.launch {
+            val updateTicket = ticketRepository.getTicket(ticketId) ?: return@launch
+
+            _uiState.update { currentState ->
+                val updateStateTickets = currentState.tickets.map {
+                    if(it.id == ticketId){
+                        it.copy(status = updateTicket.status)
+                    }else{
+                        it
+                    }
+                }
+
+                currentState.copy(
+                    tickets = updateStateTickets
+                )
+            }
         }
     }
 

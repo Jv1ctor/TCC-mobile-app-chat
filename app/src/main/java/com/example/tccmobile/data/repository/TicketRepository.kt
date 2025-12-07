@@ -31,6 +31,7 @@ import kotlinx.coroutines.selects.select
 import kotlinx.serialization.json.Json
 import java.util.Locale
 import java.util.Locale.getDefault
+import kotlin.text.get
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
@@ -38,13 +39,14 @@ import kotlin.time.Instant
 class TicketRepository {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
-    var currentChannel: RealtimeChannel? = null
+    private var insertChannel: RealtimeChannel? = null
+    private var updateChannel: RealtimeChannel? = null
 
     suspend fun startListening(callback: (id: Int) -> Unit){
-        if(currentChannel != null) return
+        if(insertChannel != null) return
 
-        currentChannel = client.realtime.channel("ticket-update")
-        val changeFlow = currentChannel!!.postgresChangeFlow<PostgresAction.Insert>(schema = "public"){
+        insertChannel = client.realtime.channel("ticket-insert")
+        val changeFlow = insertChannel!!.postgresChangeFlow<PostgresAction.Insert>(schema = "public"){
             table = "tickets"
         }
 
@@ -53,28 +55,60 @@ class TicketRepository {
             val jsonString = Json.encodeToString(ticket)
             val ticketDecoded = Json.decodeFromString<TicketDto>(jsonString)
 
-            Log.d("SUPABASE_DEBUG", jsonString)
-
-            Log.d("SUPABASE_DEBUG","Realtime → novo ticket")
+            Log.d("DEBUG_SUPABASE", "🆕 Novo ticket criado: ID ${ticketDecoded.id}")
             callback(ticketDecoded.id)
-
         }.launchIn(scope)
 
+        insertChannel!!.subscribe()
+    }
 
-        currentChannel!!.subscribe()
+    suspend fun updateListening(callback: (id: Int) -> Unit){
+        if(updateChannel != null) return
+
+        updateChannel = client.realtime.channel("ticket-update")
+        val changeFlow = updateChannel!!.postgresChangeFlow<PostgresAction.Update>(schema = "public"){
+            table = "tickets"
+        }
+
+        changeFlow.onEach {
+            val ticket = it.record
+            val ticketId = ticket["id"]?.toString()?.toIntOrNull()
+            val statusId = ticket["status"]?.toString()
+
+            Log.d("DEBUG_SUPABASE", "🔄 Ticket atualizado: ID $ticketId | Novo status: $statusId")
+
+            if (ticketId != null) {
+                callback(ticketId)
+            }
+        }.launchIn(scope)
+
+        updateChannel!!.subscribe()
     }
 
     suspend fun clear(){
-        currentChannel?.let { channel ->
+        insertChannel?.let { channel ->
             try {
                 channel.unsubscribe()
+                Log.d("DEBUG_SUPABASE", "✅ InsertChannel desconectado")
             } catch (e: Exception) {
-                Log.e("MessageRepository", "Erro ao desinscrever canal", e)
+                Log.e("TicketRepository", "Erro ao desinscrever insertChannel", e)
             }
         }
-        currentChannel = null
+
+        updateChannel?.let { channel ->
+            try {
+                channel.unsubscribe()
+                Log.d("DEBUG_SUPABASE", "✅ UpdateChannel desconectado")
+            } catch (e: Exception) {
+                Log.e("TicketRepository", "Erro ao desinscrever updateChannel", e)
+            }
+        }
+
+        insertChannel = null
+        updateChannel = null
         scope.cancel()
     }
+
 
     @OptIn(ExperimentalTime::class)
     suspend fun getTicket(ticketId: Int): TicketInfoMin? {

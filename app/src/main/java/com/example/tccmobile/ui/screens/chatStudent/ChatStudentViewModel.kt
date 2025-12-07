@@ -41,6 +41,7 @@ open class ChatStudentViewModel(
             messageRepository.startListening(channelId){
                 insertNewMessage(id = it)
                 updateInteractive(ticketId= channelId)
+                handleStatusTicket(ticketId = channelId)
             }
         }
     }
@@ -67,6 +68,10 @@ open class ChatStudentViewModel(
         _uiState.update {
             it.copy(showMenu = v)
         }
+    }
+
+    private fun setActivate(v: Boolean){
+        _uiState.update { it.copy(activeTicket = v ) }
     }
     private fun setTheme(v: String) {
         _uiState.update { it.copy(theme = v) }
@@ -147,7 +152,18 @@ open class ChatStudentViewModel(
     fun finishTicket(ticketId: Int){
         viewModelScope.launch {
             ticketRepository.updatedStatusClosed(ticketId)
+            setStatus(transformTicketStatus("fechado"))
             setShowMenu(false)
+            setActivate(false)
+        }
+    }
+
+    private fun handleStatusTicket(ticketId: Int){
+        viewModelScope.launch {
+            val ticket = ticketRepository.getTicket(ticketId)
+            ticket?.status?.let {  status ->
+                setStatus(status)
+            }
         }
     }
 
@@ -281,7 +297,7 @@ open class ChatStudentViewModel(
             setStatus(ticket.status)
 
             if(ticket.status.label.lowercase(getDefault()) == "fechado"){
-                _uiState.update { it.copy(activeTicket = false ) }
+                setActivate(false)
             }
 
             if(!_uiState.value.isStudent){

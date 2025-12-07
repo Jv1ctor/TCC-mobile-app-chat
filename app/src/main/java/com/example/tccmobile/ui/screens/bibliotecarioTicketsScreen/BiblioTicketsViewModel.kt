@@ -26,6 +26,10 @@ class BiblioTicketsViewModel(
             ticketRepository.startListening { ticketId ->
                 insertTicket(ticketId)
             }
+
+            ticketRepository.updateListening { ticketId ->
+                updatedTicket(ticketId)
+            }
         }
     }
 
@@ -99,12 +103,49 @@ class BiblioTicketsViewModel(
 
     private fun insertTicket(id: Int){
         viewModelScope.launch {
-            val newMessage = ticketRepository.getTicketFullInfo(id) ?: return@launch
+            val newTicket = ticketRepository.getTicketFullInfo(id) ?: return@launch
 
-            Log.d("DEBUG_SUPABASE", "message: $newMessage")
-            setTicketListFirst(listOf(newMessage))
+            Log.d("DEBUG_SUPABASE", "message: $newTicket")
+            setTicketListFirst(listOf(newTicket))
 
             setCountTickets()
+            setCountPending()
+            setCountEvalueted()
+            setCountClosed()
+        }
+    }
+
+    @OptIn(kotlin.time.ExperimentalTime::class)
+    private fun updatedTicket(id: Int){
+        viewModelScope.launch {
+            val updatedTicket = ticketRepository.getTicket(id) ?: return@launch
+
+            Log.d("DEBUG_SUPABASE", "Ticket atualizado: $updatedTicket")
+
+            _uiState.update { currentState ->
+                val updatedTickets = currentState.tickets.map { ticket ->
+                    if (ticket.id == id) {
+                        ticket.copy(status = updatedTicket.status)
+                    } else {
+                        ticket
+                    }
+                }
+
+                val updatedFilteredTickets = currentState.filteredTickets.map { ticket ->
+                    if (ticket.id == id) {
+                        ticket.copy(status = updatedTicket.status)
+                    } else {
+                        ticket
+                    }
+                }
+
+                currentState.copy(
+                    tickets = updatedTickets,
+                    filteredTickets = updatedFilteredTickets
+                )
+            }
+
+            // Atualizar contadores após mudança de status
             setCountPending()
             setCountEvalueted()
             setCountClosed()
