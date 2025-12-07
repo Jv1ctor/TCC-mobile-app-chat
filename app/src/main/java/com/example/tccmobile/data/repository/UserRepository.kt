@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.tccmobile.data.dto.StudentDto
 import com.example.tccmobile.data.dto.UserDto
 import com.example.tccmobile.data.entity.Student
+import com.example.tccmobile.data.entity.User
 import com.example.tccmobile.data.supabase.SupabaseClient.client
 import io.github.jan.supabase.postgrest.postgrest
 import io.github.jan.supabase.postgrest.query.Columns
@@ -33,6 +34,26 @@ class UserRepository {
                 course = student.course
             )
         }catch (e: Exception){
+            Log.e("SUPABASE_DEBUG", "Erro em buscar usuario $id $e")
+            null
+        }
+    }
+
+    suspend fun getUserInfo(id: String): User? {
+        return try {
+            val user = client.postgrest.from("users").select {
+                filter {
+                    eq("id", id)
+                }
+                limit(1)
+            }.decodeSingle<UserDto>()
+
+            User(
+                email = user.email,
+                name = user.name,
+                registry = user.registry,
+            )
+        } catch (e: Exception) {
             Log.e("SUPABASE_DEBUG", "Erro em buscar usuario $id $e")
             null
         }
