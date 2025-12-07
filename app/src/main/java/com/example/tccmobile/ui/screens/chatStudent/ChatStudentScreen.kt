@@ -91,7 +91,7 @@ fun ChatStudentScreen(
             modifier= Modifier.fillMaxSize()
         ){
 
-            if(isStudent){
+            if(uiState.isStudent){
                 HeaderStudentChat(
                     ticketId = ticketId,
                     title = uiState.theme,

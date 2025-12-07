@@ -55,13 +55,16 @@ open class ChatStudentViewModel(
     fun exit(){
         viewModelScope.launch {
             messageRepository.clear()
-            authRepository.signOut()
             resetState()
         }
     }
 
     private fun setTheme(v: String) {
         _uiState.update { it.copy(theme = v) }
+    }
+
+    private fun setIsStudent(v: Boolean) {
+        _uiState.update { it.copy(isStudent = v) }
     }
 
     private fun setCourse(v: String){
@@ -240,11 +243,12 @@ open class ChatStudentViewModel(
 
             val ticket = ticketRepository.getTicket(ticketId) ?: return@launch
 
+            setIsStudent(isStudent)
             setTheme(ticket.subject)
             setCourse(ticket.course)
             setStatus(ticket.status)
 
-            if(!isStudent){
+            if(!_uiState.value.isStudent){
                 val user = userRepository.getStudentById(ticket.createBy) ?: return@launch
 
                 Log.d("SUPABASE_DEBUG", user.toString())
