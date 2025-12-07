@@ -59,3 +59,31 @@ val DarkBlueButton = Color(0xFF062452)    // Botão de toggle ativo
 val TextPrimary = Color.White
 val BackgroundStart = Color(0xFF2287FF)    // Início do Gradiente
 val BackgroundEnd = Color(0xFF034384)      // Fim do Gradiente
+
+val incrementosgreen = Color(0xFF2ECC71) //verde usado para +12 este mês
+
+val containerBlue = Color(0xFF003366) //usado no Header (NÃO É PRA MUDAR 😠)
+
+val green = Color(0xFF00A63E) //usado no icone concluídos
+
+val DarkBlueBackground = Color(0xFF062452) // Fundo do BoxForm
+
+val ClaroBlueBackground = Color(0xFFB8D1FF) //usado em metriccardrow e dashboardviewmodel
+
+val IconBackgroundGreen = Color(0xFFD2F3B0) //usado em Dashboardviewmodel e metriccardrow
+
+val IconBackgroundRed = Color(0xFFF8D7DA) //usado em Dashboardviewmodel e metriccardrow - pendentes
+
+val VermelhoTelha = Color(0xFF973C00) //usado para o relógio pendentes
+
+val yellow2 = Color(0xFFFFC107) //usado para as estrelas e icone 1° lugar
+
+val HeaderBackground = Color(0xFF204879) //usado em recentreviewcards
+
+val BadgePositionColor = Color(0xFFAAAAAA) //usado em Teamperformacecard
+val BadgePositionColor2 = Color(0xFFCE8034) //usado em Teamperformacecard
+val BadgePositionColor3 = Color(0xFF566F7C) //usado em Teamperformacecard
+
+val AmareloClaro2 = Color(0xFFFFF4C2) //fundo do icone Avaliação Média
+
+val BackgroundIconTime = Color(0xFFD3CDCD) //usado em Dashboardviewmodel

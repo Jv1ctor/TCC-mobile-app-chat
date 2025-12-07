@@ -26,6 +26,7 @@ import io.github.jan.supabase.auth.auth
 import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.jsonPrimitive
 import com.example.tccmobile.ui.components.utils.BottomNavItem
+import com.example.tccmobile.ui.screens.bibliodashscreen.DashboardScreen
 import com.example.tccmobile.ui.screens.bibliotecarioTicketsScreen.BiblioTicketsScreen
 import com.example.tccmobile.ui.screens.studentTicketsScreen.StudentsTicketsScreen
 @Composable
@@ -180,7 +181,41 @@ fun AppNavigation() {
         }
 
         composable(Routes.BIBLIO_DASHBOARD) {
-            Text(text = "Dashboard Screen")
+            DashboardScreen(
+                navigateBarItems = listOf(
+                    BottomNavItem(
+                        label = "Tickets",
+                        icon = Icons.Outlined.Description,
+                        route = Routes.BIBLIO_TICKETS,
+                        onClick = { route ->
+                            navController.navigate(route)
+                        }
+                    ),
+                    BottomNavItem(
+                        label = "Dashboard",
+                        icon = Icons.Outlined.Dashboard,
+                        route = Routes.BIBLIO_DASHBOARD, // Defina a rota correta para o dashboard
+                        onClick = { route ->
+                            navController.navigate(route)
+                        }
+                    ),
+                    BottomNavItem(
+                        label = "Perfil",
+                        icon = Icons.Outlined.Person,
+                        route = Routes.PROFILE,
+                        onClick = { route ->
+                            navController.navigate(route)
+                        }
+                    )
+                ),
+                currentRoute = Routes.BIBLIO_DASHBOARD,
+                onDashboardClick = {
+                    navController.navigate(Routes.BIBLIO_DASHBOARD)
+                }
+            )
+        }
+        composable(Routes.PROFILE) {
+            Text(text = "Perfil")
         }
 
     }
