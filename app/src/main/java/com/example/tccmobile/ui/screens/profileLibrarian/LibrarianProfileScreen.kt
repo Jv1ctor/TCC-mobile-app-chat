@@ -28,7 +28,6 @@ import com.example.tccmobile.ui.components.utils.BottomNavItem
 import com.example.tccmobile.ui.components.utils.BottomNavigationBar
 import com.example.tccmobile.ui.components.utils.ProfileScreenHeader
 import com.example.tccmobile.ui.screens.newTicketScreen.NewTicketViewModel
-import com.example.tccmobile.ui.screens.profileScreen.Librarian
 import com.example.tccmobile.ui.theme.AzulSuperClaro
 import com.example.tccmobile.ui.theme.BlueEscuro
 import com.example.tccmobile.ui.theme.Branco
