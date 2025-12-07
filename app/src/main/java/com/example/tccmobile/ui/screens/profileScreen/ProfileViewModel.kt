@@ -26,7 +26,6 @@ class ProfileViewModel : ViewModel() {
 
             when (loggedInUserType) {
                 UserType.STUDENT -> {
-                    // Dados de exemplo do Aluno
                     val registerData = RegisterState(
                         nome = "Ana Costa",
                         email = "ana.costa@unifor.br",
@@ -34,22 +33,13 @@ class ProfileViewModel : ViewModel() {
                     )
                 }
                 UserType.LIBRARIAN -> {
-                    val grantedPermissions = setOf(
-                        AppPermission.MANAGE_TICKETS,
-                        AppPermission.TRANSFER_TICKETS
-                    )
 
-                    //Dados de exemplo do Bibliotecario
                     val librarianData = Librarian(
                         nameLibrarian = "Ana Costa",
                         role = "Bibliotecária Plena",
                         emailLibrarian = "ana.costa@unifor.br",
                         phoneLibrarian = "(85) 3477-3000",
-                        corrigidos = 45,
-                        pendentes = 8,
-                        avaliacaoMedia = 4.8f,
-                        tempoMedio = "2.3 dias",
-                        permissoes = generatePermissions(grantedPermissions)
+                        recebidos = 45
                     )
 
                     _uiState.update {
