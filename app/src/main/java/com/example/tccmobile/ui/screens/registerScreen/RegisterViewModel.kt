@@ -2,12 +2,16 @@ package com.example.tccmobile.ui.screens.registerScreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.tccmobile.data.entity.Student
+import com.example.tccmobile.data.repository.AuthRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class RegisterViewModel : ViewModel() {
+class RegisterViewModel(
+    val authRepository: AuthRepository = AuthRepository()
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(RegisterState())
     val uiState = _uiState.asStateFlow()
@@ -43,10 +47,25 @@ class RegisterViewModel : ViewModel() {
             }
 
             _uiState.update { it.copy(isLoading = true, registerError = null) }
-            kotlinx.coroutines.delay(1500)
+
+            val student = Student(
+                name = _uiState.value.nome,
+                email = _uiState.value.email,
+                registry = _uiState.value.matricula,
+                course = _uiState.value.curso,
+            )
+
+            val result = authRepository.signUpStudent(student = student, password = _uiState.value.senha)
 
             _uiState.update { it.copy(isLoading = false) }
-            onRegisterSuccess() // Chama o callback de sucesso
+
+
+            if(result){
+                onRegisterSuccess() // Chama o callback de sucesso
+
+            }else{
+                _uiState.update { it.copy(registerError = "Erro ao registrar. Tente novamente.") }
+            }
         }
     }
 }
