@@ -26,6 +26,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.tccmobile.navigation.Routes
 import androidx.navigation.navArgument
+import com.example.tccmobile.ui.screens.bibliotecarioDashboard.DashboardScreen
 import com.example.tccmobile.ui.screens.chatStudent.ChatStudentScreen
 import com.example.tccmobile.ui.screens.loginScreen.LoginScreen
 import com.example.tccmobile.ui.screens.registerScreen.RegisterScreen
@@ -108,11 +109,19 @@ fun AppNavigation() {
             LibrarianProfileScreen(
                 data = testLibrarian,
                 currentRoute = Routes.LIBRARIAN_PROFILE_SCREEN,
-                navigateBarItems =listOf(
+                navigateBarItems= listOf(
                         BottomNavItem(
-                            label = "Meus Envios",
+                            label = "Tickets",
                             icon = Icons.Outlined.Description,
-                            route = Routes.HOME,
+                            route = Routes.BIBLIO_TICKETS,
+                            onClick = { route ->
+                                navController.navigate(route)
+                            }
+                        ),
+                        BottomNavItem(
+                            label = "Dashboard",
+                            icon = Icons.Outlined.Dashboard,
+                            route = Routes.BIBLIO_DASHBOARD, // Defina a rota correta para o dashboard
                             onClick = { route ->
                                 navController.navigate(route)
                             }
@@ -250,7 +259,7 @@ fun AppNavigation() {
                     BottomNavItem(
                         label = "Perfil",
                         icon = Icons.Outlined.Person,
-                        route = Routes.PROFILE,
+                        route = Routes.LIBRARIAN_PROFILE_SCREEN,
                         onClick = { route ->
                             navController.navigate(route)
                         }
@@ -288,7 +297,7 @@ fun AppNavigation() {
                     BottomNavItem(
                         label = "Perfil",
                         icon = Icons.Outlined.Person,
-                        route = Routes.PROFILE,
+                        route = Routes.LIBRARIAN_PROFILE_SCREEN,
                         onClick = { route ->
                             navController.navigate(route)
                         }

@@ -188,11 +188,12 @@ fun StudentProfileScreen(
                 .verticalScroll(rememberScrollState()), // conteúdo rolável
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(40.dp))
 
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .weight(1f)
                     .padding(horizontal = 24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -204,7 +205,9 @@ fun StudentProfileScreen(
                 StatCardsStudentSection(data)
 
                 Spacer(modifier = Modifier.height(10.dp))
+            }
 
+            Box(modifier= Modifier.padding(horizontal = 30.dp)){
                 Button(
                     onClick = onLogout,
                     modifier = Modifier.fillMaxWidth().height(48.dp),
@@ -225,11 +228,11 @@ fun StudentProfileScreen(
                         fontSize = 16.sp
                     )
                 }
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                AppVersionFooter()
             }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            AppVersionFooter()
         }
     }
 }

@@ -261,11 +261,12 @@ fun LibrarianProfileScreen(
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(40.dp))
 
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .weight(1f)
                     .padding(horizontal = 24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -278,6 +279,9 @@ fun LibrarianProfileScreen(
 
                 Spacer(modifier = Modifier.height(10.dp))
 
+            }
+
+            Box(modifier = Modifier.padding(horizontal = 60.dp)){
                 Button(
                     onClick = onLogout,
                     modifier = Modifier
@@ -301,12 +305,10 @@ fun LibrarianProfileScreen(
                     )
                 }
 
-                Spacer(modifier = Modifier.height(10.dp))
-
-                AppVersionFooter()
-
-                Spacer(modifier = Modifier.height(20.dp))
             }
+            Spacer(modifier = Modifier.height(10.dp))
+
+            AppVersionFooter()
         }
     }
 }
