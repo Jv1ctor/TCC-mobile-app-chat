@@ -6,7 +6,7 @@ import com.example.tccmobile.ui.theme.StatusContainerPendente
 import com.example.tccmobile.ui.theme.StatusTextAvaliado
 import com.example.tccmobile.ui.theme.StatusTextPendente
 
-fun transformTicketStatus(value: String): TicketStatus{
+fun transformTicketStatus(value: String?): TicketStatus{
     return when(value){
         "pendente" ->{
             TicketStatus(

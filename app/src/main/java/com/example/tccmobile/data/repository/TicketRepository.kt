@@ -27,6 +27,8 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.selects.select
 import kotlinx.serialization.json.Json
+import java.util.Locale
+import java.util.Locale.getDefault
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
@@ -87,7 +89,7 @@ class TicketRepository {
                 id = ticket.id,
                 subject = ticket.subject,
                 course = ticket.course,
-                status = ticket.status,
+                status = transformTicketStatus(ticket.status),
                 createBy = ticket.createBy
             )
         }catch (e: Exception){
@@ -247,7 +249,7 @@ class TicketRepository {
             TicketInfoMin(
                 id = ticket.id,
                 subject = ticket.subject,
-                status = ticket.status,
+                status = transformTicketStatus(ticket.status),
                 course = ticket.course,
                 createBy = ticket.createBy
             )
@@ -267,5 +269,27 @@ class TicketRepository {
                 eq("id", ticketId)
             }
         }
+    }
+
+    private suspend fun updatedStatus(ticketId: Int, status: String){
+        client.postgrest.from("tickets").update({
+            set("status", status.lowercase(getDefault()))
+        }){
+            filter {
+                eq("id", ticketId)
+            }
+        }
+    }
+
+    suspend fun updatedStatusEvalueted(ticketId: Int){
+        updatedStatus(ticketId, "avaliado")
+    }
+
+    suspend fun updatedStatusPending(ticketId: Int){
+        updatedStatus(ticketId, "pendente")
+    }
+
+    suspend fun updatedStatusClosed(ticketId: Int){
+        updatedStatus(ticketId, "fechado")
     }
 }

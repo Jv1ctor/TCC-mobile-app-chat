@@ -7,12 +7,14 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tccmobile.data.entity.Message
+import com.example.tccmobile.data.entity.TicketStatus
 import com.example.tccmobile.data.repository.AttachmentRepository
 import com.example.tccmobile.data.repository.AuthRepository
 import com.example.tccmobile.data.repository.MessageRepository
 import com.example.tccmobile.data.repository.TicketRepository
 import com.example.tccmobile.data.repository.UserRepository
 import com.example.tccmobile.helpers.HandlerFiles
+import com.example.tccmobile.helpers.transformTicketStatus
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -106,7 +108,7 @@ open class ChatStudentViewModel(
         }
     }
 
-    fun setStatus(v: String){
+    fun setStatus(v: TicketStatus){
         _uiState.update { it.copy(status = v) }
     }
 
@@ -139,6 +141,7 @@ open class ChatStudentViewModel(
     fun sendMessage(ticketId: Int, context: Context){
         viewModelScope.launch {
             val userId = authRepository.getUserInfo()?.id
+            val isStudent = _uiState.value.isStudent
             if(_uiState.value.inputMessage.isEmpty() || _uiState.value.inputMessage.isBlank() || userId == null) return@launch
 
             val message = messageRepository.sendMessage(
@@ -148,6 +151,14 @@ open class ChatStudentViewModel(
             )
 
             if(message == null) return@launch
+
+            if(isStudent){
+                ticketRepository.updatedStatusPending(ticketId)
+                setStatus(transformTicketStatus("pendente"))
+            }else{
+                ticketRepository.updatedStatusEvalueted(ticketId)
+                setStatus(transformTicketStatus("avaliado"))
+            }
 
             _uiState.value.fileUri?.let { uri ->
                 val fileName = handlerFile.getFileName(context = context, uri = uri)
