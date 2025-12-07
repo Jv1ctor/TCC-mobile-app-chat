@@ -11,8 +11,11 @@ import com.example.tccmobile.helpers.generateTicketId
 import com.example.tccmobile.helpers.transformTicketStatus
 import io.github.jan.supabase.postgrest.postgrest
 import io.github.jan.supabase.postgrest.query.Columns
+import io.github.jan.supabase.postgrest.query.Order
 import kotlinx.coroutines.selects.select
+import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
 class TicketRepository {
     @OptIn(ExperimentalTime::class)
@@ -53,6 +56,7 @@ class TicketRepository {
                 filter {
                     eq("create_by", userId)
                 }
+                order("updated_at", order = Order.DESCENDING)
             }.decodeList<TicketListDto>()
 
             ticket.map {
@@ -103,6 +107,18 @@ class TicketRepository {
         }catch (e: Exception){
             Log.e("SUPABASE_DEBUG", "Erro ao criar ticket: $e")
             null
+        }
+    }
+
+    @OptIn(ExperimentalTime::class)
+    suspend fun updatedLastInteraction(ticketId: Int){
+        val nowAt = Clock.System.now().toString()
+        client.postgrest.from("tickets").update({
+            set("updated_at", nowAt)
+        }){
+            filter {
+                eq("id", ticketId)
+            }
         }
     }
 }

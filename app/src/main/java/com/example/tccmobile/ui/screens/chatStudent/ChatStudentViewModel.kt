@@ -36,6 +36,7 @@ open class ChatStudentViewModel(
         viewModelScope.launch {
             messageRepository.startListening(channelId){
                 insertNewMessage(id = it)
+                updateInteractive(ticketId= channelId)
             }
         }
     }
@@ -190,6 +191,12 @@ open class ChatStudentViewModel(
                 Log.d("DEBUG_SUPABASE", "message: $newMessage")
                 setMessagesList(listOf(newMessage))
             }
+        }
+    }
+
+    private fun updateInteractive(ticketId: Int){
+        viewModelScope.launch {
+            ticketRepository.updatedLastInteraction(ticketId = ticketId)
         }
     }
 
