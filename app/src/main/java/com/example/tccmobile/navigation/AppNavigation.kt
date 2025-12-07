@@ -93,7 +93,7 @@ fun AppNavigation() {
                     ticketId = id,
                     isStudent = isStudent!!,
                     onBackClick = {
-                        navController.navigate(Routes.LOGIN)
+                        navController.navigate(Routes.HOME)
                     }
                 )
             }
@@ -126,7 +126,7 @@ fun AppNavigation() {
                     navController.navigate(Routes.NEW_TICKET)
                 },
                 onTicketClick = { ticketId ->
-                    println("Cliquei no ticket: $ticketId")
+                    navController.navigate(Routes.ticket(ticketId.toString()))
                 }
             )
         }
