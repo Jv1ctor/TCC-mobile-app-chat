@@ -6,6 +6,7 @@ import com.example.tccmobile.data.dto.UserDto
 import com.example.tccmobile.data.dto.UserInsertDto
 import com.example.tccmobile.data.entity.Student
 import com.example.tccmobile.data.supabase.SupabaseClient.client
+import io.github.jan.supabase.auth.SignOutScope
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.providers.builtin.Email
 import io.github.jan.supabase.auth.user.UserInfo
@@ -98,7 +99,7 @@ class AuthRepository {
     }
 
     suspend fun signOut(){
-        client.auth.signOut()
+        client.auth.signOut(SignOutScope.GLOBAL)
     }
 
     fun getIsStudent(): Boolean{
