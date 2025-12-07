@@ -22,8 +22,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tccmobile.ui.theme.DarkBlue
 import com.example.tccmobile.ui.theme.LightBlue
-import com.example.tccmobile.ui.theme.Orange
-import com.example.tccmobile.ui.theme.SuperLightOrange
 
 // mudei o nome para "Generic" porque agora ele serve pra tudo
 @OptIn(ExperimentalMaterial3Api::class)
@@ -64,25 +62,29 @@ fun OptionItem(
     subtitle: String? = null, // adicionei um subtítulo opcional, pq na tela de alterar status tem
     backgroundColor: Color,
     iconColor: Color,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    enabled: Boolean = true // adicionei o parametro enabled
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick)
+            .clickable(enabled = enabled, onClick = onClick)
             .padding(vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
             modifier = Modifier
                 .size(48.dp)
-                .background(backgroundColor, RoundedCornerShape(12.dp)),
+                .background(
+                    if (enabled) backgroundColor else Color(0xFFE0E0E0), // cinza quando desabilitado
+                    RoundedCornerShape(12.dp)
+                ),
             contentAlignment = Alignment.Center
         ) {
             Icon(
                 imageVector = icon,
                 contentDescription = null,
-                tint = iconColor
+                tint = if (enabled) iconColor else Color(0xFFBDBDBD) // ícone cinza quando desabilitado
             )
         }
 
@@ -92,7 +94,7 @@ fun OptionItem(
             Text(
                 text = text,
                 fontSize = 16.sp,
-                color = Color.Black,
+                color = if (enabled) Color.Black else Color(0xFF9E9E9E), // texto cinza quando desabilitado
                 fontWeight = FontWeight.Medium
             )
 
@@ -100,7 +102,7 @@ fun OptionItem(
                 Text(
                     text = subtitle,
                     fontSize = 14.sp,
-                    color = Color.Gray,
+                    color = if (enabled) Color.Gray else Color(0xFFBDBDBD),
                     fontWeight = FontWeight.Normal
                 )
             }
@@ -108,39 +110,46 @@ fun OptionItem(
     }
 }
 
-//
-//@Preview(showBackground = true, name = "Menu Principal")
-//@Composable
-//fun MenuPrincipalPreview() {
-//    GenericBottomSheet(
-//        title = "Opções do Ticket",
-//        onDismiss = {}
-//    ) {
-//        OptionItem(
-//            icon = Icons.Outlined.Description,
-//            text = "Alterar Status do Documento",
-//            backgroundColor = LightBlue,
-//            iconColor = DarkBlue,
-//            onClick = {}
-//        )
-//        Spacer(modifier = Modifier.height(8.dp))
-//        OptionItem(
-//            icon = Icons.Outlined.Person,
-//            text = "Transferir Ticket",
-//            backgroundColor = Color(0xFFF3E5F5), // roxinho
-//            iconColor = Color(0xFF9C27B0),
-//            onClick = {}
-//        )
-//        Spacer(modifier = Modifier.height(8.dp))
-//        HorizontalDivider(color = Color(0xFFF0F0F0), thickness = 1.dp)
-//        Spacer(modifier = Modifier.height(8.dp))
-//        OptionItem(
-//            icon = Icons.Default.CheckCircle,
-//            text = "Finalizar Ticket",
-//            backgroundColor = Color(0xFFE8F5E9), // verdinho
-//            iconColor = Color(0xFF4CAF50),
-//            onClick = {}
-//        )
-//    }
-//}
-//
+
+
+@Composable
+fun StatusSheet(
+    onFinishTicket: () -> Unit,
+    onDimiss: () -> Unit,
+    show: Boolean = false
+) {
+    if(!show) return
+    GenericBottomSheet(
+        title = "Opções do Ticket",
+        onDismiss = onDimiss
+    ) {
+        OptionItem(
+            icon = Icons.Outlined.Description,
+            text = "Alterar Status do Documento",
+            backgroundColor = LightBlue,
+            iconColor = DarkBlue,
+            onClick = {},
+            enabled = false // feature não implementada ainda
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        OptionItem(
+            icon = Icons.Outlined.Person,
+            text = "Transferir Ticket",
+            backgroundColor = Color(0xFFF3E5F5), // roxinho
+            iconColor = Color(0xFF9C27B0),
+            onClick = {},
+            enabled = false // feature não implementada ainda
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        HorizontalDivider(color = Color(0xFFF0F0F0), thickness = 1.dp)
+        Spacer(modifier = Modifier.height(8.dp))
+        OptionItem(
+            icon = Icons.Default.CheckCircle,
+            text = "Finalizar Ticket",
+            backgroundColor = Color(0xFFE8F5E9), // verdinho
+            iconColor = Color(0xFF4CAF50),
+            onClick = onFinishTicket
+        )
+    }
+}
+

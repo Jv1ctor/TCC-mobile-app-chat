@@ -35,6 +35,7 @@ import com.example.tccmobile.ui.theme.White
 fun ChatInputBar(
     message: String,
     fileName: String,
+    activate: Boolean = true,
     onMessageChange: (String) -> Unit, // função que avisa que usuário digitou uma algo novo
     onSendClick: () -> Unit,        // ação quando clica no aviãozinho
     onAttachClick: () -> Unit,       // ação quando clica no clipe
@@ -107,15 +108,16 @@ fun ChatInputBar(
         ) {
             IconButton(// botão de anexo
                 onClick = onAttachClick,
+                enabled = activate,
                 modifier = Modifier
                     .size(48.dp)
                     .clip(RoundedCornerShape(12.dp))
-                    .background(LightBlue)
+                    .background(if (activate) LightBlue else Color(0xFFE0E0E0))
             ) {
                 Icon(
                     imageVector = Icons.Outlined.AttachFile,
                     contentDescription = "Anexar",
-                    tint = DarkBlue //ícone azul escuro pra dar contraste né veyr
+                    tint = if (activate) DarkBlue else Color(0xFFBDBDBD) //ícone azul escuro pra dar contraste né veyr
                 )
             }
 
@@ -123,10 +125,11 @@ fun ChatInputBar(
             TextField( //input
                 value = message,
                 onValueChange = onMessageChange,
+                enabled = activate,
                 placeholder = {
                     Text(
                         "Digite sua mensagem...",
-                        color = Color.Gray, // cor do texto de dica
+                        color = if (activate) Color.Gray else Color(0xFFBDBDBD), // cor do texto de dica
                     )
                 },
                 modifier = Modifier
@@ -135,13 +138,16 @@ fun ChatInputBar(
                 shape = RoundedCornerShape(12.dp),
 
                 colors = TextFieldDefaults.colors(
-                    focusedContainerColor = Color.White, // fundo branco quando tá digitando
-                    unfocusedContainerColor = Color.White, // fundo branco quando não tá
+                    focusedContainerColor = if (activate) Color.White else Color(0xFFF5F5F5), // fundo branco quando tá digitando
+                    unfocusedContainerColor = if (activate) Color.White else Color(0xFFF5F5F5), // fundo branco quando não tá
+                    disabledContainerColor = Color(0xFFF5F5F5), // fundo cinza quando desabilitado
                     focusedIndicatorColor = Color.Transparent, // remove a linha de baixo
                     unfocusedIndicatorColor = Color.Transparent, // remove a linha de baixo
+                    disabledIndicatorColor = Color.Transparent,
                     cursorColor = Color.DarkGray, // cor do traço que pisca
                     focusedTextColor = Color.Black, // cor do texto digitado
-                    unfocusedTextColor = Color.Black
+                    unfocusedTextColor = Color.Black,
+                    disabledTextColor = Color(0xFF9E9E9E)
                 ),
                 singleLine = true // impede que o texto quebre linha e aumente a altura da barra
             )
@@ -149,15 +155,16 @@ fun ChatInputBar(
 
             IconButton(//botão de enviar
                 onClick = onSendClick,
+                enabled = activate,
                 modifier = Modifier
                     .size(48.dp)
                     .clip(RoundedCornerShape(12.dp))
-                    .background(LightBlue)
+                    .background(if (activate) LightBlue else Color(0xFFE0E0E0))
             ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.Send,
                     contentDescription = "Enviar",
-                    tint = DarkBlue
+                    tint = if (activate) DarkBlue else Color(0xFFBDBDBD)
                 )
             }
         }
@@ -165,8 +172,8 @@ fun ChatInputBar(
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(//texto auxiliar
-            text = "Envie mensagens ou anexe documentos PDF",
-            color = LightBlue,
+            text = if (activate) "Envie mensagens ou anexe documentos PDF" else "Ticket fechado",
+            color = if (activate) LightBlue else Color(0xFFBDBDBD),
             fontSize = 12.sp,
             fontWeight = FontWeight.Bold
         )

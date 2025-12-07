@@ -28,6 +28,9 @@ data class ChatStudentState(
     val isLoading: Boolean = false,
     val chatError: String? = null,
 
-    val isStudent: Boolean = true
+
+    val activeTicket: Boolean = true,
+    val isStudent: Boolean = true,
+    val showMenu: Boolean = false
 
 )

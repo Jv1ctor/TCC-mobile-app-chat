@@ -19,6 +19,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,6 +33,7 @@ import androidx.compose.ui.unit.sp
 import com.example.tccmobile.data.entity.TicketStatus
 import com.example.tccmobile.ui.components.utils.StatusBadge
 import com.example.tccmobile.ui.components.utils.StatusBadgeModel
+import com.example.tccmobile.ui.components.utils.StatusSheet
 import com.example.tccmobile.ui.theme.DarkBlue
 import com.example.tccmobile.ui.theme.LightBlue
 import com.example.tccmobile.ui.theme.StatusContainerPendente
@@ -45,7 +50,7 @@ fun HeaderLibrarianChat(
     studentEmail: String,
     badge: TicketStatus,
     onBackClick: () -> Unit = {},
-    onMenuClick: () -> Unit = {}
+    onMenuClick: () -> Unit = {},
 ) {
     Column(
         modifier = Modifier
@@ -84,7 +89,7 @@ fun HeaderLibrarianChat(
                 }
             }
 
-            IconButton(onClick = onMenuClick) {
+            IconButton(onClick = onMenuClick ) {
                 Icon(
                     imageVector = Icons.Default.MoreVert,
                     contentDescription = "Menu",
@@ -174,6 +179,6 @@ fun HeaderLibrarianChatPreview() {
         studentName = "João Silva",
         studentRegistry = "2021001234",
         studentEmail = "joao.silva@edu.unifor.br",
-        badge = TicketStatus("Pendente", StatusContainerPendente, StatusTextPendente, null)
+        badge = TicketStatus("Pendente", StatusContainerPendente, StatusTextPendente, null),
     )
 }

@@ -21,6 +21,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.Locale
+import java.util.Locale.getDefault
 import kotlin.time.ExperimentalTime
 
 open class ChatStudentViewModel(
@@ -58,10 +60,14 @@ open class ChatStudentViewModel(
     fun exit(){
         viewModelScope.launch {
             messageRepository.clear()
-            resetState()
         }
     }
 
+    fun setShowMenu(v: Boolean){
+        _uiState.update {
+            it.copy(showMenu = v)
+        }
+    }
     private fun setTheme(v: String) {
         _uiState.update { it.copy(theme = v) }
     }
@@ -94,6 +100,7 @@ open class ChatStudentViewModel(
     private fun setIsAttachLoading(v: Boolean){
         _uiState.update { it.copy(isAttachLoading = v) }
     }
+
 
 
     fun setInputMessage(message: String){
@@ -135,6 +142,13 @@ open class ChatStudentViewModel(
                 }
             },
         )
+    }
+
+    fun finishTicket(ticketId: Int){
+        viewModelScope.launch {
+            ticketRepository.updatedStatusClosed(ticketId)
+            setShowMenu(false)
+        }
     }
 
     @OptIn(ExperimentalTime::class)
@@ -265,6 +279,10 @@ open class ChatStudentViewModel(
             setTheme(ticket.subject)
             setCourse(ticket.course)
             setStatus(ticket.status)
+
+            if(ticket.status.label.lowercase(getDefault()) == "fechado"){
+                _uiState.update { it.copy(activeTicket = false ) }
+            }
 
             if(!_uiState.value.isStudent){
                 val user = userRepository.getStudentById(ticket.createBy) ?: return@launch

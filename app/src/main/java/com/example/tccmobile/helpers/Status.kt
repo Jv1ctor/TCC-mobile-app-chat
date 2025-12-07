@@ -2,8 +2,10 @@ package com.example.tccmobile.helpers
 
 import com.example.tccmobile.data.entity.TicketStatus
 import com.example.tccmobile.ui.theme.StatusContainerAvaliado
+import com.example.tccmobile.ui.theme.StatusContainerConcluido
 import com.example.tccmobile.ui.theme.StatusContainerPendente
 import com.example.tccmobile.ui.theme.StatusTextAvaliado
+import com.example.tccmobile.ui.theme.StatusTextConcluido
 import com.example.tccmobile.ui.theme.StatusTextPendente
 
 fun transformTicketStatus(value: String?): TicketStatus{
@@ -22,6 +24,15 @@ fun transformTicketStatus(value: String?): TicketStatus{
                 label = "Avaliado",
                 containerColor = StatusContainerAvaliado,
                 contentColor = StatusTextAvaliado,
+                icon = null
+            )
+        }
+
+        "fechado" -> {
+            TicketStatus(
+                label = "Fechado",
+                containerColor = StatusContainerConcluido,
+                contentColor = StatusTextConcluido,
                 icon = null
             )
         }

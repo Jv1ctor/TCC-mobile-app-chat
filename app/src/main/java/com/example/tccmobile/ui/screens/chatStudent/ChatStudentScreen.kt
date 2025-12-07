@@ -3,6 +3,7 @@ package com.example.tccmobile.ui.screens.chatStudent
 import android.content.Context
 import android.net.Uri
 import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
@@ -16,6 +17,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -34,6 +36,7 @@ import com.example.tccmobile.ui.components.chat.HeaderLibrarianChat
 import com.example.tccmobile.ui.components.chat.HeaderStudentChat
 import com.example.tccmobile.ui.components.chat.MessageBox
 import com.example.tccmobile.ui.components.utils.StatusBadgeModel
+import com.example.tccmobile.ui.components.utils.StatusSheet
 import com.example.tccmobile.ui.theme.DarkBlue
 import com.example.tccmobile.ui.theme.LightBlue
 import com.example.tccmobile.ui.theme.StatusContainerPendente
@@ -61,6 +64,17 @@ fun ChatStudentScreen(
     LaunchedEffect(uiState.messages.size) {
         if(uiState.messages.isNotEmpty()){
             listState.animateScrollToItem(index= uiState.messages.lastIndex)
+        }
+    }
+
+    BackHandler {
+        viewModel.exit() // Limpa o repositório
+        onBackClick()// Volta para tela anterior
+    }
+
+    DisposableEffect (Unit) {
+        onDispose {
+            viewModel.exit()
         }
     }
 
@@ -116,8 +130,16 @@ fun ChatStudentScreen(
                     onBackClick = {
                         onBackClick()
                         viewModel.exit()
-                    }
+                    },
+                    onMenuClick = {
+                        viewModel.setShowMenu(true)
+                    },
+
                 )
+
+                StatusSheet(onFinishTicket = { viewModel.finishTicket(ticketId.toInt()) }, show = uiState.showMenu, onDimiss = {
+                    viewModel.setShowMenu(false)
+                })
             }
 
 
@@ -159,6 +181,7 @@ fun ChatStudentScreen(
 
             
             ChatInputBar(
+                activate = uiState.activeTicket,
                 message = uiState.inputMessage,
                 fileName = uiState.fileName,
                 onMessageChange = { viewModel.setInputMessage(it) },
@@ -252,7 +275,7 @@ fun PreviewChatStudentScreen(){
     ChatStudentScreen(
         viewModel = mockViewModel,
         ticketId = "123",
-        isStudent = true,
+        isStudent = false,
         onBackClick = { }
     )
 }
