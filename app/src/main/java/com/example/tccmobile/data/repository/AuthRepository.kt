@@ -10,7 +10,9 @@ import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.providers.builtin.Email
 import io.github.jan.supabase.auth.user.UserInfo
 import io.github.jan.supabase.postgrest.postgrest
+import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.jsonPrimitive
 import kotlinx.serialization.json.put
 import kotlin.time.ExperimentalTime
 
@@ -103,7 +105,7 @@ class AuthRepository {
         val session = client.auth.currentSessionOrNull()
         val isStudent = session?.user?.userMetadata?.get("isStudent")
 
-        return isStudent != null
+        return isStudent?.jsonPrimitive?.boolean!!
     }
 
     fun getUserInfo(): UserInfo? {

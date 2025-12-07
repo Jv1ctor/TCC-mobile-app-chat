@@ -39,9 +39,15 @@ fun AppNavigation() {
                 onNavigateToRegister = {
                     navController.navigate(Routes.REGISTER)
                 },
-                onLoginSuccess = {
-                    navController.navigate(Routes.HOME) {
-                        popUpTo(Routes.HOME) { inclusive = true }
+                onLoginSuccess = { isStudent ->
+                    if(isStudent){
+                        navController.navigate(Routes.HOME) {
+                            popUpTo(Routes.HOME) { inclusive = true }
+                        }
+                    }else{
+                        navController.navigate(Routes.BIBLIO_TICKETS) {
+                            popUpTo(Routes.BIBLIO_TICKETS) { inclusive = true }
+                        }
                     }
                 }
             )
@@ -92,7 +98,12 @@ fun AppNavigation() {
                     ticketId = id,
                     isStudent = isStudent!!,
                     onBackClick = {
-                        navController.navigate(Routes.HOME)
+                        if(isStudent!!){
+                            navController.navigate(Routes.HOME)
+
+                        }else{
+                            navController.navigate(Routes.BIBLIO_TICKETS)
+                        }
                     }
                 )
             }
@@ -160,7 +171,7 @@ fun AppNavigation() {
                 ),
                 currentRoute = Routes.BIBLIO_TICKETS,
                 onTicketClick = { ticketId ->
-                    println("Cliquei no ticket: $ticketId")
+                    navController.navigate(Routes.ticket(ticketId.toString()))
                 },
                 onDashboardClick = {
                     navController.navigate(Routes.BIBLIO_DASHBOARD)
