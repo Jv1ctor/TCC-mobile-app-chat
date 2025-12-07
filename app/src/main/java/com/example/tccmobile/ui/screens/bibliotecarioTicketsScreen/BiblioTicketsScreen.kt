@@ -23,13 +23,15 @@ import com.example.tccmobile.ui.components.utils.BottomNavItem
 import com.example.tccmobile.ui.components.utils.BottomNavigationBar
 import com.example.tccmobile.ui.components.utils.TicketCard
 import com.example.tccmobile.ui.theme.BackgroundGray
+import kotlin.time.ExperimentalTime
 
+@OptIn(ExperimentalTime::class)
 @Composable
 fun BiblioTicketsScreen(
     viewModel: BiblioTicketsViewModel = viewModel(),
     navigateBarItems: List<BottomNavItem>,
     currentRoute: String,
-    onTicketClick: (String) -> Unit,
+    onTicketClick: (Int) -> Unit,
     onDashboardClick: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -41,8 +43,8 @@ fun BiblioTicketsScreen(
     ) {
         // 1. Header
         HeaderTickets(
-            countTotal = uiState.tickets.size,
-            countOpen = uiState.tickets.count { it.tags.any { tag -> tag.label == "Aberto" } },
+            countTotal = uiState.countsTickets,
+            countOpen = uiState.countPending,
             onDashboardClick = onDashboardClick
         )
 
@@ -58,37 +60,45 @@ fun BiblioTicketsScreen(
             FilterSection(
                 selectedFilter = uiState.selectedFilter,
                 onFilterSelected = viewModel::onFilterSelected,
+                countTodos = uiState.countsTickets,
+                countPendentes = uiState.countPending,
+                countAvaliados = uiState.countEvaluted,
+                countFechados = uiState.countClosed,
             )
 
-            SearchBarTickets(
-                searchText = uiState.searchText,
-                onSearchChange = {
-                    viewModel.onSearchTextChanged(it)
-                }
-            )
+//            SearchBarTickets(
+//                searchText = uiState.searchText,
+//                onSearchChange = {
+//                    viewModel.onSearchTextChanged(it)
+//                }
+//            )
 
             Spacer(modifier = Modifier.height(24.dp))
 
 
-            // 5. Lista de Tickets
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 contentPadding = PaddingValues(bottom = 16.dp)
             ) {
                 items(uiState.filteredTickets) { ticket ->
                     TicketCard(
-                        ticket = ticket,
-                        showStudentInfo = true, // Visão da bibliotecária
+                        subject = ticket.subject,
+                        course = ticket.course,
+                        author = ticket.authorName!!,
+                        status = ticket.status,
+                        createAt = ticket.createdAt,
+                        updatedAt = ticket.updatedAt,
+                        showStudentInfo = true,
                         onClick = { onTicketClick(ticket.id) }
                     )
                 }
             }
         }
 
-        // 6. Barra de Navegação Inferior
-        BottomNavigationBar(
-            items = navigateBarItems,
-            currentRoute = currentRoute,
-        )
+            // 6. Barra de Navegação Inferior
+            BottomNavigationBar(
+                items = navigateBarItems,
+                currentRoute = currentRoute,
+            )
     }
 }

@@ -36,6 +36,7 @@ open class ChatStudentViewModel(
         viewModelScope.launch {
             messageRepository.startListening(channelId){
                 insertNewMessage(id = it)
+                updateInteractive(ticketId= channelId)
             }
         }
     }
@@ -55,13 +56,16 @@ open class ChatStudentViewModel(
     fun exit(){
         viewModelScope.launch {
             messageRepository.clear()
-            authRepository.signOut()
             resetState()
         }
     }
 
     private fun setTheme(v: String) {
         _uiState.update { it.copy(theme = v) }
+    }
+
+    private fun setIsStudent(v: Boolean) {
+        _uiState.update { it.copy(isStudent = v) }
     }
 
     private fun setCourse(v: String){
@@ -190,6 +194,12 @@ open class ChatStudentViewModel(
         }
     }
 
+    private fun updateInteractive(ticketId: Int){
+        viewModelScope.launch {
+            ticketRepository.updatedLastInteraction(ticketId = ticketId)
+        }
+    }
+
     private fun uploadAttachment(messageId: Int, context: Context){
         viewModelScope.launch {
             setIsAttachLoading(true)
@@ -240,11 +250,12 @@ open class ChatStudentViewModel(
 
             val ticket = ticketRepository.getTicket(ticketId) ?: return@launch
 
+            setIsStudent(isStudent)
             setTheme(ticket.subject)
             setCourse(ticket.course)
             setStatus(ticket.status)
 
-            if(!isStudent){
+            if(!_uiState.value.isStudent){
                 val user = userRepository.getStudentById(ticket.createBy) ?: return@launch
 
                 Log.d("SUPABASE_DEBUG", user.toString())

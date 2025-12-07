@@ -24,6 +24,8 @@ data class ChatStudentState(
     val messages: List<Message> = listOf(),
 
     val isLoading: Boolean = false,
-    val chatError: String? = null
+    val chatError: String? = null,
+
+    val isStudent: Boolean = true
 
 )

@@ -29,7 +29,8 @@ import com.example.tccmobile.ui.theme.Gray
 
 @Composable
 fun FilterChip(
-    text: String,
+    value: String,
+    lengths: Int,
     isSelected: Boolean,
     onClick: () -> Unit
 ) {
@@ -48,7 +49,7 @@ fun FilterChip(
         modifier = Modifier.padding(end = 8.dp, bottom = 8.dp) // espacinho pra não grudar no vizinho
     ) {
         Text(
-            text = text,
+            text = "$value ($lengths)",
             fontSize = 14.sp,
             fontWeight = if (isSelected) FontWeight.SemiBold else FontWeight.Normal,
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
@@ -59,6 +60,10 @@ fun FilterChip(
 @Composable
 fun FilterSection(
     modifier: Modifier = Modifier,
+    countTodos: Int,
+    countPendentes: Int,
+    countAvaliados: Int,
+    countFechados: Int,
     selectedFilter: String,
     onFilterSelected: (String) -> Unit,
 ) {
@@ -66,28 +71,32 @@ fun FilterSection(
         Row(modifier = Modifier.fillMaxWidth()) { //linha 1
             // aqui a gente chama os botões um por um na primeira linha
             FilterChip(
-                text = "Todos (4)",
-                isSelected = selectedFilter == "Todos (4)",
-                onClick = { onFilterSelected("Todos (4)") }
+                value = "Todos",
+                lengths = countTodos,
+                isSelected = selectedFilter == "Todos",
+                onClick = { onFilterSelected("Todos") }
             )
             FilterChip(
-                text = "Abertos (2)",
-                isSelected = selectedFilter == "Abertos (2)",
-                onClick = { onFilterSelected("Abertos (2)") }
+                value = "Pendentes",
+                lengths = countPendentes,
+                isSelected = selectedFilter == "Pendentes",
+                onClick = { onFilterSelected("pendente") }
             )
             FilterChip(
-                text = "Analisados (1)",
-                isSelected = selectedFilter == "Analisados (1)",
-                onClick = { onFilterSelected("Analisados (1)") }
+                value = "Avaliado",
+                lengths = countAvaliados,
+                isSelected = selectedFilter == "Avaliados",
+                onClick = { onFilterSelected("avaliado") }
             )
         }
 
         Row(modifier = Modifier.fillMaxWidth()) { //linha 2
             // o botão que sobrou fica aqui embaixo
             FilterChip(
-                text = "Fechados (1)",
-                isSelected = selectedFilter == "Fechados (1)",
-                onClick = { onFilterSelected("Fechados (1)") }
+                value = "Fechados",
+                lengths = countFechados,
+                isSelected = selectedFilter == "Fechados",
+                onClick = { onFilterSelected("fechado") }
             )
         }
     }

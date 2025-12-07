@@ -26,7 +26,7 @@ import com.example.tccmobile.ui.theme.TextPrimary
 fun LoginScreen(
     viewModel: LoginViewModel = viewModel(),
     onNavigateToRegister: () -> Unit,
-    onLoginSuccess: () -> Unit
+    onLoginSuccess: (isStudent: Boolean) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
 

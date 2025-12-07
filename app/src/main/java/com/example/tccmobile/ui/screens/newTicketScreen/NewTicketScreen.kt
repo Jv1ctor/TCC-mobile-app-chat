@@ -28,7 +28,7 @@ import com.example.tccmobile.ui.theme.Branco
 fun NewTicketScreen(
     viewModel: NewTicketViewModel = viewModel(),
     onBackClick: () -> Unit,
-    onTicketCreated: () -> Unit
+    onTicketCreated: (ticketId: Int) -> Unit
 ) {
     val state by viewModel.uiState.collectAsState()
     val context = LocalContext.current

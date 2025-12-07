@@ -39,9 +39,15 @@ fun AppNavigation() {
                 onNavigateToRegister = {
                     navController.navigate(Routes.REGISTER)
                 },
-                onLoginSuccess = {
-                    navController.navigate(Routes.HOME) {
-                        popUpTo(Routes.HOME) { inclusive = true }
+                onLoginSuccess = { isStudent ->
+                    if(isStudent){
+                        navController.navigate(Routes.HOME) {
+                            popUpTo(Routes.HOME) { inclusive = true }
+                        }
+                    }else{
+                        navController.navigate(Routes.BIBLIO_TICKETS) {
+                            popUpTo(Routes.BIBLIO_TICKETS) { inclusive = true }
+                        }
                     }
                 }
             )
@@ -63,11 +69,10 @@ fun AppNavigation() {
         composable(Routes.NEW_TICKET) {
             NewTicketScreen(
                 onBackClick = {
-
                     navController.popBackStack()
                 },
-                onTicketCreated = {
-                    navController.popBackStack()
+                onTicketCreated = { ticketId ->
+                    navController.navigate(Routes.ticket(ticketId.toString()))
                 }
             )
         }
@@ -93,7 +98,12 @@ fun AppNavigation() {
                     ticketId = id,
                     isStudent = isStudent!!,
                     onBackClick = {
-                        navController.navigate(Routes.LOGIN)
+                        if(isStudent!!){
+                            navController.navigate(Routes.HOME)
+
+                        }else{
+                            navController.navigate(Routes.BIBLIO_TICKETS)
+                        }
                     }
                 )
             }
@@ -126,7 +136,7 @@ fun AppNavigation() {
                     navController.navigate(Routes.NEW_TICKET)
                 },
                 onTicketClick = { ticketId ->
-                    println("Cliquei no ticket: $ticketId")
+                    navController.navigate(Routes.ticket(ticketId.toString()))
                 }
             )
         }
@@ -161,7 +171,7 @@ fun AppNavigation() {
                 ),
                 currentRoute = Routes.BIBLIO_TICKETS,
                 onTicketClick = { ticketId ->
-                    println("Cliquei no ticket: $ticketId")
+                    navController.navigate(Routes.ticket(ticketId.toString()))
                 },
                 onDashboardClick = {
                     navController.navigate(Routes.BIBLIO_DASHBOARD)
