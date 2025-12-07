@@ -8,16 +8,16 @@ import kotlin.time.Instant
 
 
 @Serializable
-data class TicketDto @OptIn(ExperimentalTime::class) constructor(
+data class TicketListDto @OptIn(ExperimentalTime::class) constructor(
     val id: Int,
 
     val subject: String,
 
     val status: String,
 
-    val remark: String,
-
     val course: String,
+
+    val user: UserDto,
 
     @Contextual
     @SerialName("created_at")
@@ -26,7 +26,4 @@ data class TicketDto @OptIn(ExperimentalTime::class) constructor(
     @Contextual
     @SerialName("updated_at")
     val updatedAt: Instant,
-
-    @SerialName("create_by")
-    val createBy: String
 )

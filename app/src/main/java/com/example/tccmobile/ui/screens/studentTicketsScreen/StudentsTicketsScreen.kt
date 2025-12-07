@@ -25,13 +25,15 @@ import com.example.tccmobile.ui.components.utils.ButtonForm
 import com.example.tccmobile.ui.components.utils.TicketCard
 import com.example.tccmobile.ui.theme.AzulLetra
 import com.example.tccmobile.ui.theme.Gray
+import kotlin.time.ExperimentalTime
 
+@OptIn(ExperimentalTime::class)
 @Composable
 fun StudentsTicketsScreen(
     viewModel: StudentTicketsViewModel = viewModel(),
     navigateBarItems: List<BottomNavItem>,
     currentRoute: String,
-    onTicketClick: (String) -> Unit,
+    onTicketClick: (Int) -> Unit,
     onClickNew: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -97,9 +99,15 @@ fun StudentsTicketsScreen(
             ) {
                 items(uiState.tickets) { ticket ->
                     TicketCard(
-                        ticket = ticket,
+                        subject = ticket.subject,
+                        course = ticket.course,
+                        author = ticket.authorName!!,
+                        status = ticket.status,
+                        createAt = ticket.createdAt,
+                        updatedAt = ticket.updatedAt,
                         showStudentInfo = false,
-                        onClick = { onTicketClick(ticket.id) }
+                        onClick = { onTicketClick(ticket.id) },
+
                     )
                 }
             }

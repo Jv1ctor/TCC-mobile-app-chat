@@ -13,16 +13,25 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.tccmobile.data.entity.TicketStatus
+import com.example.tccmobile.helpers.formattedInstant
 import com.example.tccmobile.ui.theme.AzulLetra
 import com.example.tccmobile.ui.theme.Cinza
 import com.example.tccmobile.ui.theme.NotificationRed
-import com.example.tccmobile.ui.screens.studentTicketsScreen.Ticket
-import com.example.tccmobile.ui.screens.studentTicketsScreen.TicketTagStatus
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
+@OptIn(ExperimentalTime::class)
 @Composable
 fun TicketCard(
-    ticket: Ticket,
+    subject: String,
+    course: String,
+    author: String,
+    status: TicketStatus,
+    createAt: Instant,
+    updatedAt: Instant,
     showStudentInfo: Boolean = false,
+    countMessages: Int = 0,
     onClick: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
@@ -37,36 +46,34 @@ fun TicketCard(
         Column(modifier = Modifier.padding(20.dp)) {
 
             TicketHeader(
-                titulo = ticket.titulo,
-                notificacoes = ticket.notificacoes
+                titulo = subject
             )
 
             Spacer(modifier = Modifier.height(4.dp))
 
             TicketBodyInfo(
-                categoria = ticket.categoria,
-                nomeAluno = if (showStudentInfo) ticket.nomeAluno else null,
-                dataAbertura = ticket.dataAbertura
+                categoria = course,
+                nomeAluno = if (showStudentInfo) author else null,
+                dataAbertura = formattedInstant(createAt)
             )
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            TicketStatusRow(tags = ticket.tags)
+            TicketStatusRow(tag = status)
 
             Spacer(modifier = Modifier.height(16.dp))
 
             TicketFooter(
                 showStudentInfo = showStudentInfo,
-                dataAbertura = ticket.dataAbertura,
-                dataAtualizacao = ticket.dataAtualizacao,
-                atribuidoPara = ticket.atribuidoPara
+                dataAbertura = formattedInstant(createAt),
+                dataAtualizacao =  formattedInstant(updatedAt),
             )
         }
     }
 }
 
 @Composable
-private fun TicketHeader(titulo: String, notificacoes: Int) {
+private fun TicketHeader(titulo: String, notificacoes: Int = 0) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -127,16 +134,15 @@ private fun TicketBodyInfo(categoria: String, nomeAluno: String?, dataAbertura: 
 }
 
 @Composable
-private fun TicketStatusRow(tags: List<TicketTagStatus>) {
+private fun TicketStatusRow(tag: TicketStatus) {
     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-        tags.forEach { tag ->
-            StatusBadge(
-                text = tag.label,
-                backgroundColor = tag.containerColor,
-                textColor = tag.contentColor,
-                icon = tag.icon
-            )
-        }
+        StatusBadge(
+            text = tag.label,
+            backgroundColor = tag.containerColor,
+            textColor = tag.contentColor,
+            icon = tag.icon
+        )
+
     }
 }
 
@@ -145,7 +151,6 @@ private fun TicketFooter(
     showStudentInfo: Boolean,
     dataAbertura: String,
     dataAtualizacao: String,
-    atribuidoPara: String?
 ) {
     if (!showStudentInfo) {
         // Visão do Aluno: Datas
@@ -153,16 +158,6 @@ private fun TicketFooter(
             Text("Aberto em $dataAbertura", color = Cinza, fontSize = 12.sp)
             Spacer(modifier = Modifier.height(2.dp))
             Text("Atualizado em $dataAtualizacao", color = Cinza, fontSize = 12.sp)
-        }
-    } else if (atribuidoPara != null) {
-        // Visão da Bibliotecária: Atribuição
-        Box(modifier = Modifier.fillMaxWidth()) {
-            Text(
-                text = "Atribuído: $atribuidoPara",
-                color = Cinza,
-                fontSize = 12.sp,
-                modifier = Modifier.align(Alignment.CenterEnd)
-            )
         }
     }
 }

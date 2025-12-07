@@ -10,10 +10,19 @@ import kotlinx.coroutines.delay
 import android.content.Context
 import android.net.Uri
 import android.util.Log
+import com.example.tccmobile.data.entity.Ticket
+import com.example.tccmobile.data.repository.AttachmentRepository
+import com.example.tccmobile.data.repository.AuthRepository
+import com.example.tccmobile.data.repository.MessageRepository
+import com.example.tccmobile.data.repository.TicketRepository
 import com.example.tccmobile.helpers.HandlerFiles
 
 class NewTicketViewModel(
-    val handlerFile: HandlerFiles = HandlerFiles()
+    val handlerFile: HandlerFiles = HandlerFiles(),
+    val ticketRepository: TicketRepository = TicketRepository(),
+    val authRepository: AuthRepository = AuthRepository(),
+    val attachRepository: AttachmentRepository = AttachmentRepository(),
+    val messageRepository: MessageRepository = MessageRepository()
 ): ViewModel() {
 
     private val _uiState = MutableStateFlow(NewTicketState())
@@ -83,59 +92,114 @@ class NewTicketViewModel(
         }
     }
 
+    private fun validateFields(): Boolean{
+        val currentState = _uiState.value
 
-    fun onAbrirTicketClick(onTicketCreated: () -> Unit, context: Context) {
+        var hasError = false
+        var temaError: String? = null
+        var cursoError: String? = null
+        var anexoError: String? = null
+
+        if (currentState.temaTcc.isBlank()) {
+            temaError = "Campo obrigatório"
+            hasError = true
+        }
+        if (currentState.curso.isBlank()) {
+            cursoError = "Campo obrigatório"
+            hasError = true
+        }
+        if (currentState.anexoUri == null) {
+            anexoError = "Por favor, anexe o arquivo TCC (.doc ou .docx)."
+            hasError = true
+        }
+
+        _uiState.update {
+            it.copy(
+                campoThemeError = temaError,
+                campoCursorError = cursoError,
+                ticketError = anexoError
+            )
+        }
+
+        if (hasError) return false
+
+
+        return true
+    }
+
+
+    fun onAbrirTicketClick(onTicketCreated: (ticketId: Int) -> Unit, context: Context) {
         viewModelScope.launch {
-            val currentState = _uiState.value
+            val isValid = validateFields()
 
-            var hasError = false
-            var temaError: String? = null
-            var cursoError: String? = null
-            var anexoError: String? = null
-
-            if (currentState.temaTcc.isBlank()) {
-                temaError = "Campo obrigatório"
-                hasError = true
-            }
-            if (currentState.curso.isBlank()) {
-                cursoError = "Campo obrigatório"
-                hasError = true
-            }
-            if (currentState.anexoUri == null) {
-                anexoError = "Por favor, anexe o arquivo TCC (.doc ou .docx)."
-                hasError = true
-            }
-
-            _uiState.update {
-                it.copy(
-                    campoThemeError = temaError,
-                    campoCursorError = cursoError,
-                    ticketError = anexoError
-                )
-            }
-
-            if (hasError) {
-                return@launch
-            }
+            if(!isValid) return@launch
 
             _uiState.update { it.copy(isLoading = true, ticketError = null) }
-
             try {
-                val uri = currentState.anexoUri
+                val user = authRepository.getUserInfo()
+                val uri = _uiState.value.anexoUri
 
-                if (uri != null) {
-                    val fileBytes = context.contentResolver.openInputStream(uri)?.use { input ->
-                        input.readBytes()
-                    }
-                    Log.d("TICKET_UPLOAD", "Arquivo lido. Tamanho: ${fileBytes?.size ?: 0} bytes")
+                user?.id?.let { id ->
+                    val ticket = ticketRepository.createTicket(
+                        subject = _uiState.value.temaTcc,
+                        status = "pendente",
+                        remark = _uiState.value.observacoes,
+                        course = _uiState.value.curso,
+                        userId = id
+                    )
 
+
+                    if(ticket == null || uri == null) return@launch
+
+                    val message = messageRepository.sendMessage(
+                        content = _uiState.value.observacoes.ifBlank { "Olá, segue meu documento" },
+                        ticketId = ticket.id,
+                        senderId = ticket.createBy
+                    )
+
+                    val bytes = handlerFile.getByteArray(uri = uri, context)
+                    val fileName = handlerFile.getFileName(
+                        uri = uri,
+                        context = context
+                    )
+
+                    val fileSize = handlerFile.getFileSize(
+                        uri = uri,
+                        context = context
+                    )
+
+                    val fileType = handlerFile.getFileType(
+                        uri= uri,
+                        context= context
+                    )
+
+                    Log.d("TICKET_UPLOAD", "Arquivo lido. Tamanho: ${bytes?.size ?: 0} bytes")
+
+                    if(message == null || fileName == null || fileSize == null || fileType == null || bytes == null) return@launch
+
+                    val path = handlerFile.generatePath(
+                        userId = id,
+                        messageId = message.id,
+                        ticketId = ticket.id,
+                        filename = fileName
+                    )
+
+                    attachRepository.registryFile(
+                        attachPath = path,
+                        fileName = fileName,
+                        fileSize = fileSize,
+                        fileType = fileType,
+                        messageId = message.id
+                    )
+
+                    attachRepository.uploadFile(
+                        attachPath = path,
+                        byteArray = bytes
+                    )
+
+                    _uiState.update { it.copy(isLoading = false) }
+                    onTicketCreated(ticket.id)
                 }
-
-                delay(1500)
-
-                _uiState.update { it.copy(isLoading = false) }
-                onTicketCreated()
-
             } catch (e: Exception) {
                 Log.e("TICKET_ERROR", "Falha no envio ou leitura do arquivo", e)
 

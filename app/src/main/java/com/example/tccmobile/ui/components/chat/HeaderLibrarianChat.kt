@@ -26,6 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.tccmobile.data.entity.TicketStatus
 import com.example.tccmobile.ui.components.utils.StatusBadge
 import com.example.tccmobile.ui.components.utils.StatusBadgeModel
 import com.example.tccmobile.ui.theme.DarkBlue
@@ -42,7 +43,7 @@ fun HeaderLibrarianChat(
     studentName: String,
     studentRegistry: String,
     studentEmail: String,
-    badges: List<StatusBadgeModel>,
+    badge: TicketStatus,
     onBackClick: () -> Unit = {},
     onMenuClick: () -> Unit = {}
 ) {
@@ -130,13 +131,13 @@ fun HeaderLibrarianChat(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp)// spacedBy coloca um espacinho automático entre cada badge
         ) {
-            badges.forEach { badge ->
-                StatusBadge(
-                    text = badge.text,
-                    backgroundColor = badge.backgroundColor,
-                    textColor = badge.textColor
-                )
-            }
+
+            StatusBadge(
+                text = badge.label,
+                backgroundColor = badge.containerColor,
+                textColor = badge.contentColor
+            )
+
         }
     }
 }
@@ -173,9 +174,6 @@ fun HeaderLibrarianChatPreview() {
         studentName = "João Silva",
         studentRegistry = "2021001234",
         studentEmail = "joao.silva@edu.unifor.br",
-        badges = listOf(
-            StatusBadgeModel("Pendente", StatusContainerPendente, StatusTextPendente),
-            StatusBadgeModel("teste", Color.Red, Color.White)
-        )
+        badge = TicketStatus("Pendente", StatusContainerPendente, StatusTextPendente, null)
     )
 }

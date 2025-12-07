@@ -27,6 +27,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.tccmobile.data.entity.Message
+import com.example.tccmobile.data.entity.TicketStatus
+import com.example.tccmobile.helpers.transformTicketStatus
 import com.example.tccmobile.ui.components.chat.ChatInputBar
 import com.example.tccmobile.ui.components.chat.HeaderLibrarianChat
 import com.example.tccmobile.ui.components.chat.HeaderStudentChat
@@ -91,18 +93,12 @@ fun ChatStudentScreen(
             modifier= Modifier.fillMaxSize()
         ){
 
-            if(isStudent){
+            if(uiState.isStudent){
                 HeaderStudentChat(
                     ticketId = ticketId,
                     title = uiState.theme,
                     subtitle = uiState.course,
-                    badges = listOf(
-                        StatusBadgeModel(
-                            text = uiState.status,
-                            backgroundColor = StatusContainerPendente,
-                            textColor = StatusTextPendente
-                        )
-                    ),
+                    badge = uiState.status,
                     onBackClick = {
                         onBackClick()
                         viewModel.exit()
@@ -116,13 +112,7 @@ fun ChatStudentScreen(
                     studentName = uiState.author,
                     studentRegistry = uiState.registry,
                     studentEmail = uiState.email,
-                    badges = listOf(
-                        StatusBadgeModel(
-                            text = uiState.status,
-                            backgroundColor = StatusContainerPendente,
-                            textColor = StatusTextPendente
-                        )
-                    ),
+                    badge = uiState.status,
                     onBackClick = {
                         onBackClick()
                         viewModel.exit()
@@ -238,7 +228,7 @@ class MockChatStudentViewModel : ChatStudentViewModel() {
             id = "123",
             theme = "Desenvolvimento de Aplicativo Mobile",
             course = "Engenharia de Software",
-            status = "Em Andamento",
+            status = transformTicketStatus(null),
             inputMessage = "",
             messages = mockMessages,
             isLoading = false,

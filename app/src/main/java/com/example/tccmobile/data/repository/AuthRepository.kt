@@ -10,7 +10,9 @@ import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.providers.builtin.Email
 import io.github.jan.supabase.auth.user.UserInfo
 import io.github.jan.supabase.postgrest.postgrest
+import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.jsonPrimitive
 import kotlinx.serialization.json.put
 import kotlin.time.ExperimentalTime
 
@@ -41,20 +43,20 @@ class AuthRepository {
                 }
             }.decodeSingleOrNull<StudentDto>()
 
-            Log.d("SUPABASE_DEBUG", "user: ${user.toString()}")
+            Log.d("SUPABASE_DEBUG", "user: ${user.toString()} \n student: ${isStudent.toString()}")
 
-            val auth = client.auth.signInWith(Email){
+            client.auth.signInWith(Email){
                 this.email = user.email
                 this.password = password
             }
 
-            client.auth.updateUser {
+            val metadataUser = client.auth.updateUser {
                 data = buildJsonObject {
                     put("isStudent", isStudent != null)
                 }
             }
 
-            Log.d("SUPABASE_DEBUG", "Auth retornou: $auth")
+            Log.d("SUPABASE_DEBUG", "Meta-Data retornou: $metadataUser")
             true
         }catch (e: Exception){
             Log.e("SUPABASE_DEBUG", "ERRO NO SIGNIN", e)
@@ -103,7 +105,7 @@ class AuthRepository {
         val session = client.auth.currentSessionOrNull()
         val isStudent = session?.user?.userMetadata?.get("isStudent")
 
-        return isStudent != null
+        return isStudent?.jsonPrimitive?.boolean!!
     }
 
     fun getUserInfo(): UserInfo? {

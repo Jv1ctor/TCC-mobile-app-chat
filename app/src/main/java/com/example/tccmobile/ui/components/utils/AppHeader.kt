@@ -15,15 +15,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.tccmobile.data.entity.TicketStatus
 import com.example.tccmobile.ui.theme.AzulSuperClaro
-import com.example.tccmobile.ui.screens.studentTicketsScreen.TicketTagStatus
 import com.example.tccmobile.ui.theme.AzulLetra
 
 @Composable
 fun AppHeader(
     title: String,
     subtitle: String? = null,
-    statusTags: List<TicketTagStatus> = emptyList(),
+    statusTags: TicketStatus? = null,
     showBackButton: Boolean = false,
     onBackClick: () -> Unit = {},
     actionContent: @Composable (() -> Unit)? = null
@@ -84,12 +84,10 @@ fun AppHeader(
                 )
             }
 
-            if (statusTags.isNotEmpty()) {
+            if (statusTags != null) {
                 Spacer(modifier = Modifier.height(12.dp))
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    statusTags.forEach { tag ->
-                        HeaderStatusChip(tag)
-                    }
+                    HeaderStatusChip(statusTags)
                 }
             }
         }
@@ -97,7 +95,7 @@ fun AppHeader(
 }
 
 @Composable
-private fun HeaderStatusChip(tag: TicketTagStatus) {
+private fun HeaderStatusChip(tag: TicketStatus) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
