@@ -43,14 +43,15 @@ class LoginViewModel(
                 password = _uiState.value.senha
             )
 
+            if(!isAuth) {
+                _uiState.update { it.copy(isLoading = false, loginError = "Matrícula ou senha inválida.") }
+                return@launch
+            }
+
             val isStudent = authRepository.getIsStudent()
             setIsStudent(isStudent)
-            if (isAuth) {
-                _uiState.update { it.copy(isLoading = false, loginError = null) }
-                onLoginSuccess(_uiState.value.isStudent) // Chama o callback de sucesso
-            } else {
-                _uiState.update { it.copy(isLoading = false, loginError = "Matrícula ou senha inválida.") }
-            }
+            _uiState.update { it.copy(isLoading = false, loginError = null) }
+            onLoginSuccess(_uiState.value.isStudent) // Chama o callback de sucesso
         }
     }
 }
