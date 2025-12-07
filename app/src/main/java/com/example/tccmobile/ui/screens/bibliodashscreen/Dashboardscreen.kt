@@ -12,7 +12,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -21,15 +20,21 @@ import com.example.tccmobile.ui.components.DashboardBibliotecario.MetricCardRow
 import com.example.tccmobile.ui.components.DashboardBibliotecario.QualityServiceCard
 import com.example.tccmobile.ui.components.DashboardBibliotecario.RecentReviewsCard
 import com.example.tccmobile.ui.components.DashboardBibliotecario.TeamPerformanceCard
+import com.example.tccmobile.ui.components.bibliotecaria.HeaderTickets
+import com.example.tccmobile.ui.components.utils.AppHeader
+import com.example.tccmobile.ui.components.utils.BottomNavItem
+import com.example.tccmobile.ui.components.utils.BottomNavigationBar
 import com.example.tccmobile.ui.theme.BackgroundEnd
-import com.example.tccmobile.ui.theme.white
-
+import com.example.tccmobile.ui.theme.Branco
 
 
 @Composable
 fun DashboardScreen(
     // Injeção de dependência do ViewModel
-    viewModel: DashboardViewModel = viewModel()
+    viewModel: DashboardViewModel = viewModel(),
+    navigateBarItems: List<BottomNavItem>,
+    currentRoute: String,
+    onDashboardClick: () -> Unit
 ) {
     // Observa e coleta o estado mais recente do ViewModel
     val state by viewModel.state.collectAsState()
@@ -37,31 +42,21 @@ fun DashboardScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(white)
-            .verticalScroll(rememberScrollState())
-    ) {
-        // 1. HEADER (Lida com o evento de clique, passando-o para o ViewModel)
-        DashboardHeader(onBackClicked = {
-            viewModel.onBackClicked()
-        })
+            .background(Branco)
 
-        // 2. Lógica de Estado (Carregamento / Erro)
-        if (state.isLoading) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(100.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator()
-            }
-        } else if (state.error != null) {
-            Text(
-                text = "Erro: ${state.error}",
-                color = BackgroundEnd,
-                modifier = Modifier.padding(24.dp)
-            )
-        } else {
+    ) {
+        AppHeader(
+            title = "Dashboard de Desempenho",
+            subtitle = "indicadores e estatística do sistema"
+        )
+        // 2. CONTEÚDO CENTRAL (Scrollable)
+        // O .weight(1f) garante que esta coluna ocupe todo o espaço restante após o Header e a Nav Bar.
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .verticalScroll(rememberScrollState()) // Apenas esta área rola!
+        ) {
+
             // --- UI Principal (Usa os dados de 'state') ---
 
             // TÍTULO: Meus Indicadores
@@ -146,13 +141,11 @@ fun DashboardScreen(
             // Espaço final para o scroll
             Spacer(Modifier.height(52.dp))
         }
-    }
-}
 
-@Preview(showBackground = true)
-@Composable
-fun DashboardScreenPreview() {
-    // A função preview pode ser chamada diretamente, e o Compose irá fornecer
-    // automaticamente uma instância do ViewModel para simulação.
-    DashboardScreen()
+        // 6. Barra de Navegação Inferior
+        BottomNavigationBar(
+            items = navigateBarItems,
+            currentRoute = currentRoute,
+        )
+    }
 }
