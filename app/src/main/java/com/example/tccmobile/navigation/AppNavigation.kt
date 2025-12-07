@@ -35,14 +35,6 @@ import com.example.tccmobile.ui.screens.profileScreen.Librarian
 import com.example.tccmobile.ui.screens.profileScreen.LibrarianProfileScreen
 import com.example.tccmobile.ui.screens.profileScreen.Student
 import com.example.tccmobile.ui.screens.profileScreen.StudentProfileScreen
-import com.example.tccmobile.ui.screens.profileScreen.generatePermissions
-
-
-private val testGrantedPermissions: Set<AppPermission> = setOf(
-    AppPermission.MANAGE_TICKETS,
-    AppPermission.TRANSFER_TICKETS,
-    AppPermission.FINALIZE_TICKETS,
-)
 
 private val testLibrarian: Librarian = Librarian(
     nameLibrarian = "Ana Costa",
@@ -50,7 +42,7 @@ private val testLibrarian: Librarian = Librarian(
     emailLibrarian = "ana.costa@unifor.br",
     phoneLibrarian = "(85) 3477-3000",
     recebidos = 45,
-    permissoes = generatePermissions(testGrantedPermissions)
+
 )
 
 private val testStudent: Student = Student(
