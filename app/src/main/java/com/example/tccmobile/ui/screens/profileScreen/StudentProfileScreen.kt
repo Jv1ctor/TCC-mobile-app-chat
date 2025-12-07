@@ -23,6 +23,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.tccmobile.ui.components.utils.BottomNavItem
+import com.example.tccmobile.ui.components.utils.BottomNavigationBar
 import com.example.tccmobile.ui.components.utils.ProfileScreenHeader
 import com.example.tccmobile.ui.theme.*
 
@@ -116,7 +118,7 @@ fun StudentContactCard(data: Student, modifier: Modifier = Modifier) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Card(
                     shape = RoundedCornerShape(50.dp),
-                    colors = CardDefaults.cardColors(containerColor = AzulNoite.copy(alpha = 0.8f)),
+                    colors = CardDefaults.cardColors(containerColor = DarkBlue.copy(alpha = 0.8f)),
                     border = BorderStroke(1.dp, CianoAzul),
                 ) {
                     Box(
@@ -150,8 +152,8 @@ fun StudentContactCard(data: Student, modifier: Modifier = Modifier) {
 fun StatCardsStudentSection(data: Student) {
     Column(Modifier.fillMaxWidth()) {
         Row(horizontalArrangement = Arrangement.spacedBy(16.dp), modifier = Modifier.fillMaxWidth()) {
-            StatsCardStudent("TCCs Enviados", data.tccsEnviados.toString(), Icons.Default.CheckCircle, VerdeEscuro, Modifier.weight(1f))
-            StatsCardStudent("Em Análise", data.tccsEmAnalise.toString(), Icons.Default.Schedule, Laranja, Modifier.weight(1f))
+            StatsCardStudent("TCCs Enviados", data.tccsEnviados.toString(), Icons.Default.CheckCircle, StatusTextConcluido, Modifier.weight(1f))
+            StatsCardStudent("Em Análise", data.tccsEmAnalise.toString(), Icons.Default.Schedule, Orange, Modifier.weight(1f))
         }
 
         Spacer(modifier = Modifier.height(10.dp))
@@ -163,24 +165,35 @@ fun StatCardsStudentSection(data: Student) {
 @Composable
 fun StudentProfileScreen(
     data: Student,
-    onLogout: () -> Unit
+    currentRoute: String,
+    navigateBarItems: List<BottomNavItem>,
+    onLogout: () -> Unit,
+
 ) {
     Scaffold(
         containerColor = Branco,
-        topBar = { ProfileScreenHeader() }
+        topBar = { ProfileScreenHeader() },
+        bottomBar = {
+            BottomNavigationBar(
+                items = navigateBarItems,
+                currentRoute = currentRoute,
+            )
+        }
     ) { paddingValues ->
 
         Column(
-            Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
                 .padding(paddingValues)
-                .verticalScroll(rememberScrollState()),
+                .verticalScroll(rememberScrollState()), // conteúdo rolável
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
             Spacer(modifier = Modifier.height(10.dp))
 
             Column(
-                Modifier.fillMaxWidth().padding(horizontal = 24.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
@@ -195,34 +208,44 @@ fun StudentProfileScreen(
                 Button(
                     onClick = onLogout,
                     modifier = Modifier.fillMaxWidth().height(48.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = Branco, contentColor = Vermelho),
-                    border = BorderStroke(1.5.dp, Vermelho)
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Branco,
+                        contentColor = NotificationRed
+                    ),
+                    border = BorderStroke(1.5.dp, NotificationRed)
                 ) {
-                    Icon(Icons.AutoMirrored.Filled.ExitToApp, contentDescription = "Sair", modifier = Modifier.padding(end = 8.dp))
-                    Text("Sair da Conta", fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                    Icon(
+                        Icons.AutoMirrored.Filled.ExitToApp,
+                        contentDescription = "Sair",
+                        modifier = Modifier.padding(end = 8.dp)
+                    )
+                    Text(
+                        "Sair da Conta",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 16.sp
+                    )
                 }
 
                 Spacer(modifier = Modifier.height(8.dp))
 
                 AppVersionFooter()
-
-                Spacer(modifier = Modifier.height(60.dp))
             }
         }
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewStudentProfileScreen() {
-    val previewTestStudent = Student(
-        nameStudent = "Maria Oliveira",
-        matricula = "20205678",
-        curso = "Engenharia de Software",
-        emailStudent = "maria.oliveira@unifor.br",
-        phoneStudent = "(85) 99876-5432",
-        tccsEnviados = 2,
-        tccsEmAnalise = 1,
-    )
-    MaterialTheme { StudentProfileScreen(previewTestStudent) {} }
-}
+
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewStudentProfileScreen() {
+//    val previewTestStudent = Student(
+//        nameStudent = "Maria Oliveira",
+//        matricula = "20205678",
+//        curso = "Engenharia de Software",
+//        emailStudent = "maria.oliveira@unifor.br",
+//        phoneStudent = "(85) 99876-5432",
+//        tccsEnviados = 2,
+//        tccsEmAnalise = 1,
+//    )
+//    MaterialTheme { StudentProfileScreen(previewTestStudent) {} }
+//}
