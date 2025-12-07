@@ -32,7 +32,11 @@ import com.example.tccmobile.ui.theme.VermelhoTelha
  * Ele chama o CompletionCard. Esta é a ÚNICA definição desta função.
  */
 @Composable
-fun MetricCardRow(cardMetrics: List<CompletionCardData>) {
+fun MetricCardRow(
+    quantityFinished: Int,
+    quantityPending: Int,
+    quantityEvaluated: Int
+) {
     // Usa Column para empilhar os cards (verticalmente)
     Column(
         modifier = Modifier
@@ -41,10 +45,35 @@ fun MetricCardRow(cardMetrics: List<CompletionCardData>) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp) // Espaçamento entre os cards
     ) {
-        // Itera sobre a lista de dados e chama o CompletionCard para cada um
-        cardMetrics.forEach { data ->
-            CompletionCard(data = data)
-        }
+        CompletionCard(
+            mainTitle = "TCCs corrigidos",
+            quantidade = quantityEvaluated,
+            detailText = "",
+            incrementoMes = null,
+            iconVector = Icons.Default.Assignment,
+            iconTint = DarkBlueBackground,
+            iconBackgroundColor = ClaroBlueBackground
+        )
+
+        CompletionCard(
+            mainTitle = "Pendentes",
+            quantidade = quantityPending,
+            detailText = "Em Análise",
+            incrementoMes = null,
+            iconVector = Icons.Default.AccessTime,
+            iconTint = VermelhoTelha,
+            iconBackgroundColor = IconBackgroundRed
+        )
+
+        CompletionCard(
+            mainTitle = "Concluídos",
+            quantidade = quantityFinished,
+            detailText = "aprovados com \n sucesso",
+            incrementoMes = null,
+            iconVector = Icons.Default.CheckCircleOutline,
+            iconTint = green,
+            iconBackgroundColor = IconBackgroundGreen
+        )
     }
 }
 
@@ -94,6 +123,6 @@ fun MetricCardRowPreview() {
             .padding(vertical = 16.dp)
     ) {
         // Chamando o componente MetricCardRow com os dados de exemplo
-        MetricCardRow(cardMetrics = previewMetrics)
+        MetricCardRow(42, 35, 1)
     }
 }

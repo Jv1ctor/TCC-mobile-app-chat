@@ -26,7 +26,7 @@ import io.github.jan.supabase.auth.auth
 import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.jsonPrimitive
 import com.example.tccmobile.ui.components.utils.BottomNavItem
-import com.example.tccmobile.ui.screens.bibliodashscreen.DashboardScreen
+import com.example.tccmobile.ui.screens.bibliotecarioDashboard.DashboardScreen
 import com.example.tccmobile.ui.screens.bibliotecarioTicketsScreen.BiblioTicketsScreen
 import com.example.tccmobile.ui.screens.studentTicketsScreen.StudentsTicketsScreen
 @Composable
@@ -208,10 +208,7 @@ fun AppNavigation() {
                         }
                     )
                 ),
-                currentRoute = Routes.BIBLIO_DASHBOARD,
-                onDashboardClick = {
-                    navController.navigate(Routes.BIBLIO_DASHBOARD)
-                }
+                currentRoute = Routes.BIBLIO_DASHBOARD
             )
         }
         composable(Routes.PROFILE) {

@@ -5,6 +5,7 @@ import com.example.tccmobile.data.dto.MessageDto
 import com.example.tccmobile.data.dto.TicketDto
 import com.example.tccmobile.data.dto.TicketInsertDto
 import com.example.tccmobile.data.dto.TicketListDto
+import com.example.tccmobile.data.entity.StatsLibrarian
 import com.example.tccmobile.data.entity.Ticket
 import com.example.tccmobile.data.entity.TicketInfoMin
 import com.example.tccmobile.data.supabase.SupabaseClient.client
@@ -38,8 +39,6 @@ class TicketRepository {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     var currentChannel: RealtimeChannel? = null
-
-    var changeFlow: Flow<PostgresAction.Insert>? = null
 
     suspend fun startListening(callback: (id: Int) -> Unit){
         if(currentChannel != null) return
@@ -295,5 +294,28 @@ class TicketRepository {
 
     suspend fun updatedStatusClosed(ticketId: Int){
         updatedStatus(ticketId, "fechado")
+    }
+
+    suspend fun getStats(): StatsLibrarian? {
+        return try {
+            val tickets = client.postgrest.from("tickets").select {
+
+            }.decodeList<TicketDto>()
+
+            val countFinished = tickets.filter { it.status == "fechado" }.size
+            val countPending = tickets.filter { it.status == "pendente" }.size
+            val countEvaluated = tickets.filter { it.status == "avaliado" }.size
+
+
+
+            StatsLibrarian(
+                finished = countFinished,
+                pending = countPending,
+                evaluated = countEvaluated,
+            )
+        }catch (e: Exception){
+            Log.e("SUPABASE_DEBUG", "Erro ao buscar as estatisticas: $e")
+            null
+        }
     }
 }

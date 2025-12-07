@@ -1,4 +1,4 @@
-package com.example.tccmobile.ui.screens.bibliodashscreen
+package com.example.tccmobile.ui.screens.bibliotecarioDashboard
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,6 +7,7 @@ import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.Assignment
 import androidx.compose.material.icons.filled.CheckCircleOutline
 import androidx.compose.material.icons.filled.Star
+import com.example.tccmobile.data.repository.TicketRepository
 import com.example.tccmobile.ui.components.DashboardBibliotecario.CompletionCardData
 import com.example.tccmobile.ui.components.DashboardBibliotecario.QualityServiceCard
 import com.example.tccmobile.ui.components.DashboardBibliotecario.RecentReviewData
@@ -25,7 +26,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class DashboardViewModel : ViewModel() {
+class DashboardViewModel(
+    val ticketRepository: TicketRepository = TicketRepository()
+): ViewModel() {
 
     // 1. Estado Mutável (Modificável internamente)
     private val _state = MutableStateFlow(DashboardState())
@@ -44,13 +47,23 @@ class DashboardViewModel : ViewModel() {
     private fun loadDashboardData() {
         viewModelScope.launch {
             _state.value = _state.value.copy(isLoading = true, error = null)
-            // Simulação de delay ou lógica de carregamento real
-            // delay(1000)
+
+            val ticket = ticketRepository.getStats()
+
+            if(ticket == null) {
+                _state.value = _state.value.copy(
+                    isLoading = false,
+                    error = "Erro ao carregar dados"
+                )
+                return@launch
+            }
 
             try {
                 _state.value = DashboardState(
                     isLoading = false,
-                    metrics = createSampleMetrics(),
+                    countFinished = ticket.finished,
+                    countPending = ticket.pending,
+                    countEvaluated = ticket.evaluated,
                     qualityServiceMetrics = createQualityServiceMetrics(),
                     recentReviewMetrics = createRecentReviewMetrics(),
                     teamPerformanceMetrics = createTeamPerformanceMetrics()
@@ -65,36 +78,6 @@ class DashboardViewModel : ViewModel() {
     }
 
     // --- Funções de Criação de Dados Mockados (Movidas do Composable) ---
-
-    private fun createSampleMetrics(): List<CompletionCardData> = listOf(
-        CompletionCardData(
-            mainTitle = "TCCs corrigidos",
-            quantidade = 45,
-            detailText = "",
-            incrementoMes = 12,
-            iconVector = Icons.Default.Assignment,
-            iconTint = DarkBlueBackground,
-            iconBackgroundColor = ClaroBlueBackground
-        ),
-        CompletionCardData(
-            mainTitle = "Pendentes",
-            quantidade = 8,
-            detailText = "Em Análise",
-            incrementoMes = null,
-            iconVector = Icons.Default.AccessTime,
-            iconTint = VermelhoTelha,
-            iconBackgroundColor = IconBackgroundRed
-        ),
-        CompletionCardData(
-            mainTitle = "Concluídos",
-            quantidade = 37,
-            detailText = "aprovados com \n sucesso",
-            incrementoMes = null,
-            iconVector = Icons.Default.CheckCircleOutline,
-            iconTint = green,
-            iconBackgroundColor = IconBackgroundGreen
-        )
-    )
 
     private fun createQualityServiceMetrics(): List<QualityServiceCard> = listOf(
         QualityServiceCard(
@@ -165,10 +148,4 @@ class DashboardViewModel : ViewModel() {
             position = 4
         )
     )
-
-    // Ação para o clique no botão de voltar (exemplo de manipulação de evento)
-    fun onBackClicked() {
-        println("Navegar de volta (Ação no ViewModel)")
-        // Lógica de navegação real seria implementada aqui (Ex: navigateUp())
-    }
 }

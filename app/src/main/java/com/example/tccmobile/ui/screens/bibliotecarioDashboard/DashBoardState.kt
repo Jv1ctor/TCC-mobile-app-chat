@@ -1,4 +1,4 @@
-package com.example.tccmobile.ui.screens.bibliodashscreen
+package com.example.tccmobile.ui.screens.bibliotecarioDashboard
 
 // Imports necessários para os modelos de dados (assumidos do código original)
 import com.example.tccmobile.ui.components.DashboardBibliotecario.CompletionCardData
@@ -18,7 +18,11 @@ import com.example.tccmobile.ui.components.DashboardBibliotecario.TeamMemberData
  */
 data class DashboardState(
     val isLoading: Boolean = false,
-    val metrics: List<CompletionCardData> = emptyList(),
+
+    val countFinished: Int = 0,
+    val countPending: Int = 0,
+    val countEvaluated: Int = 0,
+
     val qualityServiceMetrics: List<QualityServiceCard> = emptyList(),
     val recentReviewMetrics: List<RecentReviewData> = emptyList(),
     val teamPerformanceMetrics: List<TeamMemberData> = emptyList(),

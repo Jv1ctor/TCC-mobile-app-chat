@@ -40,7 +40,13 @@ data class CompletionCardData(
  */
 @Composable
 fun CompletionCard(
-    data: CompletionCardData,
+    mainTitle: String,
+    quantidade: Int,
+    detailText: String,
+    iconVector: ImageVector,
+    iconTint: Color,
+    iconBackgroundColor: Color,
+    incrementoMes: Int? = null,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -63,16 +69,16 @@ fun CompletionCard(
                 modifier = Modifier
                     .offset(y = 18.dp) // onde o icone deve ficar
                     .background(
-                        color = data.iconBackgroundColor.copy(alpha = 0.25f),
+                        color = iconBackgroundColor.copy(alpha = 0.25f),
                         RoundedCornerShape(10.dp) //efeitos icones
                     ),
                 contentAlignment = Alignment.Center
             ) {
                 // Ícone
                 Icon(
-                    imageVector = data.iconVector, // Usando o ImageVector
-                    contentDescription = "Ícone de ${data.mainTitle}",
-                    tint = data.iconTint,
+                    imageVector = iconVector, // Usando o ImageVector
+                    contentDescription = "Ícone de ${mainTitle}",
+                    tint = iconTint,
                     modifier = Modifier.padding(18.dp, 18.dp) //fundo do icone
 
                 )
@@ -91,7 +97,7 @@ fun CompletionCard(
             {
                 // Título Principal
                 Text(
-                    text = data.mainTitle,
+                    text = mainTitle,
                     color = Color.Black.copy(alpha = 0.85f),
                     fontSize = 15.sp,
                     fontWeight = FontWeight.Bold,
@@ -103,7 +109,7 @@ fun CompletionCard(
                 ) {
                     // QUANTIDADE ou NÚMERO
                     Text(
-                        text = data.quantidade.toString(),
+                        text = quantidade.toString(),
                         fontSize = 32.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black,
@@ -115,7 +121,7 @@ fun CompletionCard(
 
                     // Texto de Detalhe (Ex: "Em análise")
                     Text(
-                        text = data.detailText,
+                        text = detailText,
                         color = Color.Black.copy(alpha = 0.6f),
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Normal,
@@ -123,7 +129,7 @@ fun CompletionCard(
                     )
 
                     // INDICADOR DE MÊS (verde)
-                    if (data.incrementoMes != null) {
+                    if (incrementoMes != null) {
                         Spacer(
                             Modifier
                                 .height(10.dp)
@@ -132,7 +138,7 @@ fun CompletionCard(
                         )
                         //incremento mÊs
                         Text(
-                            text = "+${data.incrementoMes} este mês",
+                            text = "+${incrementoMes} este mês",
                             fontSize = 14.sp,
                             fontWeight = FontWeight.SemiBold,
                             color = Color(0xFF2ECC71),

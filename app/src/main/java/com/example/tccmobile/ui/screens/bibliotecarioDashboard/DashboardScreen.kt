@@ -1,10 +1,9 @@
-package com.example.tccmobile.ui.screens.bibliodashscreen
+package com.example.tccmobile.ui.screens.bibliotecarioDashboard
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -15,12 +14,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.tccmobile.ui.components.DashboardBibliotecario.DashboardHeader
 import com.example.tccmobile.ui.components.DashboardBibliotecario.MetricCardRow
 import com.example.tccmobile.ui.components.DashboardBibliotecario.QualityServiceCard
 import com.example.tccmobile.ui.components.DashboardBibliotecario.RecentReviewsCard
 import com.example.tccmobile.ui.components.DashboardBibliotecario.TeamPerformanceCard
-import com.example.tccmobile.ui.components.bibliotecaria.HeaderTickets
 import com.example.tccmobile.ui.components.utils.AppHeader
 import com.example.tccmobile.ui.components.utils.BottomNavItem
 import com.example.tccmobile.ui.components.utils.BottomNavigationBar
@@ -34,7 +31,6 @@ fun DashboardScreen(
     viewModel: DashboardViewModel = viewModel(),
     navigateBarItems: List<BottomNavItem>,
     currentRoute: String,
-    onDashboardClick: () -> Unit
 ) {
     // Observa e coleta o estado mais recente do ViewModel
     val state by viewModel.state.collectAsState()
@@ -69,7 +65,11 @@ fun DashboardScreen(
             )
 
             // COMPONENTES: Cards de Métrica
-            MetricCardRow(cardMetrics = state.metrics)
+            MetricCardRow(
+                quantityFinished = state.countFinished,
+                quantityPending = state.countPending,
+                quantityEvaluated = state.countEvaluated
+            )
 
 
             // TÍTULO: Qualidade do Atendimento
