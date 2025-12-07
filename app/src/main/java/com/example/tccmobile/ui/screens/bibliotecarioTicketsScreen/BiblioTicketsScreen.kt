@@ -45,7 +45,10 @@ fun BiblioTicketsScreen(
         HeaderTickets(
             countTotal = uiState.countsTickets,
             countOpen = uiState.countPending,
-            onDashboardClick = onDashboardClick
+            onDashboardClick = {
+                onDashboardClick()
+                viewModel.exit()
+            }
         )
 
         // 2. Conteúdo Central
@@ -89,7 +92,10 @@ fun BiblioTicketsScreen(
                         createAt = ticket.createdAt,
                         updatedAt = ticket.updatedAt,
                         showStudentInfo = true,
-                        onClick = { onTicketClick(ticket.id) }
+                        onClick = {
+                            onTicketClick(ticket.id)
+                            viewModel.exit()
+                        }
                     )
                 }
             }

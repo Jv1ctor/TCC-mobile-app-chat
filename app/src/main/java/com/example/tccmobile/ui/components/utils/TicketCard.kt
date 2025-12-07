@@ -31,6 +31,7 @@ fun TicketCard(
     createAt: Instant,
     updatedAt: Instant,
     showStudentInfo: Boolean = false,
+    countMessages: Int = 0,
     onClick: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {

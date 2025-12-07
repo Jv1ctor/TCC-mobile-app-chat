@@ -79,13 +79,13 @@ fun FilterSection(
             FilterChip(
                 value = "Pendentes",
                 lengths = countPendentes,
-                isSelected = selectedFilter == "Pendentes",
+                isSelected = selectedFilter == "pendente",
                 onClick = { onFilterSelected("pendente") }
             )
             FilterChip(
                 value = "Avaliado",
                 lengths = countAvaliados,
-                isSelected = selectedFilter == "Avaliados",
+                isSelected = selectedFilter == "avaliado",
                 onClick = { onFilterSelected("avaliado") }
             )
         }
@@ -95,7 +95,7 @@ fun FilterSection(
             FilterChip(
                 value = "Fechados",
                 lengths = countFechados,
-                isSelected = selectedFilter == "Fechados",
+                isSelected = selectedFilter == "fechado",
                 onClick = { onFilterSelected("fechado") }
             )
         }

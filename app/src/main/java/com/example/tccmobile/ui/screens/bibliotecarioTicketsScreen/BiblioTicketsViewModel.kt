@@ -1,23 +1,20 @@
 package com.example.tccmobile.ui.screens.bibliotecarioTicketsScreen
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Description
-import androidx.compose.material.icons.outlined.Schedule
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tccmobile.data.entity.Ticket
-import com.example.tccmobile.data.repository.AuthRepository
+import com.example.tccmobile.data.repository.MessageRepository
 import com.example.tccmobile.data.repository.TicketRepository
-import com.example.tccmobile.ui.theme.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.util.Locale
 import java.util.Locale.getDefault
 
 class BiblioTicketsViewModel(
     val ticketRepository: TicketRepository = TicketRepository(),
+    val messageRepository: MessageRepository = MessageRepository()
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(BiblioTicketsState())
     val uiState = _uiState.asStateFlow()
@@ -25,14 +22,32 @@ class BiblioTicketsViewModel(
     init {
         viewModelScope.launch {
             carregarTickets()
+
+            ticketRepository.startListening { ticketId ->
+                insertTicket(ticketId)
+            }
         }
     }
 
-    private fun setTicketListAppend(tickets: List<Ticket>){
-        _uiState.update {
-            it.copy( tickets = it.tickets + tickets)
+    override fun onCleared() {
+        viewModelScope.launch {
+            super.onCleared()
+            ticketRepository.clear()
         }
     }
+
+    fun exit(){
+        viewModelScope.launch {
+            ticketRepository.clear()
+        }
+    }
+
+    private fun setTicketListFirst(tickets: List<Ticket>){
+        _uiState.update {
+            it.copy( tickets = tickets + it.tickets, filteredTickets = tickets + it.tickets)
+        }
+    }
+
 
     private fun setTicketsList(tickets: List<Ticket>){
         _uiState.update {
@@ -79,6 +94,20 @@ class BiblioTicketsViewModel(
                     ticket.status.label.lowercase(getDefault()) == "fechado"
                 }.size
             )
+        }
+    }
+
+    private fun insertTicket(id: Int){
+        viewModelScope.launch {
+            val newMessage = ticketRepository.getTicketFullInfo(id) ?: return@launch
+
+            Log.d("DEBUG_SUPABASE", "message: $newMessage")
+            setTicketListFirst(listOf(newMessage))
+
+            setCountTickets()
+            setCountPending()
+            setCountEvalueted()
+            setCountClosed()
         }
     }
 
